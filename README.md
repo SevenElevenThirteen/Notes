@@ -1,2 +1,2 @@
 # Notes
-Notes during univ.
+Notes.
