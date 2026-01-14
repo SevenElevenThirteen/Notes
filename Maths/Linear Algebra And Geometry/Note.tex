@@ -1,0 +1,385 @@
+\documentclass[12pt, a4paper, UTF8, openany]{ctexbook}
+
+\usepackage{geometry}%设置页边距
+\geometry{left=1.54cm, right=1.54cm, top=2.18cm, bottom=2.18cm}
+
+\usepackage{tikz}%绘图
+
+\usepackage{amsmath, amssymb}%数学
+
+\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\rank}[1]{\mathrm{r}(\mat{#1})}
+\newcommand{\tr}[1]{\mathrm{tr}\mat{#1}}
+\newcommand{\diag}[1]{\mathrm{diag}(#1)}
+\newcommand{\proj}[2]{(\mat{#1}, \mat{#2})}%向量内积
+\newcommand{\len}[1]{\begin{Vmatrix} \mat{#1} \end{Vmatrix}}
+\newcommand{\spans}{\mathrm{span}}
+\newcommand{\rr}{\mathbb{R}}
+
+\title{线性代数}
+\author{1001}
+
+\begin{document}
+    \maketitle
+
+    %未知错误
+    % \newpage
+    % \tableofcontents
+
+    \chapter{操作}
+
+    \section{初等变换}
+    记号：
+    \begin{itemize}
+        \item 交换：$r_i \leftrightarrow r_j$，$c_i \leftrightarrow c_j$
+        \item 数乘：$kr_i$，$kc_i$
+        \item 倍加：$r_i + kr_j$，$c_i + kc_j$（有方向性 $j$ 加到 $i$）
+    \end{itemize}
+
+    矩阵：左乘行变换，右乘列变换。
+
+        \subsection{行列式求值}
+        行列均可，允许交换。
+
+        \begin{itemize}
+            \item 交换：{\heiti 变号}
+            \item 数乘：{\heiti $\det$ 乘 $k$}（用于提公因式到外面）
+            \item 倍加：不变
+        \end{itemize}
+
+        证明：讨论排列。
+
+        加速：
+        \begin{itemize}
+            \item 全零行/列，或成比例行/列，行列式为零。
+            \item 行/列非零元素少：对此行/列展开。
+            \item 上/下三角矩阵：$\det\mat{A} = \prod a_{i, i} / \prod \det \mat{A}_{i, i}$。
+            \item $n = 2, 3$：对角线法则。主对角线方向为正，副对角线方向为负。
+            \item 做差以构建同构。
+        \end{itemize}
+
+        \subsection{求秩}
+        行列均可，允许交换。
+
+        消为阶梯形矩阵，为非零行数。
+
+        \subsection{矩阵求逆}
+        限定{\heiti 行变换}，{\heiti 不能交换}。
+
+        形式 $(\mat{A} \vdots I)$。同时做变换，$\mat{A} \to I \; \iff \; I \to \mat{A}^{-1}$。
+
+        \subsection{解方程}
+        限定{\heiti 行变换}，{\heiti 不能交换}。
+
+        形式 $(\mat{A} \vdots \mat{b})$。写同解方程组，变量对齐，空格占位。
+        
+        $\begin{aligned}
+            \eta &= \eta^\ast + \sum \lambda_i \xi_i \\
+                &= (x_1, \cdots, x_n)^T + \sum \lambda_i (x_1, \cdots, x_n)^T
+        \end{aligned}$
+
+        \begin{itemize}
+            \item 齐次：依次令自由元 $x_i \gets 1$ 其余为 $0$，得 $n - \rank{A}$ 个解。
+            \item 非齐次：为求特解，令自由元均为 $0$。
+        \end{itemize}
+
+        \subsection{线性相关性}
+        本质：列方程。
+
+        竖排向量，但做{\heiti 行变换}，消为简化行梯矩阵。则主元为基，系数即为坐标。
+        证明：行秩等于列秩；乘可逆矩阵不改变线性相关性。
+
+        \subsection{特征值对角化 / 二次型化标准形}
+        解方程的应用。是否需要对基础解系标准正交化？
+
+        \subsection{交替行列变换：二次型化标准形之另法}
+        将 $\mat{A}$ 化为 $\mat{\Lambda}$，每次行列对称操作。{\heiti 不保证最终系数为特征值}。
+        \begin{itemize}
+            \item 交换：$r_i \leftrightarrow r_j$ \& $c_i \leftrightarrow c_j$。
+            \item 数乘：$kr_i$ \& $kc_i$
+            \item 倍加：$r_i + kr_j$ \& $c_i + kc_j$
+        \end{itemize}
+
+        证明：$\exists \; \text{invertible} \; \mat{O}, \; \mat{O}^{T}\mat{AO} = \mat{\Lambda}$。
+        可逆则 $\mat{O} = \mat{M}_1 \cdots \mat{M}_k \cong \mat{E}$，
+        
+        进而 $\mat{\Lambda} = \mat{M}_k^T \cdots (\mat{M}_1^T \mat{A} \mat{M}_1) \cdots \mat{M}_k^T$。
+        从中间每次操作一对。
+
+    \section{配方法：二次型化标准形之另法}
+    \begin{enumerate}
+        \item 无平方项：令 $x_i = y_i + y_j, \; x_j = y_i - y_j \; \implies \; x_ix_j = y_i^2 - y_j^2$，其余 $x_k = y_k$。
+        \item 有平方项：以 $x_i$ 为主元配方，令 $y_1 = x_i + (\cdots)$，其余递归。
+    \end{enumerate}
+    为求变换，需依 $y = \cdots$ 反解 $x = \cdots$。{\heiti 不保证最终系数为特征值}。
+
+    \section{Schimidt 正交化方法}
+    给定线性无关组 ${\mat{\alpha}_n}$，构造
+    $$\begin{aligned}
+    \mat{\beta}_i &:= \mat{\alpha}_i - 
+    \sum\limits_{j < i} \dfrac{\proj{\alpha_i}{\beta_j}}
+                            {\proj{\beta_j}{\beta_j}} \mat{\beta}_j \\
+    \mat{e}_i &:= \dfrac{\mat{\beta}_i}{\len{\beta_i}}
+    \end{aligned}$$
+    证明：（$\mat{\alpha}_i$ 拆为 $u \in \spans(\mat{\beta}_1, \cdots, \mat{\beta}_{i - 1})$ 与 $\mat{\beta_i}$ 的和
+    ，后者垂直于“平面”。点乘给出 $u$ 的分解。）归纳，两两点乘是零。        
+
+    \chapter{线性代数}
+
+    \section{秩}
+    $\rank{A} := \max\{ r: \exists r\text{阶非零子式} \}$
+
+    \begin{itemize}
+        \item $\rank{A} \leqslant \min\{n, m\}$，$\rank{A} = \mathrm{r}(k\mat{A}), k \neq 0$。
+        \item $\rank{A} = \rank{A^{T}} = \rank{A^T A} = \rank{AA^T}$。\\
+            第二个等号证明：证同解，$(\mat{A\xi})^T\mat{A\xi} = \sum x_i^2$。
+        \item $\rank{AB} \leqslant \min\{\rank{A}, \rank{B}\}$，$\rank{A + B} \leqslant \rank{A} + \rank{B}$。
+        \item 乘可逆矩阵不改 $\rank{A}$。
+    \end{itemize}
+
+    \section{行列式}
+    $\det\mat{A} := \sum_{p} (-1)^{\tau(p)}\prod_i a_{i, p_i}$。其中 $\tau(p)$ 为 $p$ 的逆序对数。按行/列定义均可。
+    
+    相关定义：
+    \begin{itemize}
+        \item 子式：任取 $k$ 行 $k$ 列交叉，$k$ 阶方阵的行列式。
+        \item 余子式 $M_{i, j}$：删去 $r_i \cap c_j$，$n - 1$ 阶方阵的行列式。
+        \item 代数余子式 $A_{i, j}$：$(-1)^{i + j}M_{i, j}$。
+        \item 主子式：任取 $\{p_1, \cdots, p_k\}\subseteq\{1, \cdots, n\}$，
+        取 $r_{p_1} \sim r_{p_k} \cap c_{p_1} \sim c_{p_k}$，$k$ 阶方阵的行列式。（即行列取相同标号。）
+        \item 顺序主子式：取 $r_1 \sim r_k \; \cap c_1 \sim c_k$，$k$ 阶方阵的行列式。
+    \end{itemize}
+    
+    性质：
+    \begin{itemize}
+        \item $\det\mat{A} = \det\mat{A}^T$。\\
+            证明：列的排列变行的排列，而排列奇偶性不变。{\heiti 对行成立的性质对列自然成立}。
+        \item {\heiti $\det(k\mat{A}) = k^n\det\mat{A}$}，
+            $\det(\mat{AB}) = \det(\mat{BA}) = \det\mat{A} \times \det\mat{B}$。\\
+            证明：爆算。
+        \item {\heiti 展开}：$\det\mat{A} = \sum_j a_{k, j}A_{k, j}$。\\
+            证明：拆为 $n$ 个行列式之和，
+            其中 $\det_j$ 满足 $r_k$ 只有 $a_{k, j}$ 非零。将 $a_{k, j}$ 邻行/列交换至 $(1, 1)$。
+        \item $\sum_j a_{p, j}A_{q, j} = [p = q]\det\mat{A}$。\\
+            证明：相当于令 $r_q \gets r_p$。
+    \end{itemize}
+
+    {\heiti Vandermonde 行列式}：
+    $\det\begin{pmatrix}
+        1 \; &1 \; &\cdots \; &1 \\
+        a_1 \; &a_2\; &\cdots \; &a_n \\
+        \vdots \; &\vdots \; &\ddots \; &\vdots \\
+        a_1^{n - 1} \; &a_2^{n - 1} \; &\cdots \; &a_n^{n - 1} 
+    \end{pmatrix} = \prod\limits_{i < j} (a_j - a_i)$
+
+    Laplace Theorem：$\det\mat{A} = \sum\limits_{\{p_k\}, \{q_k\}} AM$。
+    记 $D_k$ 表示 $r_{p_1} \sim r_{p_k} \cap c_{q_1} \sim c_{q_k}$ 交叉构成的 $k$ 阶行列式，
+    $D_{n - k}$ 表示删去 $r_{p_1} \sim r_{p_k} \cap c_{q_1} \sim c_{q_k}$ 构成的 $n - k$ 阶行列式。
+    则 $A = D_k$，$M = (-1)^{\sum p + \sum q}D_{n - k}$。
+    相当于把 $\det\mat{A}$ 展开为 $\binom{n}{k}$ 个子行列式。
+
+    \section{矩阵}
+        \subsection{线性与反序}
+        $(\mat{A} + \mat{B})^T = \mat{A}^T + \mat{B}^T$，
+        $(\mat{A} + \mat{B})^{-1} \mathbf{\neq} \mat{A}^{-1} + \mat{B}^{-1}$。
+        
+        $(k\mat{A})^T = k\mat{A}^T$，$(k\mat{A})^{-1} = \frac{1}{k}\mat{A}^{-1}$。
+
+        $(\mat{AB})^T = \mat{B}^T\mat{A}^T$，$(\mat{AB})^{-1} = \mat{B}^{-1}\mat{A}^{-1}$。
+
+        \subsection{逆矩阵}
+        伴随矩阵：$\mat{A}^\ast := (a_{i, j})_{n \times n}$，其中 $a_{i, j} := A_{j, i}$，
+        即{\heiti $(j, i)$} 的代数余子式。
+
+        性质：
+        \begin{itemize}
+            \item $\mat{A}^{-1} = \frac{1}{\det\mat{A}}\mat{A}^\ast$：\\
+                证明：爆算。
+            \item $\mat{A}$ 可逆 $\iff \det\mat{A} \neq 0$。\\
+                证明：充分由上，
+                必要 $\det\mat{A} \times \det\mat{A}^{-1} = \det\mat{E} = 1$。
+        \end{itemize}
+
+        \subsection{分块矩阵}
+        矩阵按数对待。
+
+        分块对角矩阵：$\diag{\mat{A}_1, \cdots, \mat{A}_n}^{-1} = \diag{\mat{A}_1^{-1}, \cdots, \mat{A}_n^{-1}}$。
+
+        准上/下三角矩阵：$\det\mat{A} = \prod\det\mat{A}_i$。
+
+    \section{方程组}
+    齐次 $\dim S = \rank{A}$。同解则空间同，进而同秩。解空间是零空间的平移。
+
+    $\mat{Ax} = \mat{0}$ 只有零解 $\iff$ $\det\mat{A} \neq 0$ $\iff$ $\rank{A} = n$。
+
+    $\mat{Ax} = \mat{b}$ 有解 $\iff$ $\rank{A} = \rank{A \vdots b}$。
+    证明：列向量线性相关。
+
+    对 $n = m$ 且有唯一解：$\det\mat{A} \neq 0$。$\mat{x} = \mat{A}^{-1}\mat{b}$ 或克拉默法则。后者证明：爆算，利用行列式行展开。
+    $$\mathrm{Cramer}: x_i = \frac{D_i}{D}, \; 
+        D_i := \det(\mat{v}_1, \cdots, \mat{v}_{i - 1}, \mat{b}, \mat{v}_{i + 1}, \cdots, \mat{v}_n)$$
+
+    \section{特征值对角化}
+    目的：使矩阵简单。希望找到一组基，使得每个基向量均为同一方向上的伸缩变换。
+    特征值只是对基向量按伸缩倍率分类，属于同一个 $\lambda_i$ 的 $\mat{v}$ 张成一个子空间。
+
+    $\mat{Av} = \lambda\mat{v}(\mat{v} \neq \mat{0}) \iff (\lambda E - \mat{A})\mat{v} = \mat{0} \iff$ 
+    有非零解 $\iff \det(\lambda E - \mat{A}) = 0$
+
+    特征方程：$\det(\lambda E - \mat{A}) = 0$ 为 $n$ 次首一多项式；特征根：$\{\lambda_n\}$。
+    性质：
+    \begin{itemize}
+        \item $\det\mat{A} = \prod \lambda_i$：比较系数。
+        \item $\sum a_{i, i} = \sum \lambda_i$：比较系数。迹 $\tr{A} := \sum \lambda_i$。
+    \end{itemize}
+
+    {\heiti 应用}：带入 $\mat{v}$ 将 $\mat{A}^{k} \to \lambda_i^k$。
+
+    \begin{itemize}
+        \item $\lambda^{-1}$ 为 $\mat{A}^{-1}$ 特征值；$f(\lambda)$ 为 $f(\mat{A})$ 特征值。\\
+            证明：带入 $\mat{v}$ 计算。\\
+            {\heiti 应用}：由 $f(\mat{A}) = 0$ 解 $\lambda$。
+        \item 相同 $\{\lambda_n\}$：$\mat{A}, \mat{A}^T$。\\
+            证明：转置不改行列式。
+        \item 相同 $\mat{v}$：$f(\mat{A}), \mat{A}, \mat{A}^{-1}$。\\
+            证明：带入 $\mat{v}$ 计算。
+    \end{itemize}
+
+    可对角化 $\iff$ 有 $n$ 个线性无关 $\{\mat{v_n}\}$。
+    证明：$\mat{P}^{-1}\mat{AP} = \mat{\Lambda} \iff \mat{AP} = \mat{P\Lambda} \iff 
+    (\mat{A}\mat{p}_1, \cdots, \mat{A}\mat{p}_n) = (\lambda_1\mat{p}_1, \cdots, \lambda_n\mat{p}_n)$。
+    进而知将 $\mat{v}_i$ 对应 $\lambda_i$ 排列即得 $\mat{P}$。
+
+    引理1：属于不同 $\lambda$ 的 $\mat{v}$ 线性无关。证明：归纳，凑 $\sum a_i(\lambda_{k + 1} - \lambda_i)\mat{p}_i = \mat{0}$。
+
+    引理2：属于不同 $\lambda$ 的线性无关组 $\{\mat{v}_k\}$ 的并线性无关。证明：把每个组拼成一个向量，用引理1。
+
+    定理：属于 $k$ 重 $\lambda$ 的线性无关 $\mat{v}$ 至多有 $k$ 个。证明：略。用子空间更易得。
+
+    定理：可对角化 $\iff$ 
+    $\forall (\lambda - \lambda_i)^k, \; \exists \text{linear independent} (\mat{v}_1, \cdots, \mat{v}_k)$
+    证明：综上。
+
+    {\heiti 应用}：矩阵求幂。
+
+    \section{二次型}
+    目的：通过变换使无交叉项。
+
+        \subsection{正交基}
+        欧式几何的推广：
+        \begin{itemize}
+            \item 内积：$\proj{\alpha}{\beta} := \mat{\alpha}^T\mat{\beta}$。
+            \item 长度：$\len{\alpha} := \sqrt{\proj{\alpha}{\alpha}}$
+            \item 夹角：$\theta := \arccos\frac{\proj{\alpha}{\beta}}{\len{\alpha}\len{\beta}}$。内积为零等于垂直。
+        \end{itemize}
+
+        （标准）正交基：两两垂直的（单位）向量。
+
+        \subsection{正交变换}
+        正交矩阵：$\mat{A} \iff \mat{A}^T\mat{A} = \mat{E}$。性质：
+        \begin{itemize}
+            \item $\det\mat{A} = \pm 1$，$\mat{A}^{-1} = \mat{A}^T$。
+            \item $\mat{A}, \mat{B}$ 是 $\implies$ $\mat{AB}$ 是。
+            \item {\heiti $\mat{A}$ 的列向量是标准正交基}。（由 $\mat{A}^T$ 也是知行向量亦为标准正交基。）
+        \end{itemize}
+
+        正交变换：$\mat{y} = \mat{Ax}$。性质：{\heiti 保持长度与夹角}，只旋转系，进而标准正交基变换后仍为标准正交基，向量坐标不变。
+        证明：带入计算。
+
+        \subsection{实对称矩阵}
+        性质：
+        \begin{itemize}
+            \item $\mathbb{F} = \mathbb{R}$ 上可对角化。证明：略，一些取共轭和转置的操作。
+            \item $\mat{A}$ 属于不同 $\lambda$ 的 $\mat{v}$ 正交。证明：略。
+            \item {\heiti $\mat{A}$ 正交相似于 $\diag{\lambda_1, \cdots, \lambda_n}$}。\\
+                证明：可以对同一 $\lambda$ 的 $\mat{v}$ 标准正交化，而不同 $\lambda$ 有自然的正交。
+        \end{itemize}
+        
+        一般的矩阵不能正交相似，因为对不同 $\lambda$ 的 $\mat{v}$ 标准正交化得到的向量未必是特征向量。
+        （或甚至不能在 $\rr$ 上对角化。）
+
+        \subsection{二次型}
+        二次型：$f(x_1, \cdots, x_n) = \sum_{i < j} a_{i, j}x_ix_j = \mat{x}^T\mat{Ax}$。其中限制 $\mat{A}$ 为实对称矩阵。
+
+        标准形：$f(y_1, \cdots, y_n) = \sum d_i y_i^2, \; \mat{A} = \diag{d_1, \cdots, d_n}$。
+        希望找{\heiti 可逆}矩阵使做 $\mat{x} = \mat{Cy}$ 后，$\mat{C}^T\mat{AC} = \mat{\Lambda}$。（这里为任意对角矩阵，未必为特征值。）
+
+        规范形：$f(z_1, \cdots, z_n) = \sum z_i^2 - \sum z_j^2$。
+        做可逆变换 $z_i = \begin{cases}
+            \mathrm{sgn}\; d_i\; \sqrt{\mathrm{abs}\; d_i} \; y_i \quad &d_i \neq 0 \\
+            y_i \quad &d_i = 0
+        \end{cases}$。
+
+        综上，$x \mathop{\longleftarrow}\limits_{1:1}^{M(\phi) = \mat{\Phi}} y 
+                \mathop{\longleftarrow}\limits_{1:1}^{M(\psi) = \mat{\Psi}} z$。
+        其中 $\mat{\Phi}$ 为正交矩阵，$\mat{\Psi}$ 为对角矩阵，均可逆，则乘积可逆。有 
+        $\mat{x}^T\mat{Ax} = (\mat{\Phi\Psi z})^T\mat{A}(\mat{\Phi\Psi z}) 
+        = \mat{z}^T(\mat{\Phi\Psi})^T\mat{A}(\mat{\Phi\Psi})\mat{z}$。
+        因而有 $\mat{A} \simeq \mat{\widetilde{\Lambda}}, \; \mat{A} \sim \mat{\widetilde{\Lambda}}$。
+        但 $\mat{\Psi}$ 未必是正交矩阵，故既合同又相似，却不是正交相似。
+
+        称 $\mat{\widetilde{\Lambda}} = \diag{1, \cdots, 1, -1, \cdots, -1, 0, \cdots, 0}$ 为合同规范形。
+        所有变换均可逆，故 $\rank{A} = \rank{\Lambda}$，即 $1, -1$ 总数为 $\rank{A}$。由此定义正/负惯性系数，符号差。
+        {\heiti 定义只对实对称矩阵生效}，一般矩阵存在诸多存在与否的问题。
+
+        {\heiti 惯性定理} $1$ 和 $-1$ 的数量由 $\mat{A}$ 决定，与如何变换无关。证明：略。
+
+        \subsection{正定}
+        正定：$f(x_1, \cdots, x_n) = \mat{x}^T\mat{Ax}$，满足 $\forall \mat{x} \neq \mat{0}, \; \mat{x}^T\mat{Ax} > 0$。
+
+        依此定义正定二次型 $f$、正定矩阵 $\mat{A}$。正/负：$>/< 0$。半：取等。不定：有正有负。
+        负取反得正，故只研究正定（$> 0$）与半正定（$\geqslant 0$）。
+
+        正定判定，均充要：
+        \begin{itemize}
+            \item 正惯性系数为 $n$。（即标准形中所有系数为正。）
+            \item 推论：$\forall \lambda_i > 0$；合同规范形为 $\mat{E}$。
+            \item 赫尔维茨定理：{\heiti 实对称矩阵} $\mat{A}$ 所有顺序主子式为正。证明：略。
+        \end{itemize}
+
+        半正定判定，均充要：
+        \begin{itemize}
+            \item 标准形中所有系数非负。
+            \item {\heiti 实对称矩阵} $\mat{A}$ 所有主子式非负。
+        \end{itemize}
+
+    \section{等价关系}
+    等价关系
+    \begin{itemize}
+        \item 反身性：$a = a$。
+        \item 对称性：$a = b \iff b = a$。
+        \item 传递性：$a = b \land b = c \implies a = c$。
+    \end{itemize}
+
+        \subsection{等价}
+        $\mat{A} \cong \mat{B} \; := \; \mat{A} \mathop{\longrightarrow}\limits^{\text{初等变换}} \mat{B}$。
+
+        等价标准形：$\mat{A} \cong 
+        \begin{pmatrix}
+        \mat{E}_r \; &\mat{0} \\
+        \mat{0} \; &\mat{0}
+        \end{pmatrix}$
+
+        \subsection{相似}
+        $\mat{A} \sim \mat{B} \; := \; \exists \mat{P}, \mat{B} = \mat{P}^{-1}\mat{AP}$。
+
+        \begin{itemize}
+            \item $\mat{A}, \mat{B}$ 特征多项式相同。\\
+                证明：$|\lambda E - \mat{B}| = |\lambda\mat{P}^{-1}\mat{P} - \mat{P}^{-1}\mat{AP}| = 
+                |\mat{P}^{-1}||\lambda E - \mat{A}||\mat{P}| = |\lambda E - \mat{A}|$。
+            \item $\det\mat{A} = \det\mat{B}, \{\lambda_{\mat{A}, n}\} = \{\lambda_{\mat{B}, n}\}, \tr{A} = \tr{B}$。
+            由上得。
+        \end{itemize}
+        
+        相似标准形：$\mat{A} \sim \mat{\Lambda} = \diag{a_1, \cdots, a_n}$
+
+        \subsection{合同}
+        $\mat{A} \simeq \mat{B} \; := \; \exists \text{ invertible }\mat{P}, \mat{B} = \mat{P}^{T}\mat{AP}$。
+        不保证 $\mat{P}^{-1} = \mat{P}^{T}$，更强的限制是正交相似。
+
+        性质：{\heiti 实对称矩阵} $\mat{A} \simeq \mat{B} \; \iff \; 
+        \rank{A} = \rank{B} \land \text{正惯性系数}: \mat{A} = \mat{B}$。
+
+        合同规范形 $\mat{A} \simeq \mat{\widetilde{\Lambda}} = \diag{1, \cdots, 1, -1, \cdots, -1, 0, \cdots, 0}$。
+
+\end{document}
