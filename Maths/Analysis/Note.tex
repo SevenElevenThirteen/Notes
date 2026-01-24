@@ -14,6 +14,8 @@
 \usepackage[colorlinks = true, 
             linkcolor = black]{hyperref}%超链接跳转
 
+\usepackage{color}
+
 \newcommand{\dif}{\mathrm{d}}
 \newcommand{\difx}{\,\mathrm{d}x}
 
@@ -22,6 +24,10 @@
 \newcommand{\field}[1]{\mathbb{#1}}
 
 \newcommand{\imunit}{\mathrm{i}}%虚数单位
+
+\newcommand{\poly}{\mathrm{Poly}}
+
+\newcommand{\mat}[1]{\mathbf{#1}}
 
 \linespread{1.05}%行间距
 \setlength{\parskip}{8pt}%段落间距
@@ -35,7 +41,7 @@
 
     %未知错误
     % \newpage
-    \tableofcontents
+    % \tableofcontents
 
     \chapter{函数，极限，连续}
 
@@ -261,8 +267,6 @@
         $$\Psi(x) = \int_{u(x)}^{v(x)} f(t)\dif t = -\int_{p}^{u(x)} + \int_{p}^{v(x)} 
         \implies \frac{\dif}{\dif x}\Psi(x) = -f(u(x))u'(x) + f(v(x))v'(x)$$ 
         为复合函数 $\Phi(u/v)$。若 $f(t)$ 为 $f(x, t)$，应先拆出 $x$。
-
-        
         
     \section{计算}
         \subsection{积分法}
@@ -369,6 +373,34 @@
         则 $R(x)$ 总能分解为 $$R(x) = \sum\sum_{t = 1}^k \frac{A}{(x - a)^t} + \sum\sum_{t = 1}^r \frac{Ax + B}{(x^2 + px + q)^t}$$
         分式个数至多与 $Q(x)$ 的因式个数相同。
 
+        证明：先按不同的根分类，再对每个根证明可拆分为一串分母幂次递增的分式和。数论在多项式的推广作为第一步的基础。
+        \begin{itemize}
+            \item 引理之引理：$f_{1 \sim n} \in \poly$，记 $S = \{\sum u_i f_i : u_{1 \sim n} \in \poly\}$
+            则存在 $g \in \poly$，使得 $S = g\poly$。\\
+                证明：任取 $g$ 为 $S$ 中一个次数最低的多项式，设 $g = \sum u_i f_i$。用 $g$ 除每个 $f_i$：$f_i = p g + r$。\\
+                $r = f_i - pg$ 展开仍为 $f_{1 \sim n}$ 的组合。若 $\deg r > -\infty$，
+                则 $r \in S$，而除法约束 $\deg r < \deg g$，则矛盾。\\
+                故 $r = 0$，于是 $g | f_i$ 对所有 $f_i$ 均成立。
+            \item 引理 1：$f_{1 \sim n} \in \poly$，记 $g$ 为 $f_{1 \sim n}$ 的首一最大公因子，
+            则 $\exists u_{1 \sim n} \in \poly$，使得 $\sum u_i f_i = g$。\\
+                证明：由引理知 $\exists g$，$\forall f_i, \, g | f_i$。
+                又有 $\forall f_i, \; d | f_i \; \iff \; \forall x \in S, \; d | x \; \iff \; d | g$，
+                足以说明 $g$ 为 $\gcd$。\\
+                $g \in S$ 说明 $u_{1 \sim n}$ 的存在性。
+            \item 引理 2：不妨 $q \in \poly, \; q \neq 0$。对任意 $f \in \poly$，
+            存在 $\{u_{n - 1}\}$ 满足 $\forall \deg u_i < \deg q$，
+            并且 $f = \sum_{i = 0}^{n - 1} u_i q^i$。\\
+                证明：通俗地讲，这就是 $f$ 在 $q$ 进制下展开。不断做除法取余“数”，即得 $u$。\\
+                {\heiti 推论}：同除 $q^n$，
+                则 $\dfrac{f}{q^n} = \sum_{i = 0}^{n - 1} \dfrac{u_i}{q^{n - i}} = \sum_{i = 1}^{n} \dfrac{v_i}{q^i}$。
+            \item 证明：设 $Q(x) = \prod q_i^{k_i}$ 为因式分解，其中 $\deg q_i = 1/2$（实根或共轭复根）。
+                记 $f_i = q_i^{k_i}$ 合并了所有重根，再记 $h_i = Q(x) / f_i(x)$。\\
+                显然 $h_i = \prod_{j \neq i} q_j^{k_j}$，所有 $\{h_n\}$ 没有公因式，即 $g = 1$。
+                由引理 1，存在 $\{u_n\}$ 使 $P(x) = g P(x) = \sum u_i h_i = \sum u_i Q / f_i$ 成立。\\
+                同除 $Q(x)$，得 $\dfrac{P(x)}{Q(x)} = \sum \dfrac{u_i}{f_i} = \sum \dfrac{u_i}{q_i^{k_i}}$。\\
+                对其中的每一项，由引理 2 可以展开，至此完成了全部论述。
+        \end{itemize}
+
         为求分解，可待定系数，或凑。多项式除法。
 
         对每一类分别积分即可：
@@ -459,35 +491,67 @@
             极坐标：扇形近似 $\rho = \rho(\theta), \, \dif S = \frac{1}{2} \rho^2 \,\dif\theta$。
         \item 体积：\\
             层切 $\dif V = \pi r^2 \,\dif h$；柱剥：$\dif V = 2\pi h \,\dif r$。
+        \item 含 $\int$ 的函数方程：求导，化为一般或微分方程。\\
+            {\heiti 积分上下界相同}时为零，是一个{\heiti 初值}。
     \end{itemize}
 
-    \chapter{微分方程}
+    \chapter{常微分方程}
     \section{定义}
+    常微分方程：$y = y(x)$，唯一的自变量是 $x$。
 
-    \section{解的结构}
+    阶：方程中的最高阶导数。e.g. $y'' + x^3y = 0$ 二阶。
 
-    \section{一阶}
-        \subsection{分离变量}
+    次：因变量或其导数的最高幂次。e.g. $y' + x^3y^2 + x^5 = 0$ 一阶二次。
 
-        \subsection{齐次}
+    齐次：等式右侧是否为 $0$。区分像是零空间还是零空间的平移，与“次”的概念无关。\\
+    齐次在多项式中又有次数相同义，依上下文区分。
 
+    解：代入 $y = y(x)$ 得到恒等式。
+
+    通解：含有任意常数的解，且相互独立的常数个数恰为阶数。相当于一个解的集合。\\
+    e.g. $\dif^n y / \dif x^n = f(x)$，连续 $n$ 次积分。
+    通解形如 $y(x) = y_0(x) + \mathrm{Poly}$，$n$ 次多项式的低 $n - 1$ 位在方程中均被抹去。\\
+    {\heiti 通解未必包含全部解}。部分解为单点，产生自分母恒为零等平凡情况。
+
+    特解：不含任意常数。相当于解集的一个元素。
+
+    \section{一阶及本质一阶}
         \subsection{一阶线性}
         形式：$$\frac{\dif y}{\dif x} + P(x)y = Q(x)$$
 
         先齐次：$\dfrac{\dif y}{\dif x} + P(x)y = 0 \implies \dfrac{\dif y}{y} = -P(x)\difx 
         \implies y = C\exp\left[-\int P(x)\difx\right]$
 
-        再非齐次：记 $\lambda = \exp\left[-\int P(x)\difx\right]$，$y = u(x)\lambda(x)$ 带入\\
-        $\begin{aligned}
-            u'\exp - P\lambda u + Pu\lambda = Q &\implies \dfrac{\dif u}{\dif x} = \dfrac{Q}{\lambda} \\
-            &\implies u(x) = \int \dfrac{Q(x)}{\lambda(x)} \difx
-        \end{aligned}$
+        再非齐次：记 $\lambda = \exp\left[-\int P(x)\difx\right]$，$y = u(x)\lambda(x)$ 带入方程：\\
+        $u'\exp - P\lambda u + Pu\lambda = Q \implies \dfrac{\dif u}{\dif x} = \dfrac{Q}{\lambda} 
+            \implies u(x) = \int \frac{Q(x)}{\lambda(x)} \difx$
 
         综上，零解 + 特解
         $$y = C\exp\left[-\int P(x)\difx\right]\difx 
             \; + \; \exp\left[-\int P(x)\difx\right]\int Q(x)\exp\left[\int P(x)\difx\right]\difx$$
+        
+        \subsection{分离变量}
+        形式：$$\frac{\dif y}{\dif x} = f(x)g(y) \implies \int \frac{\dif y}{g(y)} = \int f(x)\difx$$
 
-    \section{高阶}
+        一般求通解不考虑分母为零等平凡情况。但这些平凡情况可能不能被通解表示。\\
+        绝对值包含在 $C$ 中：$\ln|y| \to C\ln y$。
+
+        化为分离变量：{\heiti 换元}。特别地，{\heiti 齐次}方程可换元。
+        \begin{itemize}
+            \item 齐次整式方程：尝试同除构造 $f(\dfrac{y}{x})$。
+            \item  $\dfrac{\dif y}{\dif x} = f(\dfrac{y}{x})$：\\
+                换元 $t = \dfrac{y}{x}$，则 $\dif y = \dif(tx) = t\difx + x\,\dif t$。\\
+                $\implies x\dfrac{\dif t}{\dif x} + t = f(t) \implies \dfrac{\dif t}{f(t) - t} = \dfrac{\dif x}{x}$。
+            \item $\dfrac{\dif y}{\dif x} = f(\dfrac{ax + by + c}{Ax + By +C})$：\\
+                考虑作换元（平移）$z = x + x_0$，$w =  y + y_0$，希望消去 $c, C$ 使之同上。\\
+                解 $\begin{cases}
+                    ax_0 + by_0 + c = 0 \\
+                    Ax_0 + By_0 + C = 0
+                \end{cases}$\\
+                默认不可约，故不会无穷多解。有唯一解，则已完成。\\
+                无解，说明为两条平行线。记分子为 $u$，则分式形如 $\dfrac{u}{\lambda u + C'}$，以 $u$ 换 $y$ 可分离变量。
+        \end{itemize}
+
         \subsection{可降阶}
         \begin{itemize}
             \item $\difk{y}{n} = f(x)$ \\
@@ -499,11 +563,133 @@
                 则 $y'' = \dfrac{\dif p(y)}{x} = \dfrac{\dif p}{\dif y} \cdot \dfrac{\dif y}{\dif x} 
                         = p\dfrac{\dif p}{\dif y}$，\\
                 化为 $p \cdot p' = f(y, p)$。
+            \item Bernoulli 方程：$$\frac{\dif y}{\dif x} + P(x)y = Q(x)y^\alpha$$
+                同除 $y^\alpha$，换元 $u = y^{1 - \alpha}$。\\
+                $P(x)y \implies P(x)u$，
+                $y^{-\alpha}\,\dif y \implies \frac{1}{1 - \alpha}\dif u$。
         \end{itemize}
 
-        \subsection{常系数线性齐次方程}
+    \section{高阶线性方程}
+        \subsection{解的结构}
+        线性方程：未知数及各阶导数均为一次。形式：$\sum\limits_{i = 0}^{n} p_i(x) y^{(i)}(x) = f(x)$。
 
-        通解：
+        初值条件：点值 $(x_0, y(x_0),\, y^{(1)}(x_0),\, \cdots,\, y^{(n - 1)}(x_0))$。($n$ 阶导数是变量，故任意指定仍可有解。)\\
+        {\heiti 解的存在唯一性定理}：若 $\{p_n(x)\}, f(x)$ 均在区间 $I$ 上连续，则存在{\heiti 唯一}满足初值条件的解，
+        其中 $x_0 \in I$。
+
+        线性微分算子：$L() = \sum\limits_{i = 0}^{n} p_i(x) \dfrac{\dif^i}{\dif x^i} ()$。不难发现满足：\\
+        a. $L(0) = 0$\\
+        b. $L(u + v) = L(u) + L(v)$\\
+        c. $L(\lambda u) = \lambda L(u), \; \lambda \in \field{R}$\\
+        为 $\poly \to \poly$ 的线性映射。
+
+        线性相关：$\exists \lambda_{1 \sim n} \in \field{R}$，使得 $\sum \lambda_i f_i(x) \equiv 0$ 在区间 $I$ 上恒成立。
+        线性无关同理。
+
+        判定线性相关性：是否存在一列不全为零的实数 $\{\lambda_n\}$，使得 $\sum\lambda_i f_i(x) \equiv 0$？\\
+        将恒等式两边分别求导，仍为恒等式，则 $\forall k$，$\sum\lambda_i f_i^{(k)}(x) \equiv 0$。
+        让 $k$ 取遍 $0 \sim n - 1$，则得 $n$ 个等式。\\
+        考虑带入一点 $x = x_0$，则所有函数化为常数，变为线性方程组 $\mat{A\lambda} = \mat{0}$，由此引出行列式。
+
+        Wronski 行列式：
+        $$w(x_0) = 
+        \begin{vmatrix}
+            f_1(x_0) & f_2(x_0) & \cdots & f_n(x_0) \\
+            f_1^{(1)}(x_0) & f_2^{(1)}(x_0) & \cdots & f_n^{(1)}(x_0) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            f_1^{(n - 1)}(x_0) & f_2^{(n - 1)}(x_0) & \cdots & f_n^{(n - 1)}(x_0)
+        \end{vmatrix}$$
+        $\{f_n\}$ 在 $I$ 上线性无关则 $w(x_0) \neq 0$。
+        进一步地，若线性无关则 $\forall x_0 \in I$，$w_(x_0) \neq 0$。故 $w(x_0)$ 要么恒非零，要么恒为零。\\
+        若{\heiti 限制}函数均为{\heiti 线性微分方程的解}，则 $w(x_0) \neq 0$ 说明 $\{f_n\}$ 线性无关。即该条件{\heiti 充要}。
+
+        证明：充分性：线性无关，则任意点处向量 $(f_i(x_0),\, f_i^{(1)}(x_0), \, \cdots \, f_i^{(n - 1)}(x_0))$ 也都线性无关。
+        因此方程组有且仅有零解，即 $\det \neq 0$。\\
+        必要性：说明有非零解既线性相关。在该点解出一组 $\{\lambda_n\}$，但需说明在所有点处均成立。记 $f^\ast = \sum\lambda_i f_i(x)$，
+        为原线性微分方程满足初值条件 $(x_0, 0, \cdots, 0)$ 的解。
+        而 $y = 0$ 亦为解，由解的存在唯一性定理知 $f^\ast \equiv 0$，因而线性相关。
+
+        解的结构：零空间的平移，零解 + 特解。
+
+        零空间：$\dim \ker L = n$。\\
+        证明：任取 $x_0 \in I$，取 $n$ 个初值条件 $\{\mat{v}_n\}$，其中 $\mat{v}_i$ 除指定 $x_0, y^{(i)} = 1$ 外均为零。
+        知存在 $n$ 个解 $\{y_n\}$，而显然 $w(x_0) = 1$，故线性无关。又 $\dim$ 不会大于 $n$，于是恰为 $n$。
+
+        进一步地，$L(u) = f(x), \; L(v) = g(x) \; \implies \; L(u + v) = f(x) + g(x)$。\\
+        因此本质上只需对每个单项式求特解，加起来即可。
+
+        \subsection{常系数线性方程}
+        常系数：$\forall p_i(x) = a_i \in \field{R}$。形式 $\sum\limits_{i = 0}^{n} a_i y^{(i)} = f(x)$
+
+        先求零空间。猜测有形如 $y = \exp(\lambda x)$ 的解。\\
+        代入：$\sum\limits_{i = 0}^{n} a_i \lambda^i \exp(\lambda x) = 0 \;\implies\; \sum a_i \lambda^i = 0$。
+
+        特征方程：$\sum a_i \lambda^i = 0$，以幂换导。\\
+        特征根/特征值：$\lambda$，代数基本定理保证 $\field{C}$ 内恰有 $n$ 个根。
+
+        定义 $\exp(z) := \lim_{n \to \infty} (1 + \frac{z}{n})^n$。可证明极限对任意 $z$ 均存在。\\
+        欧拉公式：$$\exp(\imunit \theta) = \cos\theta + \imunit\sin\theta$$
+        对于一对共轭复根 $z = \alpha \pm \beta\imunit$，取其等价的线性组合代替之，使全部运算限制在 $\field{R}$ 内：
+        $$\begin{aligned}
+            \frac{1}{2}(\exp(zx) + \exp(\bar{z}x)) = \exp\cos(\beta x) \\
+            \frac{1}{2\imunit}(\exp(zx) + \exp(\bar{z}x)) = \exp\sin(\beta x)
+        \end{aligned}$$
+
+        对于 $k$ 重根 $\lambda$，仅知一解 $\exp(\lambda x)$。为求其他线性无关解，可设 $y(x) = u(x)\exp(\lambda x)$，
+        其中 $u(x)$ 为一非常值函数（否则必然被 $\exp(\lambda x)$ 包含）。不妨指定 $a_n = 1$ 使特征多项式首一。将 $y(x)$ 带入方程：
+        $$\begin{aligned}
+            \sum_{i = 0}^{n} a_i (u(x)\exp(\lambda x))^{(i)}
+            & = \sum_{i = 0}^{n} a_i \sum_{j = 0}^{i} \binom{i}{j} u^{(j)} \lambda^{i - j} \exp(\lambda x) & \text{（Leibniz）} \\
+            & = \exp(\lambda x) \sum_{j = 0}^{n} u^{(j)} \lambda^{-j} \sum_{i = j}^{n} a_i \binom{i}{j} \lambda^{i}
+        \end{aligned}$$
+
+        $|\exp(\alpha + \beta\imunit)| = |\exp(\alpha)(\cos\beta + \imunit\sin\beta)| = \exp(\alpha)$，
+        故即使在 $\field{C}$ 内 $\exp(x)$ 仍恒非零。\\
+        手玩若干简单例子发现，$\forall t = 0 \sim k - 1$，$u^{(t)}$ 的系数总为零，但对更高次导数的系数则未必。
+        如果这条结论成立，则任取 $u$ 满足 $u^{(k)} = 0$ 均能使方程成立。
+        取 $u = x, \, x^2, \, \cdots, \, x^{k - 1}$。它们及 $u = 1$ 时的 $k$ 个解显然线性无关。
+
+        试证明之。$\sum a_i \lambda^i = \prod (\lambda - \lambda_i)$，于是 $a_i$ 即为所有选 $n - i$ 个 $-\lambda_j$ 的乘积之和。
+        记 $b_t$ 为 $u^{(t)}\lambda^{-t}$ 的系数。对 $0 \leqslant t < k$，有：
+        $$b_t = \sum_{i = t}^{n} \binom{i}{t} \lambda^{i} \sum_{|S| = n - i} \prod_{j \in S} (-\lambda_j)$$
+
+        证明为零，自然地考虑抵消。在 $S$ 中选择 $\lambda$ 自带负号，而 $\lambda^i$ 中没有。不妨将 $\lambda$ 数量相同的项一起考虑。
+        记 $T = \{j \in S: \, \lambda_j \neq \lambda\}$。若能抵消，则两项的 $T$ 很可能相同，毕竟其他根没有受到任何限制。
+        另一方面，$|T| \leqslant n - k$，而最大的 $|S| = n - t > n - k$，说明任意 $T$ 总能出现在某个 $S$ 中。
+        再记 $U = \{j \in [1, n] \cap \field{N}: \, \lambda_j \neq \lambda\}$。换言之，如果在最外层求和中枚举 $T$，
+        则 $T$ 自然遍历 $U$ 的所有子集。按直觉这样是对的。于是有：
+        $$\begin{aligned}
+            b_t & = \sum_{i = t}^{n} \binom{i}{t} \lambda^i \sum_{p = 0}^{\min\{n - p, k\}} \binom{k}{p}(-\lambda)^{p}
+            \sum_{T \subset U, |T| = n - i - p} \prod_{j \in T} (-\lambda_j) & \\
+            & = \sum_{i = t}^{n} \binom{i}{t} \lambda^i \sum_{p = 0}^{n - p} \binom{k}{p}(-\lambda)^{p}
+            \sum_{T} \prod (-\lambda_j) & \text{（}p > k\text{ 时自然为零）} \\
+            & = \sum_{T \subset U} \prod_{j \in T} (-\lambda_j) 
+            \sum_{p = 0}^{\min\{n - t, n - |T| - t\}} \binom{k}{p} (-\lambda)^p \binom{n - |T| - p}{t} \lambda^{n - |T| - p}
+            & \text{（}i = n - |T| - p \geqslant t\text{）} \\
+            & = \sum_{T \subset U} \prod_{j \in T} (-\lambda_j) \lambda^{n - |T|} 
+            \sum_{p = 0}^{n - |T| - t} (-1)^p \binom{k}{p} \binom{n - |T| - p}{t}
+        \end{aligned}$$
+
+        记 $m = n - |T| \geqslant k$，
+        $w = \sum\limits_{p = 0}^{m - t} (-1)^p \binom{k}{p}\binom{m - p}{t} 
+        = \sum\limits_{p \leqslant m} (-1)^p \binom{k}{p}\binom{m - p}{t}$（放宽限制）。似乎唯一的希望在于 $w \equiv 0$。
+        程序验证大有裨益：对充分多的 $t < k \leqslant m$，上式均为零。
+        特别地，任一不等号不成立则 $w \not\equiv 0$，以及 $t = k \leqslant m$ 时 $w \equiv 1$。
+
+        世外高人 {\color{red}{$\text{M}$}}{\color{black}{$\text{atrixGroup}$}} 指出
+        $$w = [x^m](1 - x)^k\frac{x^t}{(1 - x)^{t + 1}}$$
+
+        解读：枚举前一项对幂次的贡献 $p$，对应于 $(-1)^p\binom{k}{p}$。
+        改写第二个组合数，$\binom{m - p}{t} = \binom{m - p}{m - p - t}$。这里 $m - p$ 整体作为变量，是它贡献的幂次。
+        上下指标的差恒为 $t$，启示：
+        $$\frac{1}{(1 - x)^{t + 1}} = \sum \binom{t + n}{n} x^n$$
+        对比原式，应让系数整体向高位偏移 $t$，综上得到 $x^t / (1 - x)^{t + 1}$。
+
+        最后一步已经呼之欲出：
+        $$w = [x^m](1 - x)^k\frac{x^t}{(1 - x)^{t + 1}} = [x^{m - t}](1 - x)^{k - t - 1}$$
+        当 $t < k \leqslant m$ 时，$k - t - 1 \geqslant 0$ 为多项式，而 $m - t > k - 1 - t$ 严格大于多项式次数，系数显然为零。\\
+        （$t = k$ 时，$1 / (1 - x)$ 对应的数列为 $(1, 1, 1, \cdots)$，所以 $w \equiv 1$。）
+
         \begin{itemize}
             \item $k$ 重实根 $\lambda$：\\
                 $\exp(\lambda x), \, x\exp(\lambda x), \, \cdots, \, x^{k - 1}\exp(\lambda x)$
@@ -516,7 +702,7 @@
                 \end{longtable}
         \end{itemize}
 
-        特解：待定系数
+        特解：待定系数。$k$ 重根补 $x^k$ 的证明同上，低 $k$ 位系数均零。
         \begin{itemize}
             \item $F(x) = \varphi(x)\exp(\mu x)$，其中 $\varphi(x) \in \mathrm{Poly}$：\\
                 $y^\ast = x^k P(x) \exp(\mu x)$，\\
@@ -527,4 +713,29 @@
                 其中 $\mu \pm \nu\imunit$ 为 $k$ 重共轭复根，
                 $P_1(x),P_2(x) \in \mathrm{Poly}, \deg P_1(x) = \deg P_2(x) = \deg\varphi(x)$。
         \end{itemize}
+
+        \subsection{Euler 方程}
+        形式：
+        $$\sum_{i = 0}^{n} a_i x^i \frac{\dif^i}{\dif x^{i}} y^{(i)} = f(x)$$
+
+        换元 $x = \exp(t)$，即 $t = \ln(x)$。可以消去幂次。
+
+    \section{线性微分方程组}
+    没学，略。
+
+    $\underbrace
+    {
+        \widehat
+        {
+            \overline
+            {
+                \left|
+                \stackrel {\ } {\ \cup}
+                \stackrel {\bigcap ^ \cup} {}
+                \stackrel {\ } {\cup ^ {\ }}
+                \stackrel {\bigcap_\cup} {}
+                \right|
+            }
+        }
+    }$
 \end{document}
