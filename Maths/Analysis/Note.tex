@@ -1,0 +1,1100 @@
+\documentclass[12pt, a4paper, UTF8, openany]{ctexbook}
+
+\usepackage{geometry}%设置页边距
+\geometry{left=1.54cm, right=1.54cm, top=2.18cm, bottom=2.18cm}
+
+\usepackage{tikz}%绘图
+
+\usepackage{amsmath, amssymb}%数学
+
+\usepackage{array}%表格基础设置
+\usepackage{longtable}%跨页表格
+\usepackage{booktabs}%表格水平线
+
+\usepackage[colorlinks = true, 
+            linkcolor = black]{hyperref}%超链接跳转
+
+\usepackage{color}
+
+\newcommand{\dif}{\mathrm{d}}
+\newcommand{\difx}{\,\mathrm{d}x}
+
+\newcommand{\difk}[2]{{#1}^{(#2)}}
+
+\newcommand{\field}[1]{\mathbb{#1}}
+
+\newcommand{\imunit}{\mathrm{i}}%虚数单位
+
+\newcommand{\poly}{\mathrm{Poly}}
+
+\newcommand{\mat}[1]{\mathbf{#1}}
+
+\newcommand{\uzero}{\mathop{U}\limits^{\circ}}
+\newcommand{\eps}{\varepsilon}
+
+\linespread{1.05}%行间距
+\setlength{\parskip}{8pt}%段落间距
+\setlength{\parindent}{0pt}%不缩进
+
+\setcounter{chapter}{-1}
+
+\title{数学分析}
+\author{1001}
+
+\begin{document}
+    \maketitle
+
+    \tableofcontents
+
+    \chapter{引言}
+    \begin{longtable}[2]{*{2}{w{l}{9cm}}}
+        $\csc x = 1 / \sin x$ & $\sec x = 1 / \cos x$ \\
+        $\cot^2 x + 1 = \csc^2 x$ & $\tan^2 x + 1 = \sec^2 x$ \\
+        & \\
+        $\sin x + \sin y = 2 \sin \dfrac{x + y}{2} \cos \dfrac{x - y}{2}$ & 
+        $\sin x \cos y = \dfrac{1}{2}\left(\sin(x + y) + \sin(x - y)\right)$ \\
+        \addlinespace
+        $\sin x - \sin y = 2 \cos \dfrac{x + y}{2} \sin \dfrac{x - y}{2}$ & 
+        $\cos x \sin y = \dfrac{1}{2}\left(\sin(x + y) - \sin(x - y)\right)$ \\
+        \addlinespace
+        $\cos x + \cos y = 2 \cos \dfrac{x + y}{2} \cos \dfrac{x - y}{2}$ &
+        $\cos x \cos y = \dfrac{1}{2}\left(\cos(x + y) + \cos(x - y)\right)$ \\
+        \addlinespace
+        $\cos x - \cos y = {\color{red}-}2 \sin \dfrac{x + y}{2} \sin \dfrac{x - y}{2}$ &
+        $\sin x \sin y = {\color{red}-}\dfrac{1}{2}\left(\cos(x + y) - \cos(x - y)\right)$
+    \end{longtable}
+
+    \chapter{函数，极限，连续}
+
+    \section{基础}
+    有界；有上/下确界 $\sup / \inf$。
+
+    {\heiti 完备性}：有上/下界的非空实数集有上/下确界。
+
+    单调：含等号。严格单调。
+
+    邻域：$U(x_0, \eps) := \{x : |x - x_0| < \eps\}$。\\
+    去心邻域：$\uzero(x_0, \eps) := U(x_0, \eps) \backslash \{x_0\}$。
+    
+    \section{极限}
+        \subsection{定义}
+        数列极限：$\forall \eps > 0$，$\exists N \in \field{N}_+$，使得 $\forall n > N$，$|a_n - A| < \eps$。
+
+        函数极限：趋于无穷类似\\
+        （Cauchy）$\eps-\delta$ 式：
+        $\forall \eps > 0$，$\exists \delta > 0$，使得 $\forall x \in \uzero(x_0, \delta)$，$|f(x) - A| < \eps$。\\
+        （Heine）序列式：$\forall x_n \to x_0$，$\lim_{n \to \infty} f(x_n) = A$。
+
+        左极限 $x \to x_0^-$，右极限 $x \to x_0^+$。\\
+        $\lim_{x \to x_0} = A \iff \lim_{x \to x_0^{-}} = \lim_{x \to x_0^{+}} = A$。
+
+        \subsection{性质}
+        极限唯一。\\
+        证明：反证。取 $\eps = \frac{A + B}{2}$，即得矛盾。
+
+        有界性：数列有界，函数局部有界。（上下均有界。）
+
+        保序性：$\forall l_n \leqslant a_n \leqslant r_n$，则 $\lim l \leqslant \lim a \leqslant \lim r$。\\
+        函数局部保序。\\
+        推论：保号性。局部保号性。
+
+        收敛数列的任意子列均收敛于 $A$。\\
+        函数版本即 Heine 定理（序列式定义）。
+
+        四则运算，函数复合。{\heiti 前提}：有定义。
+
+        \subsection{判别与求值}
+        单调有界准则。
+
+        夹逼准则。
+
+        归并原理：研究子列极限。数列、函数均可\\
+        {\heiti 应用}：证明发散。
+
+        闭区间套：$\{[a_n, b_n]\}$，满足 $[a_1, b_1] \supset [a_2, b_2] \supset \cdots$，且长度趋于零 $\lim b_n - a_n = 0$。\\
+        闭区间套原理：存在{\heiti 唯一} $\xi$，使得 $\cap [a_i, b_i] = \{\xi\}$。证明：夹逼。
+
+        Weierstrass 定理：有界数列必有收敛子列。\\
+        证明：每次对分值域区间，总有一个子区间含有无穷多项。在另一子区间任取 $x_n$，在无穷多的子区间内递归。
+        值域区间构成闭区间套，则构造了收敛子列 $\{x_n\}$。\\
+        {\heiti 应用}：先构造极限值 $A$，再证明收敛于 $A$。
+
+        Cauchy 数列 $\{a_n\}$：满足 $\forall \eps > 0$，$\exists N \in \field{N}_+$，
+        使得 $\forall m, n > N$，$|a_m - a_n| < \eps$。\\
+        等价叙述：$\forall n > N, p \in \field{N}_+$，$|a_n - a_{n + p}| < \eps$。
+
+        Cauchy 收敛原理：\\
+        a. $\{a_n\}$ 收敛的充要条件是 $\{a_n\}$ 为 Cauchy 列。证明：取 $\eps / 2$。\\
+        b. $\lim_{x \to x_0} f(x)$ 存在的充要条件是 $\forall \eps > 0$，$\exists \delta > 0$，
+        使得 $\forall x_1, x_2 \in \uzero(x_0, \delta)$，$|f(x_1) - f(x_2)| < \eps$。
+        证明：充分性同数列；必要性需证极限均相同，反证，构造。
+
+        {\heiti 递推式}：等式两端同时取极限，解方程。需证明 $A$ 存在。
+
+        $$\lim_{x \to 0} \frac{\sin x}{x} = 1 \quad \lim_{x \to \infty} (1 + \frac{1}{x})^x = e$$
+
+        \subsection{Stolz 定理}
+        对一类 $\infty / \infty$ 型数列极限适用。
+
+        若 $\{x_n\}$ 满足\\
+        a. $\{x_n\}$ 严格递增，且恒正。\\
+        b. $\lim x_n = +\infty$。\\
+        则若 $\lim \dfrac{y_n - y_{n - 1}}{x_n - x_{n - 1}} = A \neq \infty$，有 $\lim \dfrac{y_n}{x_n} = A$。
+
+    \section{无穷大小}
+        \subsection{定义及性质}
+        无穷小：$a_n \to 0$。\\
+        无穷大：$a_n \to \infty$。（无界不等于无穷大，如振荡。）
+
+        $\lim f(x) = A \; \iff \; f(x) = A + \alpha(x)$，其中 $\alpha(x)$ 为无穷小。\\
+        {\heiti 应用}：利用无穷小进行显式的运算，舍弃无穷小即得极限。
+
+        无穷大/小与其他数的四则运算：仅对有限和有定义。按常理。
+
+        \subsection{阶}
+        \begin{itemize}
+            \item $\psi(x) = O(\varphi(x))$：$\frac{\psi(x)}{\varphi(x)}$ 有界。
+            \item $\psi(x) = o(\varphi(x))$：$\frac{\psi(x)}{\varphi(x)}$ 是无穷小。
+            \item $\psi(x) \sim \varphi(x)$：$\lim \frac{\psi(x)}{\varphi(x)} = 1$。这时称等价。\\
+                此时有 $\psi(x) = \varphi(x) + o(\varphi(x))$。
+            \item $\psi(x)$ 是 $\varphi(x)$ 的 $k$ 阶：$\lim \frac{\psi(x)}{\varphi^k(x)} = A \neq \pm \infty$。
+        \end{itemize}
+        $O, o$ 都是对 $\psi(x)$ 的限制（$\psi(x) \leqslant k\varphi(x)$）。$o(\varphi(x)) = O(\varphi(x))$。
+
+        高/低阶无穷大/小：按常理。
+
+        \subsection{等价替换}
+        等价无穷小：$x \to 0$ 时，\\
+        $x \; \sim \; \sin x \; \sim \; \tan x \; \sim \; 
+            \arcsin x \; \sim \; \arctan x \; \sim \; \exp(x) - 1 \; \sim \; \ln(1 + x)$ \\
+        $1 - \cos^2 x \; \sim \; \frac{1}{2}x^2$ \\
+        $(1 + x)^\alpha - 1 \; \sim \; \alpha x$
+
+        带着高阶无穷小运算也可。本质是泰勒展开。
+
+    \section{连续函数}
+        \subsection{定义及间断点}
+        在 $x_0$ 处连续：$\lim_{x \to x_0} f(x) = f(x_0)$。\\
+        等价：$\lim_{x \to x_0} \Delta y = 0$。\\
+        左/右连续。\\
+        连续区间：端点单侧连续，内部处处连续。连续函数 $f \in C(a, b), C[a, b]$。
+
+        $\text{间断点}
+        \begin{cases}
+            \text{第一类：左右极限存在}
+            \begin{cases}
+                \text{可去：左右相等}\\
+                \text{跳跃：左右不等}
+            \end{cases}\\
+            \text{第二类：左右有极限不存在}
+        \end{cases}$
+
+        极限存在指 $A \neq \pm\infty$。间断点类型与 $f(x_0)$ 是否有定义及其具体值无关。\\
+        第二类的特例：无穷，振荡。
+
+        跳跃：$a^{1/x}$，在 $x = 0$ 附近。\\
+        无穷：$1/x$，在 $x = 0$ 附近。
+
+        \subsection{性质}
+        连续函数的运算仍为连续函数，证明平凡。具体地：\\
+        四则运算；复合函数；反函数；\\
+        幂指函数：$f(x)^{g(x)} = \exp(g(x)\ln f(x))$。
+
+        初等函数在定义区间上连续。
+
+        {\heiti 应用}：对连续函数，$\lim$ 与函数符号 $f$ 可任意换序。$\lim f(x) = f(\lim x)$。
+
+        \subsection{闭区间上连续函数}
+        有界性。\\
+        证明：反证。若无界，由 Weierstrass定理构造 $x_n \to x_0$，$\lim |f(x_n)| = +\infty$。
+        但连续得 $\lim f(x_n) = f(\lim x_n) = f(x_0) < +\infty$。矛盾。
+
+        最大最小值定理：能取到 $\max, \min$。\\
+        证明：取上确界 $M = \sup f$。取 $\delta = 1/n$，必有 $x_n$ 满足 $|f(x_n) - M| = M - f(x_n) < \delta$。
+        用 Weierstrass 定理和夹逼准则。
+
+        零点存在定理：$f(a)f(b) < 0$，则存在 $f(\xi) = 0$。\\
+        证明：构造闭区间套。
+
+        介值定理：对 $f(a), f(b)$ 之间的任一值 $\mu$，存在 $f(\xi) = \mu$。\\
+        推论：$\forall \min \leqslant \mu \max$，存在 $f(\xi) = \mu$。\\
+        推论：值域 $I = \{f(x): x \in [a, b]\}$ 是闭区间。\\
+        证明：零点存在定理。
+
+        一致连续：$\forall \eps > 0$，$\exists \delta > 0$，
+        使得 $\forall x_1, x_2, \, |x_1 - x_2| < \delta$，$|f(x_1) - f(x_2)| < \eps$。\\
+        序列式表述：$\forall \{x_n\},\{y_n\}, \, \lim x_n - y_n = 0$，有 $\lim f(x_n) - f(y_n) = 0$。\\
+        几何意义：没有越来越陡的地方。反例：$f(x) = 1 / x$ 在 $x = 0$ 附近。
+
+        闭区间上连续函数一致连续。\\
+        证明：反证。存在 $\eps > 0$，使得 $\forall \delta > 0$，总存在 $|x_1 - x_2| < \delta$，$|f(x_1) - f(x_2)| > \eps$。
+        取 $\delta = 1 / n$，由此取出 $\{x_n\}, \{y_n\}$。由 Weierstrass 定理取出收敛子列 $\{x_n'\}$，取 $\{y_n'\}$ 为与之逐项对应。
+        又由 $\lim x_n - y_n = 0$ 知 $\lim x_n' = \lim y_n'$，于是 $\lim f(x_n') - f(y_n') = f(\lim x_n') - f(\lim y_n') = 0$。
+        这与 $|f(x_n') - f(y_n')| > \eps$ 矛盾。
+
+        $f$ 在闭区间 $[a, b]$ 上一致连续的充要条件是，$f$ 在 $[a, b]$ 上处处连续。
+
+    \chapter{一元函数微分}
+    \section{定义}
+        \subsection{导数}
+        导数：$\lim\limits_{\Delta x \to 0} \frac{\Delta y}{\Delta x} 
+        = \lim\limits_{\Delta x \to 0} \frac{f(x + \Delta x) - f(x)}{\Delta x}$。\\
+        由此确立的函数为导函数。单侧导数：逼近方向。可导 $\iff$ 左右导存在且相等。
+
+        几何意义：切线斜率。\\
+        切线：$y - f(t) = f'(t)(x - t)$。\\
+        法线：$y - f(t) = \frac{-1}{f'(t)}(x - t)$。
+
+        可导必连续；连续未必可导。\\
+        证明：$\frac{\Delta y}{\Delta x} = f'(t) + o(1)$，则 $\Delta y = f'(t)\Delta x + o(\Delta x)$。故 $\lim \Delta y = 0$。\\
+        处处连续，处处不可导：Weierstrass 函数。
+
+        高阶导数：$\frac{\dif^n y}{\dif x^n}$。\\
+        $n$ 阶连续可导：$f^{(n)}$ 连续，记为 $C^{(n)}$ 类函数，$f \in C^{(n)}(I)$。无限可导：$C^{\infty}$。
+
+        \subsection{微分}
+        线性近似：$f(x_0 + \Delta x) - f(x_0) = a\Delta x + o(\Delta x)$。
+
+        可导/可微等价，$a = f'(x_0)$。证明：略。
+
+        一阶微分形式不变性：链式法则。$\dif f(g(x)) = f'(g(x)) \,\dif g(x)$。\\
+        高阶微分仍用链式法则推。
+
+    \section{求导}
+        \subsection{法则}
+        四则运算：\\
+        a. $(\alpha u \pm \beta v)' = \alpha u' \pm \beta v'$；\\
+        b. $(uv)' = u'v + v'u$；\\
+        c. $\left(\frac{u}{v}\right)' = \frac{u'v - v'u}{v^2}$\\
+        证明：凑 $f(x + \Delta x) - f(x)$。
+
+        复合函数：链式法则。$\frac{\dif fg}{\dif x} = \frac{\dif fg}{\dif g} \cdot \frac{\dif g}{\dif x}$。\\
+        证明：即上式。但当 $g(x + \Delta x) = g(x)$ 时，规定 $\frac{\dif fg}{\dif x} = 0 = f'(g(x))\frac{\dif g}{\dif x}$，
+        解决了除以零的问题。\\
+        幂指函数：按复合 $\exp(u \ln v)$。
+
+        反函数：$\dfrac{\dif y}{\dif x} = \dfrac{1}{\frac{\dif x}{\dif y}}$。但求以 $x$ 为变量的函数需反解。\\
+        $y = f(x) \; \iff \; x = g(y)$：
+        $$\begin{aligned}
+            \frac{\dif g}{\dif y} & = \frac{1}{f'(x)} \\
+            \frac{\dif^2 g}{\dif y^2} & = \frac{\dif}{\dif y}\left(\frac{1}{f'(x)}\right) 
+            = \frac{\dif}{\dif x}\left(\frac{1}{f'(x)}\right) \cdot \frac{\dif x}{\dif y}
+            = \frac{-f^{(2)}}{{f'}^2} \cdot g'(y) = \frac{-f^{(2)}}{{f'}^2} \cdot \frac{1}{f'} 
+            = \frac{-f^{(2)}}{{f'}^3}
+        \end{aligned}$$
+
+        高阶导数：\\
+        a. 线性性 $(\alpha u \pm \beta v)^{(n)} = \alpha u^{(n)} \pm \beta v^{(n)}$。\\
+        b. Leibniz 公式：
+        $$(uv)^{(n)} = \sum_{k = 0}^{n} \binom{n}{k} u^{(k)} v^{(n - k)}$$
+        证明：归纳，利用 $\binom{n}{k} = \binom{n - 1}{k} + \binom{n - 1}{k - 1}$。\\
+        {\heiti 应用}：幂函数与其他函数之乘积求导。
+
+        \subsection{隐函数}
+        $F(x, y) = 0$ 为恒等式，故可对等式两侧同时求导。其中 $y = y(x)$。
+
+        {\heiti 应用}：隐函数求导法。取 $\ln$ 化乘积为加减。
+
+        \subsection{参数方程}
+        $x = \psi(t), \, y = \varphi(t)$：
+        $$\begin{aligned}
+            \frac{\dif y}{\dif x} & = \frac{\dif y / \dif t}{\dif x / \dif t} = \frac{\varphi'}{\psi'} \\
+            \frac{\dif^2 y}{\dif x^2} & = \frac{\dif}{\dif x}\left(\frac{\varphi'(t)}{\psi'(t)}\right) = 
+            \frac{\dif}{\dif t}\left(\frac{\varphi'(t)}{\psi'(t)}\right) \cdot \frac{\dif t}{\dif x} 
+            = \frac{\varphi^{(2)}\psi' - \psi^{(2)}\varphi'}{{\psi'}^2} \cdot \frac{1}{\psi'} 
+            = \frac{\varphi^{(2)}\psi - \psi^{(2)}\varphi}{{\psi'}^3}
+        \end{aligned}$$
+
+        \subsection{导数表}
+        幂函数：
+        $$(x^\alpha)' = \begin{cases}
+            \alpha x^{\alpha - 1} & \alpha \neq 0 \\
+            0 & \alpha = 0
+        \end{cases}$$
+
+        指数与对数：
+        \begin{longtable}[h]{*{2}{w{l}{8cm}}}
+            $(\exp x)' = \exp x$ & $(\ln x)' = \dfrac{1}{x}$ \\
+            $(\alpha^x)' = \alpha^x\ln\alpha$ & $(\log_{a}x)' = \dfrac{1}{x\ln\alpha}$
+        \end{longtable}
+
+        三角及反三角：
+        \begin{longtable}[h]{*{2}{w{l}{8cm}}}
+            $(\sin x)' = \cos x$ & $(\cos x)' = -\sin x$ \\
+            $(\cot x)' = -\csc^2 x = -\dfrac{1}{\sin^2 x}$ & $(\tan x)' = \sec^2 x = \dfrac{1}{\cos^2 x}$ \\
+            $(\csc x)' = -\csc x \cot x$ & $(\sec x)' = \sec x \tan x$ \\
+            & \\
+            $(\arcsin x)' = \dfrac{1}{\sqrt{1 - x^2}}$ & $(\arccos x)' = -\dfrac{1}{\sqrt{1 - x^2}}$ \\
+            $(\arctan x)' = \dfrac{1}{1 + x^2}$ & $(\mathrm{arccot} x)' = -\dfrac{1}{1 + x^2}$
+        \end{longtable}
+
+        高阶导：
+        \begin{longtable}[h]{*{2}{w{l}{8cm}}}
+            $(\sin x)^{(n)} = \sin(x + n \cdot \frac{\pi}{2})$ & $(\cos x)^{(n)} = \cos(x + n \cdot \frac{\pi}{2})$ \\
+            $(x^\alpha)^{(n)} = \alpha^{\underline{n}}\,x^{\alpha - n}$ & 
+            $[\ln(1 + x)]^{(n)} = (-1)^{n - 1}\dfrac{(n - 1)!}{(1 + x)^n}$
+        \end{longtable}
+
+    \section{微分中值定理}
+    极值点：对领域定义，故不含端点；不等号{\heiti 包含等号}。
+
+    Fermat 定理：若在 $x_0$ 取极值且在 $x_0$ 可导，则 $f'(x_0) = 0$。\\
+    证明：不妨极大值。分别从左右逼近，由保号性知 $0 \leqslant f'(x_0) \leqslant 0$。
+
+    Roll 定理：若 $f$ 满足：\\
+    a. $f$ 在 $[a, b]$ 连续。\\
+    b. $f$ 在 $(a, b)$ 可导。 \\
+    c. $f(a) = f(b)$。 \\
+    则 $\exists \xi \in (a, b)$，$f'(\xi) = 0$。\\
+    证明：常函数是平凡的。一般地，$\max/\min$ 总有一个非端点值，取其应用 Fermat 定理。
+
+    Lagrange 定理：若 $f$ 满足：\\
+    a. $f$ 在 $[a, b]$ 连续。\\
+    b. $f$ 在 $(a, b)$ 可导。\\
+    则 $\exists \xi \in (a, b)$，$\dfrac{f(b) - f(a)}{b - a} = f'(\xi)$。\\
+    改写：$\theta \in (0, 1)$：$f(a) - f(b) = f'\left[a + \theta(b - a)\right](b - a)$；
+        $f(x + \Delta x) - f(x) = f'(x + \theta\Delta x)\Delta x$ \\
+    证明：做差将斜线放平。构造 $F(x) = \left[\frac{f(b) - f(a)}{b - a}(x - a) + f(a)\right] - f(x)$，则 $F(a) = F(b)$，
+    应用 Roll 定理。\\
+    推论：$f'(x) \equiv 0 \; \iff \; f(x) \equiv C$。证明：$f(x_1) - f(x_2) = f'(\xi)(x_1 - x_2) = 0$。\\
+    推论：$f$ 在端点连续，则 $f'_{\pm}(x_0) = \lim_{x \to x_0^{\pm}} f'(x)$。证明：$\xi$ 在逼近端点。
+
+    Cauchy 定理：若 $f, g$ 满足：\\
+    a. $f, g$ 在 $[a, b]$ 上连续。\\
+    b. $f, g$ 在 $(a, b)$ 可导，且 $g'(x) \neq 0$。\\
+    则 $\exists \xi \in (a, b)$，$\dfrac{f(b) - f(a)}{g(b) - g(a)} = \dfrac{f'(\xi)}{g'(\xi)}$。\\
+    证明：$g'(x) \neq 0$ 保证 $g(a) \neq g(b)$。
+    构造 $h(x) = \left[f(b) - f(a)\right]g(x) + \left[g(b) - g(a)\right]f(x)$，发现 $h(a) = h(b)$，用 Roll 定理。
+
+    Roll, Lagrange 和 Cauchy 均说明曲线上存在与弦平行的切线，其中前两者为函数 $y = y(x)$，后者为参数方程 $y = y(t), x = x(t)$。
+    三个定理任意条件缺失则不成立。
+
+    \section{L'Hôpital 法则}
+    对$\frac{0}{0}$ 和 $\frac{\infty}{\infty}$，对任意一种极限过程（这里允许右式的值为 $\infty$）：
+    $$\lim \frac{f(x)}{g(x)} = \lim \frac{f'(x)}{g'(x)}$$
+    
+    证明 1：对 $\frac{0}{0}$ 型：不妨令极限处 $f = g = 0$ 以避免间断点，右式的值与间断点处无关，故可。
+    由 Cauchy 定理，$f / g = (f - 0)/(g - 0) = f'(\xi) / g'(\xi)$。\\
+    对 $\frac{\infty}{\infty}$ 型：化为$\frac{0}{0}$。
+    $\lim f / g = \lim \frac{1 / g}{1 / f} = \lim \frac{-g'/g^2}{-f'/f^2} = \left[\lim f / g\right]^2 \lim g' / f'$。\\
+    若 $\lim f'/g' \neq 0$，则 $1 = (\lim f / g)(\lim g' / f')$，即得。\\
+    若 $\lim f'/g' = 0$，则任取 $k \neq 0$，$\lim f / g = \left[\lim (f + kg) / g\right] - k$，之后同上。\\
+    若 $\lim f'/g' = \infty$，则计算 $\lim g / f$。但此法不能说明 $\infty$ 的符号。
+
+    证明 2：由 Cauchy 定理，$\dfrac{f(x) - f(y)}{g(x) - g(y)} = \dfrac{f(x)/g(x) - f(y)/g(x)}{1 - g(y)/g(x)} 
+    = \dfrac{f'(\xi)}{g'(\xi)}$。\\
+    于是有 $\dfrac{f(x)}{g(x)} = (1 - \dfrac{g(y)}{g(x)})\dfrac{f'(\xi)}{g'(\xi)} + \dfrac{f(y)}{g(x)}$。
+    让 $x$ 逼近，用 $y$ 调系数，进行 $\eps-\delta$ 的分析。
+
+    $f' / g'$ 不存在，$f / g$ 可以存在。\\
+    {\heiti 应用}：有限值的极限过程，但极限式部分趋于 $0/\infty$，则整式为未定式。
+
+    对其他未定型：\\
+    a. $0^0 / 1^{\infty} / \infty^0$：取 $\ln$ 化为 $0 \cdot \infty$。\\
+    b. $0 \cdot \infty$：取倒数化为 $0 / 0$ 或 $\infty / \infty$。\\
+    c. $\infty - \infty$：通分化为 $0 / 0$ 或 $\infty / \infty$。
+
+    对 $x_{1 \sim n} > 0$，记 $M_t(x) = \left(\frac{1}{n}\sum x_i^t\right) ^{\frac{1}{t}}$ 为 $\{x_n\}$ 的 $t$ 次方平均数。\\
+    记 $G(x) = \sqrt[n]{\prod x_i}$，$\max/\min$ 为 $\max\{x_n\}$，$\min\{x_n\}$。有：\\
+    a. $\lim\limits_{t \to 0} M_t(x) = G(x)$；\\
+    b. $\lim\limits_{t \to +\infty} M_t(x) = \max$；\\
+    c. $\lim\limits_{t \to -\infty} M_t(x) = \min$。\\
+    证明：取 $\ln$，用 L'Hôpital。
+    $$\lim \ln M_t(x) = \lim \frac{1}{t}\left[\ln\left(\sum x_i^t\right) - \ln n\right] 
+    = \lim \frac{\sum x_i^t \ln x_i}{\sum x_i^t}$$
+    分别代入 $t = 0$，同除 $\max/\min$。
+
+    \section{Taylor 定理}
+    多项式拟合函数，记 $$P_n(x) = \sum_{k = 0}^{n} \frac{\difk{f}{k}(x_0)}{k!}(x - x_0)^k$$
+    $R_n(x) = f(x) - P_n(x)$。
+
+    对 $P_n(x)$ 求 $k$ 阶导，则所有幂次 $t < k$ 的项为零，
+    所有幂次 $t \geqslant k$ 的项形如 $\dfrac{\difk{f}{t}(x_0)}{(t - k)!}(x - x_0)^{t - k}$。
+    幂次永远与阶乘相同。
+
+    总有 $\forall k < n, 
+    \difk{R_n}{k}(x_0) = \difk{f}{k}(x_0) - \difk{f}{k}(x_0) 
+    - \sum_{t > k}\frac{\difk{f}{t}(x_0)}{(t - k)!}(x_0 - x_0)^{t - k} = 0$
+    
+        \subsection{误差估计}
+        Peano 余项：$$R_n(x) = o((x - x_0)^n)$$
+        证明：$f(x)$ 在 $x_0$ 处有 $n$ 阶导数，则只保证 $x_0$ 领域内有 $1\sim(n - 1)$ 阶连续导数，只能用 $n - 1$ 次洛必达法则。 \\
+        $\begin{aligned}
+            \lim_{x \to x_0} \frac{R_n(x)}{(x - x_0)^n} &= \mathop{\cdots}\limits^{\text{L'Hôpital}} = 
+            \lim_{x \to x_0} \frac{\difk{R_n}{n - 1}(x)}{n!(x - x_0)} 
+            = \frac{1}{n!}\lim_{x \to x_0} \frac{\difk{f}{n - 1}(x) - \difk{f}{n - 1}(x_0) - \difk{f}{n}(x_0)(x - x_0)}{x - x_0} \\
+            &= \frac{1}{n!} \lim_{x \to x_0} 
+                \left[\frac{\difk{f}{n - 1}(x) - \difk{f}{n - 1}{x_0}}{x - x_0} - \difk{f}{n}{x_0}\right] = 0
+        \end{aligned}$\\
+        最后一步源自 $f^{n}(x_0)$ 的定义。
+
+        Lagrange 余项：
+        $$R_n(x) = \frac{\difk{f}{n + 1}(\xi)}{(n + 1)!}(x - x_0)^{n + 1}, \; \xi \in x \sim x_0$$
+        证明：
+        $R_n(x) = \dfrac{\difk{f}{n + 1}(\xi)}{(n + 1)!}(x - x_0)^{n + 1} 
+        \iff \dfrac{R_n(x)}{(x - x_0)^{n + 1}} = \dfrac{\difk{f}{n + 1}(\xi)}{(n + 1)!}$ \\
+        连用 $n + 1$ 次 Cauchy 中值定理，每次从区间内取 $\xi_k$。\\
+        $\begin{aligned}
+            \dfrac{R_n(x)}{(x - x_0)^{n + 1}} &= \dfrac{R_n(x) - R_n(x_0)}{(x - x_0)^{n + 1} - (x_0 - x_0)^{n + 1}} = 
+            \dfrac{\difk{R_n}{1}(\xi_1)}{\difk{((x - x_0)^n)}{1}}
+            = \mathop{\cdots}\limits^{\text{如法炮制}} \\
+            &= \dfrac{\difk{R_n}{n}(\xi_n) - \difk{R_n}{n}(x_0)}{(n + 1)!(x - x_0) - (x_0 - x_0)} = 
+            \dfrac{\difk{f}{n + 1}(\xi)}{(n + 1)!}
+        \end{aligned}$
+
+        改写 Lagrange 余项（注意 $\theta$ 取值为开区间，但也可以取端点）：
+        $$R_n(x) = \dfrac{\difk{f}{n + 1}\left[x_0 + \theta(x - x_0)\right]}{(n + 1)!}(x - x_0)^{n + 1}, \; \theta \in (0, 1)$$
+
+        积分余项（注意阶乘为 $n$ 而非 $n + 1$）：
+        $$R_n(x) = \dfrac{\int_{0}^{1} (1 - t)^n\difk{f}{n + 1}(x_0 + t(x - x_0))\,\dif t}{n!} (x - x_0)^{n + 1}$$
+
+        Cauchy 余项（注意 $\theta$ 取值为闭区间，可能仅能取端点）：
+        $$R_n(x) = \dfrac{(1 - \theta)^n\difk{f}{n + 1}(x_0 + \theta(x - x_0))}{n!}(x - x_0)^{n + 1}, \; \theta \in [0, 1]$$
+        证明：对积分余项用积分中值定理。
+
+        \subsection{Maclaurin 公式}
+        $x_0 = 0, \, R_n(x) = \dfrac{\difk{f}{n + 1}(\theta x)}{(n + 1)!}x^{n + 1}$
+
+        \begin{longtable}[h]{w{l}{12cm}}
+            $\exp x = 1 + x + \dfrac{x^2}{2} + \dfrac{x^3}{3!} + \cdots + \dfrac{x^n}{n!} + \cdots$ \\
+            \addlinespace
+            $\ln(1 + x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dfrac{x^4}{4} 
+                + \cdots + (-1)^{k + 1}\dfrac{x^k}{k} + \cdots$ \\
+            \midrule
+            $\sin x = x - \dfrac{x^3}{3!} + \dfrac{x^5}{5!} - \dfrac{x^7}{7!} 
+                        + \cdots + (-1)^{k}\dfrac{x^{2k + 1}}{(2k + 1)!} + \cdots$ \\
+            \addlinespace
+            $\cos x = 1 - \dfrac{x^2}{2!} + \dfrac{x^4}{4!} - \dfrac{x^6}{6!}
+                        + \cdots + (-1)^{k}\dfrac{x^{2k}}{(2k)!} + \cdots$ \\
+            \midrule
+            $(1 + x)^\alpha = 1 + \alpha x + \dbinom{\alpha}{2}x^2 + \dbinom{\alpha}{3}x^3 
+                + \cdots + \dbinom{\alpha}{k}x^k + \cdots$ \\
+            \midrule
+            $\begin{aligned}
+                \dfrac{1}{1 + x} &= \dfrac{\dif}{\dif x}\ln(1 + x) \\
+                    &= 1 - x + x^2 - x^3 + \cdots + (-1)^kx^k + \cdots
+            \end{aligned}$ \\
+            $\dfrac{1}{1 - x} = 1 + x + x^2 + x^3 + \cdots + x^k + \cdots$ \\
+            \addlinespace
+            $\sqrt{1 + x} = 1 + \dfrac{1}{2}x - \dfrac{1}{8}x^2 + \cdots 
+                + (-1)^{k + 1}\dfrac{(2k - 3)!!}{(2k)!!}x^k + \cdots$ \\
+            \addlinespace
+            $\dfrac{1}{\sqrt{1 + x}} = 1 - \dfrac{1}{2}x + \dfrac{3}{8}x^2 
+                - \cdots + (-1)^k\dfrac{(2n - 1)!!}{(2n)!!}x^n + \cdots$
+        \end{longtable}
+        
+        \subsection{应用}
+        定量估计误差：Lagrange 余项。
+
+        近似计算。
+
+        求极限 / 高阶导数值：展开成多项式。
+
+        函数比大小：Lagrange 余项。适度展开，计算点值，etc。
+
+    \section{函数性质研究}
+        \subsection{单调性}
+        单调增/减：$f' \geqslant / \leqslant 0$。\\
+        严格单调：任意区间内不恒为 0。
+
+        \subsection{极值与最值}
+        驻点：$f'(x_0) = 0$ 的点 $x = x_0$。
+
+        判定：
+        \begin{itemize}
+            \item $f'(x_0)$ 不存在：\\
+                a. $\exists \uzero(x_0, \delta)$，$f'(x)(x - x_0) > 0$：极小值；\\
+                b. $\exists \uzero(x_0, \delta)$，$f'(x)(x - x_0) < 0$：极大值。
+            \item $f'(x_0)$ 变号：\\
+                a. 由负到正：极小值；\\
+                b. 由正到负：极大值。
+            \item $f'(x_0) = 0$，利用 $f''(x_0)$：\\
+                a. $f''(x_0) > 0$：极小值；\\
+                b. $f''(x_0) < 0$：极大值。
+            \item 推广：$\difk{f}{1}(x_0) = \cdots = \difk{f}{k - 1}(x_0) = 0, \, \difk{f}{k}(x_0) \neq 0$：\\
+                {\heiti 当且仅当 $k$ 为偶数}时，为极值；判定同二阶导。
+        \end{itemize}
+        证明：泰勒展开，Peano 余项即可。
+
+        极值点还可能包括{\heiti 不可导点}，但{\heiti 边界点依定义不是}。
+
+        最值点：极值点和边界点。
+
+        \subsection{凹凸性}
+        {\heiti 上凸 = 凸} = 下凹：从上/下方观察，曲线向 $y$ 轴正半轴方向凸出。
+
+        {\heiti 上凹 = 凹} = 下凸：从上/下方观察，曲线向 $y$ 轴负半轴方向凸出。
+
+        上凹的等价定义(上凸函数取反即得上凹函数)：
+        \begin{itemize}
+            \item $\forall P_1, P_2$，线段 $\overline{P_1P_2}$ 在弧 $\overset{\frown}{P_1P_2}$ 上方。
+            \item $\forall x_0, (x_0, f(x_0))$ 处切线在曲线下方。
+            \item $\forall x_1, x_2 \; f(\frac{x_1 + x_2}{2}) < \frac{1}{2}(f(x_1) + f(x_2))$。
+            \item $\forall x_1, x_2, \lambda \in (0, 1) \; 
+                f(\lambda x_1 + (1 - \lambda)x_2) < \lambda f(x_1) + (1 - \lambda)f(x_2)$。
+        \end{itemize}
+
+        可证明凸函数除了端点以外，为连续函数。
+
+        凹凸性判定：$\forall x \in I$：\\
+        a. $\difk{f}{2}(x) > 0$：上凹。 \\
+        b. $\difk{f}{2}(x) < 0$：上凸。 \\
+        证明：依据中点凸定义，在中点处泰勒展开，Peano 余项即可。
+        
+        拐点：凹凸性改变的点 $(x, y)$，$x$ 是{\heiti 一阶导极值点}。\\
+        拐点判定：$\difk{f}{2}(x) = 0$，必要{\heiti 不充分}。见极值点判定。
+
+        \subsection{渐近线}
+        水平 / 铅直：趋于 $\pm \infty$ / 奇点。
+
+        斜：$$\begin{aligned}
+            k &= \lim_{x \to \infty} \frac{f(x)}{x} \\
+            b &= \lim_{x \to \infty} (f(x) - kx)
+        \end{aligned}$$
+
+        \subsection{曲率}
+        $$k := \lim_{\Delta s \to 0} \left| \frac{\Delta\alpha}{\Delta s} \right| = \left|\frac{\dif\alpha}{\dif s}\right|$$
+
+        对于 $y = y(x)$，则 $\alpha = \alpha(x), s = s(x)$。具体地：
+
+        $\alpha$：
+        $\tan\alpha = y' \implies \alpha = \arctan y' \implies \dfrac{\dif\alpha}{\dif x} = \dfrac{y''}{1 + (y')^2}$。
+
+        $s$：
+        $\dif s = \sqrt{(\dif x)^2 + (\dif y)^2} \implies \dfrac{\dif s}{\dif x} = \sqrt{1 + (y')^2}$。
+
+        $$k = \left|\frac{\dif\alpha}{\dif s}\right| = \left| \frac{y''}{\left( 1 + (y')^2 \right)^{\frac{3}{2}}} \right|$$
+
+        曲率半径 $\rho := \frac{1}{k}$。\\
+        曲率圆：圆心在曲线凹向，与曲线相切（即共切线）。
+
+        \subsection{作图}
+        极坐标系 $r = r(\theta)$：先解 $\theta$ 范围。
+
+    \chapter{一元函数积分}
+    \section{常义}
+        \subsection{定义}
+        $$\int_{a}^{b} f(x)\dif x := \lim\limits_{d = \max\{\Delta x\} \to 0} \sum f(\xi_i)\Delta x_i$$
+
+        几何意义：面积代数和。定义：$\int_{b}^{a} := -\int_{a}^{b},\; \int_{a}^{a} := 0$
+
+        记 $M_k = \sup\{f(x): x \in [x_{k - 1}, x_k]\}, \; m_k = \inf\{f(x): x \in [x_{k - 1}, x_k]\}$。
+        定义 Darboux 大和 $S_n = \sum M_k\Delta x_k$，Darboux 小和 $s_n = \sum m_k\Delta x_k$。
+        则 Riemann 可积的充要条件是 $\lim_{d \to 0} S_n - s_n = 0$。
+
+        注：积分变量任意。$\int_{a}^{x} f(t)\dif t = \int_{a}^{x} f(x)\dif x$。
+
+        \subsection{可积}
+        \begin{itemize}
+            \item $f\in C[a, b]$。\\
+            证明：连续则{\heiti 一致连续}，则存在 $d$ 使 $\forall |u - v| < d, |f(u) - f(v)| < \epsilon$。
+            \item {\heiti 有界}函数 $f$ 在 $[a, b]$ 有有限个第一类间断点。
+            \item {\heiti 有界}函数 $f$ 在 $[a, b]$ 单调。
+        \end{itemize}
+        
+        \subsection{性质}
+        \begin{itemize}
+            \item 线性：$\int_{a}^{b} (\lambda f(x) + \mu g(x))\dif x = \lambda\int_{a}^{b}f(x)\dif x + \mu\int_{a}^{b}g(x)\dif x$。
+            \item 区间可加：$\int_{a}^{b} = \int_{a}^{c} + \int_{c}^{b}$。
+            \item 保序：$f(x) \leqslant g(x) \; \implies \; \int_{a}^{b} f(x)\dif x \leqslant \int_{a}^{b} g(x)\dif x$。\\
+                推论：$m(b - a) \leqslant \int_{a}^{b} f(x)\dif x \leqslant M(b - a)$；
+                $|\int_{a}^{b} f(x)\dif x| \leqslant \int_{a}^{b} |f(x)|\dif x$。\\
+                {\heiti 应用}：估值。
+            \item 积分中值定理：$f(x)$ {\heiti 连续}，$g(x)$ 不变号，
+                则 $\exists \xi \in [a, b], \; \int_{a}^{b} f(x)g(x)\dif x = f(\xi)\int_{a}^{b} g(x)\dif x$。\\
+                证明：不妨 $g \geqslant 0$，$m\int_{a}^{b} g \leqslant \int_{a}^{b} fg \leqslant M\int_{a}^{b} g 
+                \implies m \leqslant (\int_{a}^{b} fg) / (\int_{a}^{b} g) \leqslant M$。由拉格朗日中值即得。\\
+                推论：$\exists \xi, \; \int_{a}^{b} f(x)\dif x = f(\xi)(b - a)$。
+        \end{itemize}
+
+        \subsection{原理}
+        \begin{itemize}
+            \item Newton - Leibniz 公式：$$\int_{a}^{b} f(x)\dif x = F(x)|_a^b$$\\
+                证明：$F(b) - F(a) = \sum F(x_k) - F(x_{k - 1}) = \sum F'(\xi_k)\Delta x_k 
+                    = \sum f(\xi_k)\Delta x_k = \int_{a}^{b} f(x)\dif x$。
+        \end{itemize}
+        
+        积分上限函数：$\Phi(x) = \int_{a}^{x} f(t)\dif t$。基本定理：
+        \begin{itemize}
+            \item 第一：$f \in C[a, b]$，则 $$\Phi(x)' = \frac{\dif}{\dif x}\int_{a}^{x} f(t)\dif t = f(x)$$
+                {\heiti 说明连续函数必有原函数}。\\
+                证明：$\Delta\Phi(x) = \int_{x}^{x + \Delta x} f(t)\dif t = f(\xi)\Delta x$。
+            \item 第二：$F + C$ 为所有原函数。
+        \end{itemize}
+
+        {\heiti 积分上限求导}：
+        $$\Psi(x) = \int_{u(x)}^{v(x)} f(t)\dif t = -\int_{p}^{u(x)} + \int_{p}^{v(x)} 
+        \implies \frac{\dif}{\dif x}\Psi(x) = -f(u(x))u'(x) + f(v(x))v'(x)$$ 
+        为复合函数 $\Phi(u/v)$。若 $f(t)$ 为 $f(x, t)$，应先拆出 $x$。
+        
+    \section{计算}
+        \subsection{积分法}
+        \begin{itemize}
+            \item 换元：$$\dif F(\phi(x)) \iff F'(\phi(x))\,\dif\phi(x)$$
+                左到右：换元 $x = u(x)$，并且 $u(x)$ {\heiti 单调}；右到左：凑微分。\\
+                定积分换元：换变量同时换上下限。
+            \item 分布：$$\dif uv = v\dif u + u\dif v \; \implies \; \int v\dif u = uv - \int u\dif v$$
+                定积分分布：相同的上下限 $|_a^b,\, \int_{a}^{b}$。
+        \end{itemize}
+
+        \subsection{幂函数}
+        $$\int x^\alpha\,\dif x = 
+            \begin{cases}
+                \frac{1}{\alpha + 1}\, x^{\alpha + 1} + C &\alpha\neq -1 \\
+                \ln|x| + C &\alpha = -1
+            \end{cases}$$
+
+        \subsection{指数与对数}
+        $$\int \alpha^x\,\dif x = \frac{\alpha^x}{\ln\alpha} + C \quad \alpha > 0 \land \alpha \neq 1$$\\
+        特别地，$$\int e^x\,\dif x = e^x + C$$
+
+        $$\int\ln x\difx = x\ln x - x + C$$
+
+        $e^x$ 与常数的分式：强行提出 $e^x$ 使 $\difx \to \dif t := \dif e^x$。换元化为有理函数。
+
+        $\int e^x(f(x) + f'(x))\difx = e^xf(x) + C$。
+
+        \subsection{（反）三角函数}
+        \begin{itemize}
+            \item 基础
+                \begin{longtable}[h]{*{2}{w{l}{8cm}}}
+                    $\int \sin x\,\dif x = -\cos x + C$ & $\int \cos x\,\dif x = \sin x + C$\\
+                    &\\
+                    $\int \cot x\,\dif x = -\ln|\sin x| + C$ & $\int \tan x\,\dif x = -\ln|\cos x| + C$\\
+                    $\int \csc^2 x\difx = -\cot x + C$ & $\int \sec^2 x\difx = \tan x + C$\\
+                    &\\
+                    $\int \csc x\difx = -\ln|\csc x + \cot x| + C$ & $\int \sec x\difx = \ln|\sec x + \tan x| + C$\\
+                    $\int \csc x \cot x\difx = -\csc x + C$ & $\int \sec x \tan x\difx = \sec x + C$\\
+                    &\\
+                    $\int \frac{\dif x}{\sqrt{1 - x^2}} = \arcsin x + C = -\arccos x + C$ & 
+                    $\int \frac{\dif x}{1 + x^2} = \arctan x + C$
+                \end{longtable}
+                证明：$\int \tan$：换元 $\sin x\difx = -\dif\cos x$。\\
+                    $\int \sec$：$(\sec + \tan)' = \sec\tan + \sec^2 = \sec(\sec + \tan) 
+                                \implies \sec = \frac{(\sec + \tan)'}{\sec + \tan}$\\
+                    或：$\int\sec\difx = \int \frac{\cos x}{\cos^2 x}\dif x = \int \frac{\dif\sin x}{1 - \sin^2 x}$
+            
+            \item 万能代换
+                $$\begin{aligned}
+                    t &= \tan\frac{x}{2}\quad &\dif x &= \frac{2}{1 + t^2}\dif t\\
+                    \sin x &= \frac{2t}{1 + t^2}\quad &\cos x &= \frac{1 - t^2}{1 + t^2}
+                \end{aligned}$$\\
+                证明：$x = 2\arccos t$；二倍角公式展开，除以 $1 = \sin^2 x + \cos^2 x$，同除 $\cos^2 x$。
+
+            \item 分式\\
+                分母齐次：提 $\cos^2 x$，凑 $\dif x \to \dif\tan x$。利用二倍角凑出二次式以便换元。\\
+                $\int \dfrac{a\cos x + b\sin x}{c\cos x + d\sin x}\dif x$：
+                    拆分子为 $\lambda(c\cos x + d\sin x) + \mu(c\cos x + d\sin x)'$。
+        \end{itemize}
+
+        \subsection{换元}
+        $\dfrac{1}{a^2 + x^2}, \dfrac{1}{\sqrt{a^2 - x^2}} \; \implies \; \arctan, \arcsin$。
+
+        $\sqrt[n]{ax + b}$：令 $t = \sqrt[n]{ax + b}$，反解 $x$。
+
+        $\sqrt{x^2 \pm a^2}, \sqrt{a^2 \pm x^2}$：构造直角三角形，其中一边为 $a$。换元 $\theta$，以三角函数表示其他边。\\
+        二次式：配方化为上述。
+
+        $(x \pm \frac{1}{x})' = 1 \pm \frac{1}{x^2}$，除以 $x^2$ 构造 
+        $(x \pm \frac{1}{x}),\, (x \pm \frac{1}{x})^2, \, (1 \pm \frac{1}{x^2}), \, \mathrm{etc.}$
+
+        \subsection{分布}
+        优先级：反函数 $\to$ 对数 $\to$ 幂函数 $\to$ 三角函数 $\to$ 指数函数\\
+        在 $u\dif v$ 中，前面的优先视为 $u$ 来求导。
+
+        间接积分：
+        \begin{itemize}
+            \item $\sin, \cos$：多次求导会恢复，继而可列方程求解（如果积分存在）。\\
+                此外，等式两侧同时消去 $\int f(x)\difx$ 会留下一个常数 $C$，本质是函数族。
+            \item 递归：构造同构
+                $$\begin{aligned}
+                    I_n &= \int \tan^n\difx = \int \tan^{n - 2}x (\sec^2 - 1)\difx
+                        = \int \tan^{n - 2}x\,\dif\tan x - \int\tan^{n - 2}x\difx \\
+                    \implies &I_n = \frac{1}{n - 1}\tan^{n - 1}x - I_{n - 2}
+                \end{aligned}$$
+                
+                $$\begin{aligned}
+                    J_n &= \int_{0}^{\pi / 2} \sin^n\difx = \int_{0}^{\pi / 2} \cos^n\difx \text{ 证明：换元。} \\
+                    J_n &= \int_{0}^{\pi / 2} \sin^{n - 2}x (1 - \cos^2 x)\difx 
+                        = J_{n - 2} - \int_{0}^{\pi / 2} \sin^{n - 2}x \cos x \,\dif\sin x \\
+                        &= J_{n - 2} - \int_{0}^{\pi / 2} \cos x \,\dif \frac{1}{n - 1}\sin^{n - 1} x \\
+                        &= J_{n - 2} - \frac{1}{n - 1}\cos x \sin^{n - 1} x |_{0}^{\pi / 2} 
+                            - \frac{1}{n - 1}\int_{0}^{\pi / 2} \sin^n x\difx \\
+                    \implies &J_n = \frac{n - 1}{n} J_{n - 2}\\
+                    \implies &J_n = \frac{(n - 1)!!}{n!!} J_{n \bmod 2} \quad (J_0 = \pi / 2, \; J_1 = 1)
+                \end{aligned}$$
+        \end{itemize}
+
+        \subsection{有理函数}
+        有理真分式 $R(x) = P(x) / Q(x)$，不妨 $Q(x)$ 为首一多项式，\\
+        在 $\field{F} = \field{R}$ 分解分母得 $Q(x) = \prod (x - a)^{k} \, \prod (x^2 + px + q)^{r}$。
+        其中二次式对应一对共轭复根。\\
+        则 $R(x)$ 总能分解为 $$R(x) = \sum\sum_{t = 1}^k \frac{A}{(x - a)^t} + \sum\sum_{t = 1}^r \frac{Ax + B}{(x^2 + px + q)^t}$$
+        分式个数至多与 $Q(x)$ 的因式个数相同。
+
+        证明：先按不同的根分类，再对每个根证明可拆分为一串分母幂次递增的分式和。数论在多项式的推广作为第一步的基础。
+        \begin{itemize}
+            \item 引理之引理：$f_{1 \sim n} \in \poly$，记 $S = \{\sum u_i f_i : u_{1 \sim n} \in \poly\}$
+            则存在 $g \in \poly$，使得 $S = g\poly$。\\
+                证明：任取 $g$ 为 $S$ 中一个次数最低的多项式，设 $g = \sum u_i f_i$。用 $g$ 除每个 $f_i$：$f_i = p g + r$。\\
+                $r = f_i - pg$ 展开仍为 $f_{1 \sim n}$ 的组合。若 $\deg r > -\infty$，
+                则 $r \in S$，而除法约束 $\deg r < \deg g$，则矛盾。\\
+                故 $r = 0$，于是 $g | f_i$ 对所有 $f_i$ 均成立。
+            \item 引理 1：$f_{1 \sim n} \in \poly$，记 $g$ 为 $f_{1 \sim n}$ 的首一最大公因子，
+            则 $\exists u_{1 \sim n} \in \poly$，使得 $\sum u_i f_i = g$。\\
+                证明：由引理知 $\exists g$，$\forall f_i, \, g | f_i$。
+                又有 $\forall f_i, \; d | f_i \; \iff \; \forall x \in S, \; d | x \; \iff \; d | g$，
+                足以说明 $g$ 为 $\gcd$。\\
+                $g \in S$ 说明 $u_{1 \sim n}$ 的存在性。
+            \item 引理 2：不妨 $q \in \poly, \; q \neq 0$。对任意 $f \in \poly$，
+            存在 $\{u_{n - 1}\}$ 满足 $\forall \deg u_i < \deg q$，
+            并且 $f = \sum_{i = 0}^{n - 1} u_i q^i$。\\
+                证明：通俗地讲，这就是 $f$ 在 $q$ 进制下展开。不断做除法取余“数”，即得 $u$。\\
+                {\heiti 推论}：同除 $q^n$，
+                则 $\dfrac{f}{q^n} = \sum_{i = 0}^{n - 1} \dfrac{u_i}{q^{n - i}} = \sum_{i = 1}^{n} \dfrac{v_i}{q^i}$。
+            \item 证明：设 $Q(x) = \prod q_i^{k_i}$ 为因式分解，其中 $\deg q_i = 1/2$（实根或共轭复根）。
+                记 $f_i = q_i^{k_i}$ 合并了所有重根，再记 $h_i = Q(x) / f_i(x)$。\\
+                显然 $h_i = \prod_{j \neq i} q_j^{k_j}$，所有 $\{h_n\}$ 没有公因式，即 $g = 1$。
+                由引理 1，存在 $\{u_n\}$ 使 $P(x) = g P(x) = \sum u_i h_i = \sum u_i Q / f_i$ 成立。\\
+                同除 $Q(x)$，得 $\dfrac{P(x)}{Q(x)} = \sum \dfrac{u_i}{f_i} = \sum \dfrac{u_i}{q_i^{k_i}}$。\\
+                对其中的每一项，由引理 2 可以展开，至此完成了全部论述。
+        \end{itemize}
+
+        为求分解，可待定系数，或凑。多项式除法。
+
+        对每一类分别积分即可：
+        \begin{itemize}
+            \item $\int \frac{\dif x}{(x - a)^t}$：同幂函数。
+            \item $\int \frac{Ax + B}{(x^2 + px + q)^t}$：\\
+                先拆分：$Ax + B = \lambda(2x + p) + \mu = \lambda(x^2 + px + q)' + \mu$，
+                对二次式整体换元，为幂函数。\\
+                复根则有 $\Delta < 0$，故配方得 $x^2 + px + q = (x + \phi)^2 + v^2$。
+                换元 $u = x + \phi$。\\
+                后者化为 $I_t = \int\frac{\dif u}{(u^2 + v^2)^t}$。
+
+                $$\begin{aligned}
+                    I_n &= \frac{u}{(u^2 + v^2)^n} - \int u \frac{-n \cdot 2u}{(u^2 + v^2)^{n + 1}}\dif u
+                        = \frac{u}{(u^2 + v^2)^n} + 2n\int \frac{u^2}{(u^2 + v^2)^{n + 1}}\dif u\\
+                        &= \frac{u}{(u^2 + v^2)^n} + 2n\int \frac{(u^2 + v^2) - v^2}{(u^2 + v^2)^{n + 1}}\dif u\\
+                        &= \frac{u}{(u^2 + v^2)^n} + 2nI_n - 2nv^2I_{n + 1}\\
+                    \implies &I_{n + 1} = \frac{u}{2nv^2(u^2 + v^2)^n} + \frac{2n - 1}{2nv^2}I_n 
+                    \quad I_1 = \frac{1}{v}\arctan\frac{u}{v} + C
+                \end{aligned}$$
+        \end{itemize}
+
+        \subsection{特殊函数}
+        对称区间上奇偶函数定积分：显然。注意需要为{\heiti 常义积分}。
+
+        周期函数：一个周期内定积分不变。证明：换元使整体平移。
+
+        复杂三角函数：先限制到一个周期，证明一个周期的积分为 0。\\
+        方向：$f(x) + f(-x) = 0, \; f(x) + f(x + \pi) = 0$
+
+    \section{广义积分}
+        \subsection{定义}
+        无穷积分：$$\int_{a}^{+\infty} f(x)\difx := \lim_{b \to +\infty} \int_{a}^{b} f(x)\difx$$
+        若存在{\heiti 有穷}极限则称原式收敛，否则发散。\\
+        {\heiti 无上下界积分}：
+        $\exists t, \; \int_{-\infty}^{+\infty} = \int_{t}^{+\infty} + \int_{-\infty}^{t}$ {\heiti 均收敛}则称收敛。
+        易知收敛时，$t$ 的选取没有任何影响。
+
+        瑕积分：在 $x = a$ 附近无界 
+        $$\int_{a}^{b} f(x)\difx := \lim_{\varepsilon \to 0^+} \int_{a + \varepsilon}^{b} f(x)\difx$$
+        若存在{\heiti 有穷}极限则称原式收敛，否则发散。\\
+        {\heiti 区间内的瑕点积分}：
+        $\int_a^b = \lim_{\varepsilon \to 0^-} \int_{a}^{c + \varepsilon} + \lim_{\delta \to 0^+} \int_{c + \delta}^b$ 
+        均收敛则称收敛。{\heiti 两个极限过程独立}。
+
+        瑕积分可转化为无穷积分，换元 $a + \frac{1}{t}$。
+
+        \subsection{性质}
+        对定积分成立的性质均成立。
+
+        Newton - Leibniz 公式：问题归为原函数在无穷远处 / 瑕点处是否收敛 / 有单侧极限。
+
+        \subsection{审敛法}
+        准则对任意一种广义积分均成立。
+
+        比较准则 I：$0 \leqslant f(x) \leqslant g(x)$，有：\\
+        a. $\int g(x)\difx$ 收敛，则 $\int f(x)\difx$ 收敛；\\
+        b. $\int f(x)\difx$ 发散，则 $\int g(x)\difx$ 发散。
+
+        比较准则 II：$f(x) \geqslant 0, \, g(x) > 0$，记趋于远处/瑕点时 $\lim \frac{f(x)}{g(x)} = \lambda$，有：\\
+        a. $\lambda > 0$：$\int f(x)\difx$ 和 $\int g(x)\difx$ 同时收敛或同时发散；\\
+        b. $\lambda = 0$：（说明 $f << g$，）$\int g(x)\difx$ 收敛则 $\int f(x)\difx$ 收敛；\\
+        c. $\lambda = +\infty$：（说明 $f >> g$），$\int g(x)\difx$ 发散则 $\int f(x)\difx$ 发散。\\
+        （总之，用分母的 $g$ 的收敛性判定分子的 $f$。二者的积分上限函数均单增，故有上界则有极限。）
+
+        绝对收敛准则：若 $\int |f(x)|\difx$ 收敛，则 $\int f(x)\difx$ 收敛，称绝对收敛。\\
+        若 $\int |f(x)|\difx$ 发散，但 $\int f(x)\difx$ 收敛，称条件收敛。\\
+        证明：$0 \leqslant f(x) + |f(x)| \leqslant 2|f(x)|$，由极限的四则运算知收敛。
+
+        实践上，取 $g(x) = 1 / x^p$。$p = 1$ 恒发散，不同积分的敛散性相反。
+        \begin{longtable}[h]{w{c}{2cm}*{2}{|w{c}{6cm}}}
+            $\int_I \frac{\dif x}{x^p}$ & 瑕积分 $I = (0, a]$ & 无穷积分 $I = [a, \infty)$ \\
+            \midrule
+            $0 < p \leqslant 1$         & 发散                & 收敛 \\
+            \midrule
+            $1 < p$                     & 收敛                & 发散 
+        \end{longtable}
+
+        比较 $f(x)$ 与 $\frac{C}{x^p} / \frac{C}{(x - a)^p}$ 或讨论 $\lim x^pf(x) / (x - a)^pf(x)$。
+        
+    \section{应用}
+    \begin{itemize}
+        \item 级数求极限：除 $n$ 使 $\sum \Delta = C$。
+        \item 弧长：$\dif l = \sqrt{(\dif x)^2 + (\dif y)^2}$\\
+            极坐标：换元 $x = \rho\cos\theta, y = \rho\sin\theta$，求导按乘积求导，\\
+                有 $\dif l = \sqrt{[\rho'(\theta)]^2 + [\rho(\theta)]^2}\,\dif\theta$。
+        \item 面积：\\
+            极坐标：扇形近似 $\rho = \rho(\theta), \, \dif S = \frac{1}{2} \rho^2 \,\dif\theta$。
+        \item 体积：\\
+            层切 $\dif V = \pi r^2 \,\dif h$；柱剥：$\dif V = 2\pi h \,\dif r$。
+        \item 含 $\int$ 的函数方程：求导，化为一般或微分方程。\\
+            {\heiti 积分上下界相同}时为零，是一个{\heiti 初值}。
+    \end{itemize}
+
+    \chapter{常微分方程}
+    \section{定义}
+    常微分方程：$y = y(x)$，唯一的自变量是 $x$。
+
+    阶：方程中的最高阶导数。e.g. $y'' + x^3y = 0$ 二阶。
+
+    次：因变量或其导数的最高幂次。e.g. $y' + x^3y^2 + x^5 = 0$ 一阶二次。
+
+    齐次：等式右侧是否为 $0$。区分像是零空间还是零空间的平移，与“次”的概念无关。\\
+    齐次在多项式中又有次数相同义，依上下文区分。
+
+    解：代入 $y = y(x)$ 得到恒等式。
+
+    通解：含有任意常数的解，且相互独立的常数个数恰为阶数。相当于一个解的集合。\\
+    e.g. $\dif^n y / \dif x^n = f(x)$，连续 $n$ 次积分。
+    通解形如 $y(x) = y_0(x) + \mathrm{Poly}$，$n$ 次多项式的低 $n - 1$ 位在方程中均被抹去。\\
+    {\heiti 通解未必包含全部解}。部分解为单点，产生自分母恒为零等平凡情况。
+
+    特解：不含任意常数。相当于解集的一个元素。
+
+    \section{一阶及本质一阶}
+        \subsection{一阶线性}
+        形式：$$\frac{\dif y}{\dif x} + P(x)y = Q(x)$$
+
+        先齐次：$\dfrac{\dif y}{\dif x} + P(x)y = 0 \implies \dfrac{\dif y}{y} = -P(x)\difx 
+        \implies y = C\exp\left[-\int P(x)\difx\right]$
+
+        再非齐次：记 $\lambda = \exp\left[-\int P(x)\difx\right]$，$y = u(x)\lambda(x)$ 带入方程：\\
+        $u'\exp - P\lambda u + Pu\lambda = Q \implies \dfrac{\dif u}{\dif x} = \dfrac{Q}{\lambda} 
+            \implies u(x) = \int \frac{Q(x)}{\lambda(x)} \difx$
+
+        综上，零解 + 特解
+        $$y = C\exp\left[-\int P(x)\difx\right]\difx 
+            \; + \; \exp\left[-\int P(x)\difx\right]\int Q(x)\exp\left[\int P(x)\difx\right]\difx$$
+        
+        \subsection{分离变量}
+        形式：$$\frac{\dif y}{\dif x} = f(x)g(y) \implies \int \frac{\dif y}{g(y)} = \int f(x)\difx$$
+
+        一般求通解不考虑分母为零等平凡情况。但这些平凡情况可能不能被通解表示。\\
+        绝对值包含在 $C$ 中：$\ln|y| \to C\ln y$。
+
+        化为分离变量：{\heiti 换元}。特别地，{\heiti 齐次}方程可换元。
+        \begin{itemize}
+            \item 齐次整式方程：尝试同除构造 $f(\dfrac{y}{x})$。
+            \item  $\dfrac{\dif y}{\dif x} = f(\dfrac{y}{x})$：\\
+                换元 $t = \dfrac{y}{x}$，则 $\dif y = \dif(tx) = t\difx + x\,\dif t$。\\
+                $\implies x\dfrac{\dif t}{\dif x} + t = f(t) \implies \dfrac{\dif t}{f(t) - t} = \dfrac{\dif x}{x}$。
+            \item $\dfrac{\dif y}{\dif x} = f(\dfrac{ax + by + c}{Ax + By +C})$：\\
+                考虑作换元（平移）$z = x + x_0$，$w =  y + y_0$，希望消去 $c, C$ 使之同上。\\
+                解 $\begin{cases}
+                    ax_0 + by_0 + c = 0 \\
+                    Ax_0 + By_0 + C = 0
+                \end{cases}$\\
+                默认不可约，故不会无穷多解。有唯一解，则已完成。\\
+                无解，说明为两条平行线。记分子为 $u$，则分式形如 $\dfrac{u}{\lambda u + C'}$，以 $u$ 换 $y$ 可分离变量。
+        \end{itemize}
+
+        \subsection{可降阶}
+        \begin{itemize}
+            \item $\difk{y}{n} = f(x)$ \\
+                $n$ 次积分。
+            \item 不显含 $y$：$y'' = f(x, y')$ \\
+                换元 $p = \dfrac{\dif y}{\dif x}$，化为一阶 $\dfrac{\dif p}{\dif x} = f(x, p)$，再积分得 $y$。
+            \item 不显含 $x$：$y'' = f(y, y')$ \\
+                设 $\dfrac{\dif y}{\dif x} = p(y)$ 不显含 $y$，
+                则 $y'' = \dfrac{\dif p(y)}{x} = \dfrac{\dif p}{\dif y} \cdot \dfrac{\dif y}{\dif x} 
+                        = p\dfrac{\dif p}{\dif y}$，\\
+                化为 $p \cdot p' = f(y, p)$。
+            \item Bernoulli 方程：$$\frac{\dif y}{\dif x} + P(x)y = Q(x)y^\alpha$$
+                同除 $y^\alpha$，换元 $u = y^{1 - \alpha}$。\\
+                $P(x)y \implies P(x)u$，
+                $y^{-\alpha}\,\dif y \implies \frac{1}{1 - \alpha}\dif u$。
+        \end{itemize}
+
+    \section{高阶线性方程}
+        \subsection{解的结构}
+        线性方程：未知数及各阶导数均为一次。形式：$\sum\limits_{i = 0}^{n} p_i(x) y^{(i)}(x) = f(x)$。
+
+        初值条件：点值 $(x_0, y(x_0),\, y^{(1)}(x_0),\, \cdots,\, y^{(n - 1)}(x_0))$。($n$ 阶导数是变量，故任意指定仍可有解。)\\
+        {\heiti 解的存在唯一性定理}：若 $\{p_n(x)\}, f(x)$ 均在区间 $I$ 上连续，则存在{\heiti 唯一}满足初值条件的解，
+        其中 $x_0 \in I$。
+
+        线性微分算子：$L() = \sum\limits_{i = 0}^{n} p_i(x) \dfrac{\dif^i}{\dif x^i} ()$。不难发现满足：\\
+        a. $L(0) = 0$\\
+        b. $L(u + v) = L(u) + L(v)$\\
+        c. $L(\lambda u) = \lambda L(u), \; \lambda \in \field{R}$\\
+        为 $\poly \to \poly$ 的线性映射。
+
+        线性相关：$\exists \lambda_{1 \sim n} \in \field{R}$，使得 $\sum \lambda_i f_i(x) \equiv 0$ 在区间 $I$ 上恒成立。
+        线性无关同理。
+
+        判定线性相关性：是否存在一列不全为零的实数 $\{\lambda_n\}$，使得 $\sum\lambda_i f_i(x) \equiv 0$？\\
+        将恒等式两边分别求导，仍为恒等式，则 $\forall k$，$\sum\lambda_i f_i^{(k)}(x) \equiv 0$。
+        让 $k$ 取遍 $0 \sim n - 1$，则得 $n$ 个等式。\\
+        考虑带入一点 $x = x_0$，则所有函数化为常数，变为线性方程组 $\mat{A\lambda} = \mat{0}$，由此引出行列式。
+
+        Wronski 行列式：
+        $$w(x_0) = 
+        \begin{vmatrix}
+            f_1(x_0) & f_2(x_0) & \cdots & f_n(x_0) \\
+            f_1^{(1)}(x_0) & f_2^{(1)}(x_0) & \cdots & f_n^{(1)}(x_0) \\
+            \vdots & \vdots & \ddots & \vdots \\
+            f_1^{(n - 1)}(x_0) & f_2^{(n - 1)}(x_0) & \cdots & f_n^{(n - 1)}(x_0)
+        \end{vmatrix}$$
+        $\{f_n\}$ 在 $I$ 上线性无关则 $w(x_0) \neq 0$。
+        进一步地，若线性无关则 $\forall x_0 \in I$，$w_(x_0) \neq 0$。故 $w(x_0)$ 要么恒非零，要么恒为零。\\
+        若{\heiti 限制}函数均为{\heiti 线性微分方程的解}，则 $w(x_0) \neq 0$ 说明 $\{f_n\}$ 线性无关。即该条件{\heiti 充要}。
+
+        证明：充分性：线性无关，则任意点处向量 $(f_i(x_0),\, f_i^{(1)}(x_0), \, \cdots \, f_i^{(n - 1)}(x_0))$ 也都线性无关。
+        因此方程组有且仅有零解，即 $\det \neq 0$。\\
+        必要性：说明有非零解既线性相关。在该点解出一组 $\{\lambda_n\}$，但需说明在所有点处均成立。记 $f^\ast = \sum\lambda_i f_i(x)$，
+        为原线性微分方程满足初值条件 $(x_0, 0, \cdots, 0)$ 的解。
+        而 $y = 0$ 亦为解，由解的存在唯一性定理知 $f^\ast \equiv 0$，因而线性相关。
+
+        解的结构：零空间的平移，零解 + 特解。
+
+        零空间：$\dim \ker L = n$。\\
+        证明：任取 $x_0 \in I$，取 $n$ 个初值条件 $\{\mat{v}_n\}$，其中 $\mat{v}_i$ 除指定 $x_0, y^{(i)} = 1$ 外均为零。
+        知存在 $n$ 个解 $\{y_n\}$，而显然 $w(x_0) = 1$，故线性无关。又 $\dim$ 不会大于 $n$，于是恰为 $n$。
+
+        进一步地，$L(u) = f(x), \; L(v) = g(x) \; \implies \; L(u + v) = f(x) + g(x)$。\\
+        因此本质上只需对每个单项式求特解，加起来即可。
+
+        \subsection{常系数线性方程}
+        常系数：$\forall p_i(x) = a_i \in \field{R}$。形式 $\sum\limits_{i = 0}^{n} a_i y^{(i)} = f(x)$
+
+        先求零空间。猜测有形如 $y = \exp(\lambda x)$ 的解。\\
+        代入：$\sum\limits_{i = 0}^{n} a_i \lambda^i \exp(\lambda x) = 0 \;\implies\; \sum a_i \lambda^i = 0$。
+
+        特征方程：$\sum a_i \lambda^i = 0$，以幂换导。\\
+        特征根/特征值：$\lambda$，代数基本定理保证 $\field{C}$ 内恰有 $n$ 个根。
+
+        定义 $\exp(z) := \lim_{n \to \infty} (1 + \frac{z}{n})^n$。可证明极限对任意 $z$ 均存在。\\
+        欧拉公式：$$\exp(\imunit \theta) = \cos\theta + \imunit\sin\theta$$
+        对于一对共轭复根 $z = \alpha \pm \beta\imunit$，取其等价的线性组合代替之，使全部运算限制在 $\field{R}$ 内：
+        $$\begin{aligned}
+            \frac{1}{2}(\exp(zx) + \exp(\bar{z}x)) = \exp\cos(\beta x) \\
+            \frac{1}{2\imunit}(\exp(zx) + \exp(\bar{z}x)) = \exp\sin(\beta x)
+        \end{aligned}$$
+
+        对于 $k$ 重根 $\lambda$，仅知一解 $\exp(\lambda x)$。为求其他线性无关解，可设 $y(x) = u(x)\exp(\lambda x)$，
+        其中 $u(x)$ 为一非常值函数（否则必然被 $\exp(\lambda x)$ 包含）。不妨指定 $a_n = 1$ 使特征多项式首一。将 $y(x)$ 带入方程：
+        $$\begin{aligned}
+            \sum_{i = 0}^{n} a_i (u(x)\exp(\lambda x))^{(i)}
+            & = \sum_{i = 0}^{n} a_i \sum_{j = 0}^{i} \binom{i}{j} u^{(j)} \lambda^{i - j} \exp(\lambda x) & \text{（Leibniz）} \\
+            & = \exp(\lambda x) \sum_{j = 0}^{n} u^{(j)} \lambda^{-j} \sum_{i = j}^{n} a_i \binom{i}{j} \lambda^{i}
+        \end{aligned}$$
+
+        $|\exp(\alpha + \beta\imunit)| = |\exp(\alpha)(\cos\beta + \imunit\sin\beta)| = \exp(\alpha)$，
+        故即使在 $\field{C}$ 内 $\exp(x)$ 仍恒非零。\\
+        手玩若干简单例子发现，$\forall t = 0 \sim k - 1$，$u^{(t)}$ 的系数总为零，但对更高次导数的系数则未必。
+        如果这条结论成立，则任取 $u$ 满足 $u^{(k)} = 0$ 均能使方程成立。
+        取 $u = x, \, x^2, \, \cdots, \, x^{k - 1}$。它们及 $u = 1$ 时的 $k$ 个解显然线性无关。
+
+        试证明之。$\sum a_i \lambda^i = \prod (\lambda - \lambda_i)$，于是 $a_i$ 即为所有选 $n - i$ 个 $-\lambda_j$ 的乘积之和。
+        记 $b_t$ 为 $u^{(t)}\lambda^{-t}$ 的系数。对 $0 \leqslant t < k$，有：
+        $$b_t = \sum_{i = t}^{n} \binom{i}{t} \lambda^{i} \sum_{|S| = n - i} \prod_{j \in S} (-\lambda_j)$$
+
+        证明为零，自然地考虑抵消。在 $S$ 中选择 $\lambda$ 自带负号，而 $\lambda^i$ 中没有。不妨将 $\lambda$ 数量相同的项一起考虑。
+        记 $T = \{j \in S: \, \lambda_j \neq \lambda\}$。若能抵消，则两项的 $T$ 很可能相同，毕竟其他根没有受到任何限制。
+        另一方面，$|T| \leqslant n - k$，而最大的 $|S| = n - t > n - k$，说明任意 $T$ 总能出现在某个 $S$ 中。
+        再记 $U = \{j \in [1, n] \cap \field{N}: \, \lambda_j \neq \lambda\}$。换言之，如果在最外层求和中枚举 $T$，
+        则 $T$ 自然遍历 $U$ 的所有子集。按直觉这样是对的。于是有：
+        $$\begin{aligned}
+            b_t & = \sum_{i = t}^{n} \binom{i}{t} \lambda^i \sum_{p = 0}^{\min\{n - p, k\}} \binom{k}{p}(-\lambda)^{p}
+            \sum_{T \subset U, |T| = n - i - p} \prod_{j \in T} (-\lambda_j) & \\
+            & = \sum_{i = t}^{n} \binom{i}{t} \lambda^i \sum_{p = 0}^{n - p} \binom{k}{p}(-\lambda)^{p}
+            \sum_{T} \prod (-\lambda_j) & \text{（}p > k\text{ 时自然为零）} \\
+            & = \sum_{T \subset U} \prod_{j \in T} (-\lambda_j) 
+            \sum_{p = 0}^{\min\{n - t, n - |T| - t\}} \binom{k}{p} (-\lambda)^p \binom{n - |T| - p}{t} \lambda^{n - |T| - p}
+            & \text{（}i = n - |T| - p \geqslant t\text{）} \\
+            & = \sum_{T \subset U} \prod_{j \in T} (-\lambda_j) \lambda^{n - |T|} 
+            \sum_{p = 0}^{n - |T| - t} (-1)^p \binom{k}{p} \binom{n - |T| - p}{t}
+        \end{aligned}$$
+
+        记 $m = n - |T| \geqslant k$，
+        $w = \sum\limits_{p = 0}^{m - t} (-1)^p \binom{k}{p}\binom{m - p}{t} 
+        = \sum\limits_{p \leqslant m} (-1)^p \binom{k}{p}\binom{m - p}{t}$（放宽限制）。似乎唯一的希望在于 $w \equiv 0$。
+        程序验证大有裨益：对充分多的 $t < k \leqslant m$，上式均为零。
+        特别地，任一不等号不成立则 $w \not\equiv 0$，以及 $t = k \leqslant m$ 时 $w \equiv 1$。
+
+        世外高人 {\color{red}{$\text{M}$}}{\color{black}{$\text{atrixGroup}$}} 指出
+        $$w = [x^m](1 - x)^k\frac{x^t}{(1 - x)^{t + 1}}$$
+
+        解读：枚举前一项对幂次的贡献 $p$，对应于 $(-1)^p\binom{k}{p}$。
+        改写第二个组合数，$\binom{m - p}{t} = \binom{m - p}{m - p - t}$。这里 $m - p$ 整体作为变量，是它贡献的幂次。
+        上下指标的差恒为 $t$，启示：
+        $$\frac{1}{(1 - x)^{t + 1}} = \sum \binom{t + n}{n} x^n$$
+        对比原式，应让系数整体向高位偏移 $t$，综上得到 $x^t / (1 - x)^{t + 1}$。
+
+        最后一步已经呼之欲出：
+        $$w = [x^m](1 - x)^k\frac{x^t}{(1 - x)^{t + 1}} = [x^{m - t}](1 - x)^{k - t - 1}$$
+        当 $t < k \leqslant m$ 时，$k - t - 1 \geqslant 0$ 为多项式，而 $m - t > k - 1 - t$ 严格大于多项式次数，系数显然为零。\\
+        （$t = k$ 时，$1 / (1 - x)$ 对应的数列为 $(1, 1, 1, \cdots)$，所以 $w \equiv 1$。）
+
+        \begin{itemize}
+            \item $k$ 重实根 $\lambda$：\\
+                $\exp(\lambda x), \, x\exp(\lambda x), \, \cdots, \, x^{k - 1}\exp(\lambda x)$
+            \item $k$ 重共轭复根 $\alpha \pm \beta\imunit$：
+                \begin{longtable}[h]{*{2}{w{c}{4cm}} w{c}{0.5cm} w{c}{4cm}}
+                    $\exp(\alpha x)\cos(\beta x)$ & $\exp(\alpha x)\cdot x\cos(\beta x)$ 
+                    & $\cdots$ & $\exp(\alpha x)\cdot x^{k - 1}\cos(\beta x)$ \\
+                    $\exp(\alpha x)\sin(\beta x)$ & $\exp(\alpha x)\cdot x\sin(\beta x)$ 
+                    & $\cdots$ & $\exp(\alpha x)\cdot x^{k - 1}\sin(\beta x)$
+                \end{longtable}
+        \end{itemize}
+
+        特解：待定系数。$k$ 重根补 $x^k$ 的证明同上，低 $k$ 位系数均零。
+        \begin{itemize}
+            \item $F(x) = \varphi(x)\exp(\mu x)$，其中 $\varphi(x) \in \mathrm{Poly}$：\\
+                $y^\ast = x^k P(x) \exp(\mu x)$，\\
+                其中 $\mu$ 为 $k$ 重实根，$P(x) \in \mathrm{Poly}, \deg P(x) = \deg\varphi(x)$。
+            \item $F(x) = \varphi(x)\exp(\mu x)\cos(\nu x) \, / \, \varphi(x)\exp(\mu x)\sin(\nu x)$，
+                其中 $\varphi(x) \in \mathrm{Poly}$：\\
+                $y^\ast = x^k\exp(\mu x)[P_1(x)\cos(\nu x) + P_2(x)\sin(\nu x)]$，\\
+                其中 $\mu \pm \nu\imunit$ 为 $k$ 重共轭复根，
+                $P_1(x),P_2(x) \in \mathrm{Poly}, \deg P_1(x) = \deg P_2(x) = \deg\varphi(x)$。
+        \end{itemize}
+
+        \subsection{Euler 方程}
+        形式：
+        $$\sum_{i = 0}^{n} a_i x^i \frac{\dif^i}{\dif x^{i}} y^{(i)} = f(x)$$
+
+        换元 $x = \exp(t)$，即 $t = \ln(x)$。可以消去幂次。
+
+    \section{线性微分方程组}
+    没学，略。
+
+    $\underbrace
+    {
+        \widehat
+        {
+            \overline
+            {
+                \left|
+                \stackrel {\ } {\ \cup}
+                \stackrel {\bigcap ^ \cup} {}
+                \stackrel {\ } {\cup ^ {\ }}
+                \stackrel {\bigcap_\cup} {}
+                \right|
+            }
+        }
+    }$
+\end{document}
