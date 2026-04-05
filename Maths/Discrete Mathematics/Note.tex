@@ -1,0 +1,327 @@
+\documentclass[12pt, a4paper, UTF8, openany]{ctexbook}
+
+\usepackage{geometry}%设置页边距
+\geometry{left=1.54cm, right=1.54cm, top=2.18cm, bottom=2.18cm}
+
+\usepackage{tikz}%绘图
+\usetikzlibrary{calc}%计算
+
+\usepackage{circuitikz}%画电路图
+
+\usepackage{amsmath, amssymb}%数学
+
+\usepackage{array}%表格基础设置
+\usepackage{longtable}%跨页表格
+\usepackage{booktabs}%表格水平线
+
+\usepackage[colorlinks = true, 
+            linkcolor = black]{hyperref}%超链接跳转
+
+\usepackage{color}
+
+\linespread{1.05}%行间距
+\setlength{\parskip}{8pt}%段落间距
+\setlength{\parindent}{0pt}%不缩进
+
+\newcommand{\lxor}{\oplus}
+\newcommand{\bi}{\leftrightarrow} % biconditional
+\newcommand{\bigand}{\bigwedge}
+\newcommand{\bigor}{\bigvee}
+\newcommand{\true}{\mathbf{T}}
+\newcommand{\false}{\mathbf{F}}
+
+% \setcounter{chapter}{-1}
+
+\title{Discrete Mathematics}
+\author{K}
+
+\begin{document}
+    \maketitle
+
+    \tableofcontents % use LaTeXmk
+    \cleardoublepage
+
+    \chapter{Logic and Proofs}
+    {\large $\mathbf{The\ Only\ Truth\ is\ the\ Truth\ Table.}$}
+    
+    \section{Basic}
+    \textbf{Proposition}: A declarative sentence that is either True or False, but not both. \\
+    not declarative: $x + 1 = 3$ \\
+    not T or F: Paradox. e.g. This sentence is false. \\
+    allow its truth value be undetermined: He will go to Paris.
+
+    \textbf{Proposition Varible}: $p, q, r$, etc.
+
+    \textbf{Atomic Proposition}: the simplest proposition.
+
+    Given proposition $p \to q$:
+    \begin{longtable}[h]{*{2}{l}}
+        \textbf{Converse} 逆命题 & $q \to p$ \\
+        \textbf{Inverse} 否命题 & $\lnot p \to \lnot q$ \\
+        \textbf{Contrapositive} 逆否命题 & $\lnot q \to \lnot p$
+    \end{longtable}
+
+    $p$: \textbf{Hypothesis} / \textbf{Antecedent} / \textbf{Premise} \\
+    $q$: \textbf{Conclusion} / \textbf{Consequence}
+
+    \textbf{Tautology}: always True; \\
+    \textbf{Contradiction}: always False; \\
+    \textbf{Contingency}: sometimes True, sometimes False; \\
+    \textbf{Satisfiable}: 存在赋值方式使为真, Tautology + Contingency
+
+    Precedence: $\forall/\exists \;>\; \lnot \;>\; \land/\lor \;>\; \to/\bi$
+
+    \textbf{Theorem}: a somewhat important statement. \\
+    \textbf{Proposition} / Facts / Results: less important. \\
+    \textbf{Axiom} 公理 / \textbf{Postulate} 假设: can be used as premises. \\
+    \textbf{Lemma}: a less important theorem that is helpful for other results. \\
+    \textbf{Corollary} 推论: a theorem that can be established directly from a theorem. \\
+    \textbf{Conjecture} 猜想: guess to be true.
+
+    \section{Logical Operators}
+        \subsection{Defines}
+        \begin{longtable}[h]{l | l | l | l | l}
+            Negation 否定 & $\lnot x$ / $!x$ / $\sim x$ & not & & $1 - x$ \\
+            Conjunction 合取 & $x \land y$ & and & & $xy$ \\
+            Disjunction 析取 & $x \lor y$ & or & & $x + y - xy$ \\
+            Exclusive Or & $x \lxor y$ & xor & & \\
+            Conditional / Implication 蕴涵 & $x \to y$ & if, then & $\lnot x \lor y$ & $1 - x + xy$ \\
+            Biconditional / Equivalence 等价 & $x \bi y$ & iff & $\lnot (x \lxor y)$ & \\
+        \end{longtable}
+
+        x only if y: $x \to y$ \\
+        x unless y: $y \to \lnot x$ \\
+        x, y both occur: $x \land y$, no causality.
+
+        \begin{circuitikz} %[scale = 0.8, transform shape]
+            \draw (0, 0) node[not port] {};
+            \node at (0, -1) {Inverter};
+            \draw (5, 0) node[and port] {};
+            \node at (4.5, -1) {And Gate};
+            \draw (10, 0) node[or port] {};
+            \node at (9.5, -1) {Or Gate};
+        \end{circuitikz}
+
+        \subsection{Rules}
+        Logical Equivalence: 
+        \begin{itemize}
+            \item Identity: $x \land \true \equiv x$, $x \lor \false \equiv x$
+            \item Domination: $x \land \false \equiv \false$, $x \lor \true \equiv \true$
+            \item Idempotent: $x \land/\lor x \equiv x$
+            \item Double Negation: $\lnot(\lnot x) \equiv x$
+            \item Communtative \& Associative Laws: $\land/\lor$ 分别满足交换 \& 结合律
+            \item Distribution: $\land/\lor$ 分别对 $\lor/\land$ 分配 \\
+                $\begin{cases}
+                    x \lor (y \land z) & \equiv (x \lor y) \land (x \lor z) \\
+                    x \land (y \lor z) & \equiv (x \land y) \lor (x \land z)
+                \end{cases}$
+            \item De Morgan's Laws: flip operator \\
+                $\begin{cases}
+                    \lnot (x \land y) & \equiv \lnot x \lor \lnot y \\
+                    \lnot (x \lor y) & \equiv \lnot x \land \lnot y
+                \end{cases}$
+            \item Absorption Laws: \\
+                $\begin{cases}
+                    x \lor (x \land y) & \equiv x \\
+                    x \land (x \lor y) & \equiv x
+                \end{cases}$
+        \end{itemize}
+
+        \subsection{Normal Forms}
+        Simple Conjunctive/Disjunctive Formula: only consists of $\land$/$\lor$ and $\lnot$
+
+        Conjunctive/Disjunctive Normal Form (CNF / DNF): $\bigand(\lor)$ / $\bigor(\land)$ \\
+        主合取/析取范式：外层为合取/析取。CNF / DNF 必存在，构造性证明，略。
+
+        CNF / DNF 不唯一，故引出 \textbf{Principle/Major C/D NF} (P*NF/M*NF)（主合/析取范式），强制约定每个基本项包含所有 $n$ 个变元。
+        P*NF 是唯一的。
+
+        极小项：$\bigand_{i = 1}^{n}$, $m_{0} \sim m_{2^n - 1}$；\\
+        极大项：$\bigor_{i = 1}^{n}$, $M_{0} \sim M_{2^n - 1}$；\\
+        编号：from left to right, $i$-th bit $= [p_i]$。\\
+        e.g. $(p_1 \land \lnot p_2 \land \lnot p_3) = m_{100} = m{4}$; $(\lnot p_1 \lor p_2) = M_{01} = M_{1}$
+
+        Construct P*NF base on *NF: for each simple formula with less than $n$ varibles, 
+        adjust, and merge the same formulas \\
+        a. $A \; \equiv \; (A \land p_k) \lor (A \land \lnot p_k)$ \\
+        b. $A \; \equiv \; (A \lor p_k) \land (A \lor \lnot p_k)$
+
+        转换 PCNF/PDNF，其中 $\sim$ 为按位取反：
+        $\mathop{\bigand}\limits_{t \in S} M_{t} = \mathop{\bigor}\limits_{t \in U \setminus S} m_{\sim t}$；
+        $\mathop{\bigor}\limits_{t \in S} m_{t} = \mathop{\bigand}\limits_{t \in U \setminus S} M_{\sim t}$ \\
+        证明：PDNF $\to$ PCNF：每个 $t \in S$ 表示一种成真赋值，则每个 $t \in U \setminus S$ 表示一种成假赋值。
+        为使结果为真，则每种成假赋值均需有一项不成立，即补集的按位取反。易知该操作可逆，则 PCNF $\to$ PDNF 亦得。
+
+    \section{Predicates and Quantifiers}
+        \subsection{Defines}
+        \textbf{Predicate} 谓词: refer to a property, propositonal function $P$, $P(x_1, \cdots x_n)$
+
+        \textbf{Quantifier} 量词: the extent to which $P$ is true over a range of elements \\
+        a. universal quantifier 全称量词: $\forall$ \\
+        b. existential quantifier 存在量词: $\exists$ \\
+        c. uniqueness quantifier 唯一量词: $\exists!$/$\exists_1$
+
+        \textbf{Domain}: the domain of $x$; the domain consists of $a, b, c, \cdots$ \\
+        \textbf{Scope}: the scope of $\forall/\exists$, etc.
+
+        Bound Occurance 约束出现: $x$ is restricted by quantifiers. \\
+        Free Occurance 自由出现: $x$ is not restricted by any quantifiers. \\
+        Closed Form 闭式: no free varibles, all varibles is in some scope. 
+
+        \subsection{Rules}
+        \begin{itemize}
+            \item Negation: \\
+                a. $\lnot \forall \; \equiv \; \exists \lnot$ \\
+                b. $\lnot \exists \; \equiv \; \forall \lnot$
+            \item Distribution: turn $\to/\bi$ to $\land/\lor$ first \\
+                a. under the same restriction: only the following two are correct
+                \begin{itemize}
+                    \item $\forall x(A(x) \land B(x)) \; \equiv \; \forall x A(x) \land \forall x B(x)$
+                    \item $\exists x(A(x) \lor B(x)) \; \equiv \; \exists x A(x) \lor \exists x B(x)$
+                \end{itemize}
+                b. under different restriction: 
+                    $\forall/\exists x(A(x) \land/\lor B) \; \equiv \; \forall/\exists x A(x) \land/\lor B$
+        \end{itemize}
+
+        \subsection{Prenex Normal Form}
+        前束范式: all quantifier are at the beginning, and their scopes last to the end. \\
+        e.g. $\forall x \exists y \forall z (P(x, y) \lor Q(x, y, z) \lor \lnot R(z))$
+
+        PNF 必存在，构造性证明，略。\\
+        PNF 不唯一。
+    
+    \section{Rules of Inference}
+    a \textbf{valid argument}: $(\bigand\text{premises}) \to \text{conclusion}$
+
+    \textbf{fallacy}: 谬误
+
+        \subsection{Rules}
+        \begin{longtable}[h]{l | l | l}
+            Modus Ponens & 肯定前件 & 
+            $\begin{cases}
+                x \\ x \to y    
+            \end{cases} \implies y$ \\
+            \addlinespace
+
+            Modus Tollens & 否定后件 & 
+            $\begin{cases}
+                \lnot y \\ x \to y
+            \end{cases} \implies \lnot x$ \\
+            \midrule
+
+            Hypothetical Syllogism & 假言三段论 & 
+            $\begin{cases}
+                x \to y \\ y \to z
+            \end{cases} \implies x \to z$ \\
+            \addlinespace
+
+            Disjunctive Syllogism & 析取三段论 & 
+            $\begin{cases}
+                x \lor y \\ \lnot x
+            \end{cases} \implies y$ \\
+            \midrule
+
+            Addition & & $x \implies (x \lor y)$ \\
+            \addlinespace
+
+            Simplification & & $(x \land y) \implies x$ \\
+            \addlinespace
+
+            Conjunction & & 
+            $\begin{cases}
+            x \\ y    
+            \end{cases} \implies (x \land y)$ \\
+            \midrule
+
+            Resolution & 消解 & 
+            $\begin{cases}
+                (x \lor y) \\ (\lnot x \lor z)
+            \end{cases} \implies (y \lor z)$ \\
+            \addlinespace
+
+            Constructive Dilemma & &
+            $\begin{cases}
+                (x \to y) \land (u \to v) \\ x \lor u
+            \end{cases} \implies (y \lor v)$ \\
+            \addlinespace
+
+            Destructive Dilemma & &
+            $\begin{cases}
+                (x \to y) \land (u \to v) \\ (\lnot y \lor \lnot v)
+            \end{cases} \implies (\lnot x \lor \lnot u)$ \\
+            \midrule
+
+            Universal Instantiation (UI) & & $\forall xP(x) \implies P(u)$ \\
+            \addlinespace
+            Existential Instantiation (EI) & & $\exists xP(x) \implies P(u) \text{ for some u}$ \\
+            \addlinespace
+            Universal Generalization (UG) & & $P(u) \text{ for an arbitrary } u \implies \forall xP(x)$ \\
+            \addlinespace
+            Existential Generalization (EG) & & $P(u) \text{ for some } u \implies \exists xP(x)$ \\
+            \midrule
+
+            Universal Modus Ponens & & 
+            $\begin{cases}
+                \forall x(P(x) \to Q(x)) \\ P(u)
+            \end{cases} \implies Q(u)$ \\
+            \addlinespace
+
+            Universal Modus Tollens & &
+            $\begin{cases}
+                \forall x(P(x) \to Q(x)) \\ \lnot Q(u)
+            \end{cases} \implies \lnot P(u)$
+        \end{longtable}
+
+        prep.: using / from
+
+        e.g.
+        \begin{longtable}[h]{l l l}
+            1. & $\lnot t$ & premise 3. \\
+            2. & $r \to t$ & premise 2. \\
+            3. & $\lnot r$ & modus tollens using 1, 2 \\
+            4. & $\lnot r \lor \lnot s$ & addition from 3 \\
+            5. & $\lnot (r \lor s)$ & De Morgan's
+        \end{longtable}
+
+        \subsection{Fallacies}
+        \begin{itemize}
+            \item fallacy of affirming the conclusion: \\
+                $\begin{cases}
+                    x \to y \\ y
+                \end{cases} \nRightarrow  x$
+            \item fallacy of denying the hypothesis: \\
+                $\begin{cases}
+                    x \to y \\ \lnot x
+                \end{cases} \nRightarrow  \lnot y$
+        \end{itemize}
+    
+    \section{Proof Methods}
+    Direct Proof.
+
+    Conditional Proof (CP) 附加前提证明: to prove $A \implies (B \to C)$, use $B$ as a premise. 
+    try to prove $(A \land B) \to C$.
+
+    Proof by Contraposition: use $\lnot q \to \lnot p$ to prove $p \to q$.
+
+    Proof by Contradiction 反证
+
+    Proof by Counterexample 找反例: use $\lnot P(u)$ to prove $\lnot \forall xP(x)$.
+
+    Existence Proof: \\
+    a. Constructive: find a witness, that $P(u)$ is true. \\
+    b. Nonconstructive
+
+    Exhaustive Proof / Proof by Exhaustion 穷举 \\
+    Proof by Cases 分讨
+
+    Tips:
+    \begin{itemize}
+        \item Vacuous Proof: if $p$ is false, then $p \to q$ is immediately true.
+        \item Trivial Proof: if $q$ is true, then $p \to q$ is always true.
+        \item proof of equivalence: \\
+            a. to prove $p \bi q$, proving $(p \to q) \land (q \to p)$. \\
+            b. to prove $p_1 \bi p_2 \bi \cdots \bi p_n$, proving $\bigand (p_i \to p_{i \bmod n + 1})$.
+        \item \textbf{WLOG}: without loss of generality.
+    \end{itemize}
+
+\end{document}
