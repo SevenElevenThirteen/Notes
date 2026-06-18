@@ -10,6 +10,7 @@
 
 \usepackage{amsmath, amssymb}%数学
 \usepackage{esint}%Extended set of integrals
+\usepackage{extarrows}%Extended Arrows
 
 \usepackage{array}%表格基础设置
 \usepackage{longtable}%跨页表格
@@ -17,8 +18,7 @@
 
 \usepackage{multicol}%多列
 
-\usepackage[colorlinks = true, 
-            linkcolor = black]{hyperref}%超链接跳转
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}%超链接跳转
 
 \usepackage{color}
 
@@ -51,7 +51,13 @@
 
 \newcommand{\closure}[1]{\overline{#1}}
 
-\newcommand{\grad}{\mathbf{grad}}
+\newcommand{\grad}{\mathrm{grad}}
+\newcommand{\divf}{\mathrm{div}}
+\newcommand{\rot}{\mathrm{rot}}
+
+\newcommand{\grads}{\mathrm{grad}\,}
+\newcommand{\divfs}{\mathrm{div}\,}
+\newcommand{\rots}{\mathrm{rot}\,}
 
 \newcommand{\inner}[2]{\langle #1, #2 \rangle}
 
@@ -1911,6 +1917,8 @@
 
         限定在二维平面上，取定义域 $D = [a, b] \times [c, d]$，满足 $f \in C(D)$，即 $f(x, y)$ 在 $D$ 上连续。连续保证了对 $x/y$ 的积分均存在。记 $F(y) = \int_{a}^{b} f(x, y)\sdif x$，$G(x) = \int_{c}^{d} f(x, y)\sdif y$，分别是对 $x/y$ 积分。注意积分上下限是定值。
 
+        此处限于常义积分。对于含参的广义积分，需要对一致收敛的讨论。（如，广义积分的积分换序）
+
         \subsubsection{连续性}
         $F(y)$ 在 $[c, d]$ 上连续，进一步地有
         $$\lim_{y \to y_0} F(y) = \lim_{y \to y_0} \int_{a}^{b} f(x, y) \sdif x = \int_{a}^{b} [\lim_{y \to y_0} f(x, y)] \sdif x = F(y_0)$$
@@ -1935,13 +1943,20 @@
 
         \subsubsection{变上下限的含参积分求导}
         $F(y)$ 视为三个函数的复合 $G(y, l, r)$。
-        $$\begin{aligned}
-            F(y) &= \int_{l(y)}^{r(y)} f(x, y)\sdif x \quad \implies \quad G(y, l, r) = F(y) \\
-            \implies& \frac{\partial G}{\partial y} = G_y + G_l \cdot \frac{\dif l}{\dif y} + G_r \cdot \frac{\dif r}{\dif y}
-            = \boxed{\left[\int_{l(y)}^{r(y)} \frac{\partial f}{\partial y} \dif x\right] - f\left(l(y), y\right) \cdot \frac{\dif l}{\dif y} + f\left(r(y), y\right) \cdot \frac{\dif r}{\dif y}} 
-        \end{aligned}$$
+        $$F(y) = \int_{l(y)}^{r(y)} f(x, y)\sdif x \; \implies \; G(y, l, r) = F(y) \; \implies \; \frac{\partial G}{\partial y} = G_y + G_l \cdot \frac{\dif l}{\dif y} + G_r \cdot \frac{\dif r}{\dif y}$$
+
+        于是
+        $$\frac{\dif F}{\dif y} = \boxed{\left[\int_{l(y)}^{r(y)} \frac{\partial f}{\partial y} \dif x\right] - f\left(l(y), y\right) \cdot \frac{\dif l}{\dif y} + f\left(r(y), y\right) \cdot \frac{\dif r}{\dif y}}$$
 
         \subsection{广义重积分}
+        与广义积分类似。考虑用 $\rho$ 为半径的圆限制区域。对一个极限过程，显然任意一个区域的序列都可以等效替换为一个圆的序列。
+
+        对于二重积分 $\iint \frac{1}{\rho^\alpha} \dif S$：\\
+        a. 无界区域：当且仅当 $\alpha > 2$ 收敛；\\
+        b. 有瑕点 $(0, 0)$：当且仅当 $0 < \alpha < 2$ 收敛；\\
+        c. $\alpha = 2$ 总是发散。
+
+        证明完全同一维情景。比较判别法也完全相同。
 
     \section{第一型积分}
         \subsection{第一型曲线积分}
@@ -1958,15 +1973,18 @@
             &= \sqrt{A^2 + B^2 + C^2} \sdif u \sdif v = \sqrt{EG - F^2} \sdif u \sdif v
         \end{aligned}$$
 
-        其中 $\begin{cases}
-            A \,=\, \frac{\partial(y, z)}{\partial(u, v)} \\
-            B \,=\, \frac{\partial(z, x)}{\partial(u, v)} \\
-            C \,=\, \frac{\partial(x, y)}{\partial(u, v)}
-        \end{cases}$，$\begin{cases}
+        其中
+        $$\begin{cases}
+            A \,=\, \dfrac{\partial(y, z)}{\partial(u, v)} \\
+            B \,=\, \dfrac{\partial(z, x)}{\partial(u, v)} \\
+            C \,=\, \dfrac{\partial(x, y)}{\partial(u, v)}
+        \end{cases}
+        \quad
+        \begin{cases}
             E \,=\, (\mat{r}_u)^2 \\
             F \,=\, \mat{r}_u \cdot \mat{r}_v \\
             G \,=\, (\mat{r}_v)^2
-        \end{cases}$
+        \end{cases}$$
 
         {\heiti 特别地}，对于 $z = z(x, y)$，系数为 $\sqrt{z_x^2 + z_y^2 + 1}$。也可看作实际 $\dif S$ 和 xOy 平面有夹角 $\theta$，则 $\dif S = \frac{1}{\cos \theta} \dif x \dif y$。而 $\theta$ 恰为法向量 $\mat{n} = (-z_x, -z_y, 1)$ 与 z 轴夹角，简单画图可知。于是 $\cos\theta$ 即 $\mat{n}/\len{\mat{n}}$ 在 z 轴投影。
 
@@ -2186,5 +2204,56 @@
     \end{aligned}$$
 
     \chapter{场论}
+    \section{数量场}
+        \subsubsection{梯度}
+        记单位向量 $\mat{e} = (\cos\alpha, \cos\beta, \cos\gamma)$，则数量场 $f$ 在 $M_0$ 处的方向导数为
+        $$\frac{\partial f}{\partial \mat{e}}(M_0) = \frac{\partial f}{\partial x}(M_0)\cos\alpha + \frac{\partial f}{\partial y}(M_0)\cos\beta + \frac{\partial f}{\partial z}(M_0)\cos\gamma = \nabla f(M_0) \cdot \mat{e}$$
+
+        梯度指向方向导数最大的方向，也即 $f$ 增长最快的方向；模长为方向导数大小：
+        $$\grads f(M_0) := \nabla f(M_0)$$
+
+        $\grads f$ 从数量场上诱导了一个向量场。易知梯度向量总与等值面垂直。
+
+    \section{向量场}
+    总记 $\mat{F} = (P, Q, R)$
+
+        \subsubsection{散度}
+        记 $S$ 为一块有向曲面，取正向的单位法向量 $\mat{e}_n$，则向量场 $\mat{F}$ 通过 $S$ 的通量为
+        $$\iint_{(S)} \mat{F} \cdot \mat{e}_n \sdif S$$
+
+        以 $M_0$ 为中心，任取一个包含 $M_0$ 的闭合曲面 $S$，约定向外为正方向，考虑极限（记 $d$ 为 $(V)$ 的直径，$d$ 的约束比体积的约束好）：
+        $$\begin{aligned}
+            \lim_{d \to 0} \frac{1}{|V|} \oiint_{(S)} \mat{F} \cdot \mat{e}_n \sdif S &\xlongequal{\text{Gauss}} \lim_{d \to 0} \frac{1}{|V|} \iiint_{(V)} \nabla \cdot \mat{F} \sdif V \\
+            &\xlongequal{\text{中值}} \lim_{d \to 0} (\nabla \cdot \mat{F})(\xi) = (\nabla \cdot \mat{F})(M_0)
+        \end{aligned}$$
+
+        该比值为 $\mat{F}$ 在 $S$ 内的平均泉源密度，其极限表示 $M_0$ 处的源/汇情况。定义散度：
+        $$\divfs \mat{F}(M_0) := (\nabla \cdot \mat{F})(M_0) = (\frac{\partial P}{\partial x} + \frac{\partial Q}{\partial y} + \frac{\partial R}{\partial z})$$
+
+        $\divfs \mat{F}$ 从向量场上诱导了一个数量场。
+
+        \subsubsection{旋度}
+        在 $M_0$ 处，任取一个单位向量 $\mat{e}$。在以 $M_0$ 为中心、$\mat{e}$ 为法向量确定的平面上，任取一个包围 $M_0$ 的闭合曲线 $l$。仿照方向导数与散度，定义 $\mat{F}$ 在 $M_0$ 绕方向 $\mat{e}$ 的方向旋量为：
+        $$\begin{aligned}
+            \lim_{d \to 0} \frac{1}{|S|} \oint_{\partial l} \mat{F} \cdot \dif\mat{l} &\xlongequal{\text{Stokes}} \lim_{d \to 0} \frac{1}{|S|} \iint_{(S)} (\nabla \times \mat{F}) \cdot \mat{e} \sdif S \\
+            &\xlongequal{\text{中值}} \lim_{d \to 0} (\nabla \times \mat{F})(\xi) = [(\nabla \times \mat{F}) \cdot \mat{e}](M_0)
+        \end{aligned}$$
+
+        类比梯度之于方向导数，定义旋度：
+        $$\rots \mat{F}(M_0) := (\nabla \times \mat{F})(M_0)$$
+
+        旋度方向为使方向旋量最大的法线方向，模长为该方向旋量的模长。$\rots \mat{F}$ 从向量场上诱导了一个向量场。
+
+    \section{计算}
+    a. $\dif f$ 的系数为 $\grads f$ 的分量；\\
+    b. 记 $\omega = P\sdif x + Q\sdif y + R\sdif z$，则 $\dif\omega$ 的系数为 $\rots \mat{F}$ 的分量；\\
+    c. 记 $\theta = P \sdif y \land \dif z + Q \sdif z \land \dif x + R \sdif x \land \dif y$，则 $\dif\theta$ 的系数为 $\divfs \mat{F}$。
+
+    \section{保守场}
+    保守场、无旋场、有势场三者等价，因此存在数值函数 $\varphi$ 满足 $\mat{F} = \grads \varphi$。
+
+    证明：$\rots \mat{F} = \rot \circ \grads \varphi = \dif(\dif \varphi) = 0$。
+
+    中心场 $\mat{F}(\mat{r}) = f(r)\mat{r}$ 总是保守场，势函数 $\varphi(r) = \int_{1}^{r} \rho f(\rho)\sdif\rho$。验算 $\grad \varphi = \mat{F}$ 即可。
 
 \end{document}
