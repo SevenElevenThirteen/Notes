@@ -1,0 +1,161 @@
+#import "@preview/simple-bupt-report:0.1.1": experiment-report
+#show: doc => experiment-report(
+  title: "《信号处理实验》实验报告",
+  semester: "2024-2025学年第二学期",
+  class: "2023211113",
+  name: "张三",
+  student-id: "2021123456",
+  date: "2024年4月14日",
+  doc
+)
+
+/* 中文伪粗体 */
+#import "@preview/cuti:0.3.0": show-cn-fakebold
+#show: show-cn-fakebold
+
+/* 画图 */
+#import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
+
+/* 字体大小 */
+#let 一号 = 28pt
+#let 小一号 = 24pt
+#let 二号 = 21pt
+#let 小二号 = 18pt
+#let 三号 = 16pt
+#let 小三号 = 15pt
+#let 四号 = 14pt
+#let 小四号 = 12pt
+#let 五号 = 10.5pt
+#let 小五号 = 9pt
+
+/*
+    字体设置
+    Times New Roman 不支持中文
+    NSimSun 新宋体
+    默认小四号
+*/
+#set text(
+    font: ("Times New Roman", "NSimSun"),
+    size: 小四号
+)
+
+/*
+    页面设置
+    A4
+    页边缘：上下 2.54cm；左右 1.91cm
+*/
+#set page(
+    paper: "a4",
+    margin: (x: 2.54cm, y: 1.91cm)
+)
+
+/*
+    段落设置
+    段前空两格
+*/
+#set par(
+    hanging-indent: -2em
+)
+
+
+
+
+
+
+
+/*
+  中文伪粗体
+*/
+#import "@preview/cuti:0.3.0": show-cn-fakebold
+#show: show-cn-fakebold
+
+/*
+  画图
+*/
+#import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
+
+/*
+  字体设置
+  Times New Roman 不支持中文
+*/
+#set text(
+    font: ("Times New Roman", "NSimSun"),
+    size: 12pt
+)
+
+#set page(
+    paper: "a4",
+    margin: (y: 2cm)
+)
+
+// #set par(
+//     hanging-indent: -2em
+// )
+
+#show figure.caption: it => {
+    set text(size: 10.5pt)
+    it.body
+}
+
+/*
+  大小
+*/
+#let 一号 = 28pt
+#let 小一号 = 24pt
+#let 二号 = 21pt
+#let 小二号 = 18pt
+#let 三号 = 16pt
+#let 小三号 = 15pt
+#let 四号 = 14pt
+#let 小四号 = 12pt
+#let 五号 = 10.5pt
+#let 小五号 = 9pt
+
+#page()[
+    #align(center)[
+        #v(10%)
+
+        #figure(
+            image("校名.jpg", width: 110%)
+        )
+        #text(size: 32pt, weight: "bold")[
+            实验报告
+        ]
+
+        #figure(
+            image("校徽.jpg", width: 30%)
+        )
+        #v(5%)
+
+        #text(size: 18pt)[
+            题目：#underline(" " * 5 + "拆解二进制炸弹" + " " * 5)
+        ]
+    ]
+
+    #v(10pt)
+
+    #align(center,
+        block[
+            #set align(left)
+            #set par(hanging-indent: 0em)
+            
+            #text(size: 14pt)[
+            班 #" " 级：#underline(" " * 5 + "2025211322" + " " * 5)\
+            学 #" " 号：#underline(" " * 5 + "2025211606" + " " * 5)\
+            姓 #" " 名：#underline(" " * 9 + "杨浩琨" + " " * 9)\
+            学 #" " 院：#underline(" " * 5 + "计算机学院" + " " * 6)\
+            ]
+    ])
+
+    #v(10pt)
+
+    #let year = datetime.today().year()
+    #let month = datetime.today().month()
+    #let day = datetime.today().day()
+
+    #align(center)[
+        #text(size: 14pt)[
+            #year 年 #month 月 #day 日
+        ]
+    ]
+]

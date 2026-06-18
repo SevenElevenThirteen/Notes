@@ -1,0 +1,48 @@
+\documentclass[12pt, a4paper, UTF8, openany]{ctexbook}
+
+\usepackage{geometry}%设置页边距
+\geometry{left=1.54cm, right=1.54cm, top=2.18cm, bottom=2.18cm}
+
+\usepackage{tikz}%绘图
+\usetikzlibrary{calc}%绘图时计算
+\usetikzlibrary{angles}%角度标识
+\usetikzlibrary{intersections}%计算交点
+
+\usepackage{graphicx}%增强图像支持
+\usepackage[svgnames]{xcolor}
+
+\usepackage{amsmath, amssymb}%数学
+\usepackage{esint}%Extended set of integrals
+\usepackage{extarrows}%Extended Arrows
+
+\usepackage{array}%表格基础设置
+\usepackage{longtable}%跨页表格
+\usepackage{booktabs}%表格水平线
+
+\usepackage{multicol}%多列
+
+\usepackage[colorlinks = true, linkcolor = black]{hyperref}%超链接跳转
+
+\usepackage{color}
+
+\newcommand{\R}[1]{\field{R}^{#1}}
+
+\linespread{1.05}%行间距
+\setlength{\parskip}{8pt}%段落间距
+\setlength{\parindent}{0pt}%不缩进
+
+\setcounter{chapter}{-1}
+
+\title{Note for Linear Algebra}
+\author{1001}
+
+\begin{document}
+    \maketitle
+
+    \tableofcontents % use LaTeXmk
+    \cleardoublepage % 正文从新页开始，利好双面打印
+
+    \begin{longtable}[h]{*{2}{w{l}{9cm}}}
+    \end{longtable}
+
+\end{document}
