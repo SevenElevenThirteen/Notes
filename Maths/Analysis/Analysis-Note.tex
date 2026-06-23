@@ -1879,32 +1879,48 @@
 
         也即 $|\det \Dif \varphi(t)| = \frac{\partial(x^1, \cdots, x^n)}{\partial (t^1. \cdots, t^m)}$。
 
-        常用换元：
-        \begin{longtable}[h]{c | c | w{c}{5cm}}
+        常用计算：
+        \begin{longtable}[h]{c | c | w{c}{10cm}}
             极坐标 & $\begin{cases}
                 x = \rho \cos\theta \\
                 y = \rho \sin\theta
-            \end{cases}$ & $\dif s = \rho \sdif\rho \sdif\theta$ \\
-            \addlinespace
-            球 & $z = \sqrt{a^2 - x^2 - y^2}$ & $\dif s = \frac{a}{\sqrt{a^2 - x^2 - y^2}} \sdif x \sdif y$ \\
+            \end{cases}$ & $\begin{aligned}
+                \dif l &= \rho \sdif\theta \quad (\rho \equiv r) \\
+                \dif s &= \rho \sdif\rho \sdif\theta
+            \end{aligned}$ \\
+            \midrule
+            球 & $z = \sqrt{r^2 - x^2 - y^2}$ & $\begin{aligned}
+                \dif s &= \frac{r}{\sqrt{r^2 - x^2 - y^2}} \sdif x \sdif y \\
+                 &= 2 \pi r \sdif z \\
+                \dif V &= \pi (r^2 - z^2) \sdif z 
+            \end{aligned}$ \\
             \midrule
             球面坐标 & $\begin{cases}
                 x = \rho \sin\varphi \cos\theta \\
                 y = \rho \sin\varphi \sin\theta \\
                 z = \rho \cos\theta
-            \end{cases}$ & $\dif V = \rho^2 \sin\varphi \sdif\rho \sdif\theta \sdif\varphi$ \\
-            \addlinespace
-            柱面坐标 & $\begin{aligned}
+            \end{cases}$ & $\begin{aligned}
+                \dif s &= \rho^2 \sin\varphi \sdif\theta \sdif\varphi \\
+                \dif V &= \rho^2 \sin\varphi \sdif\rho \sdif\theta \sdif\varphi
+            \end{aligned}$ \\
+            \midrule
+            柱面坐标 & $\begin{cases}
                 x = \rho \cos\theta \\
                 y = \rho \sin\theta \\
                 z = z
-            \end{aligned}$ & $\dif V = \rho \sdif\rho \sdif\theta \sdif z$
+            \end{cases}$ & $\begin{aligned}
+                \dif s &= \rho \sdif\theta \sdif z \quad (\rho \equiv r) \\
+                \dif V &= \rho \sdif\rho \sdif\theta \sdif z
+            \end{aligned}$
         \end{longtable}
 
         证明：求 Jacobi 行列式，或用几何近似：\\
         a. 极坐标近似为上底 $\rho\sdif\theta$，下底 $(\rho + \dif\rho)\sdif\theta$，腰 $\dif\rho$ 的等腰梯形（扇环）。\\
         b. 球面坐标近似为长 $\rho\sdif\varphi\sdif\theta$，宽 $\rho\sdif\varphi$，纵深 $\dif\rho$ 的长方体。\\
         也可更精细地近似（如棱台替换长方体），只需保留到 2 阶 / 3 阶无穷小，与维度一致。
+
+        球面任意高度处环带面积为常数 $2 \pi r \sdif z$。\\
+        证明：切开近似为矩形，长 $2 \pi \sqrt{r^2 - z^2}$。其在 z 轴的投影长度为 $\dif z$，但其与实际的高的差不可忽略。考虑任一点处的法向量 $\mat{n} = (x, y, z)$，其与 z 轴夹角 $\theta$ 满足 $\cos\theta = z/r$，而实际的高投影到 $\dif z$ 上，系数为 $\sin\theta = \frac{\sqrt{r^2 - z^2}}{r}$，于是 $\dif s = 2 \pi \sqrt{r^2 - z^2} (\sin\theta)^{-1}\sdif z = 2 \pi r \sdif z$
 
         $\varphi$ 为 $\rho$ 与 $z$ 轴夹角。\\
         椭球类考虑广义的极坐标变换，$\dif s = ab \rho \sdif\rho \sdif\theta$。\\
@@ -2071,7 +2087,7 @@
             \item 结合律：$(\omega \land \theta) \land \eta = \omega \land (\theta \land \eta)$
         \end{itemize}
 
-        因为不同次形式之间的加法未定义，于是交换律括号中均为同此形式。
+        因为不同次形式之间的加法未定义，于是交换律括号中均为同次形式。
 
         \subsubsection{外微分运算}
         定义 $r$ 阶连续可微：$\omega = \sum a_I(x) \dif x^I$，$a_I(x)$ 均 $r$ 阶连续可微，则称 $\omega$ 是 $r$ 阶连续可微 / $C^r$。
@@ -2193,6 +2209,7 @@
         \item 对称：积分区域的对称性；被积函数的奇偶性；变量的轮换对称 \\
             通过变量的对称，构造对称式的积分。
         \item 代入：用曲线/曲面方程化简
+        \item 定义：容易写出 $\mat{e}_n$，{\heiti 单位}向量
         \item 换元
         \item 与路径无关
         \item 补成闭合曲线/曲面
