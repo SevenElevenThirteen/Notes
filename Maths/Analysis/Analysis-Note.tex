@@ -61,6 +61,8 @@
 
 \newcommand{\inner}[2]{\langle #1, #2 \rangle}
 
+\newcommand{\colalign}[2]{\multicolumn{1}{#1}{#2}}%控制单格对齐方式
+
 \linespread{1.05}%行间距
 \setlength{\parskip}{8pt}%段落间距
 \setlength{\parindent}{0pt}%不缩进
@@ -486,7 +488,7 @@
         $x_0 = 0, \, R_n(x) = \dfrac{\difk{f}{n + 1}(\theta x)}{(n + 1)!}x^{n + 1}$
 
         \begin{longtable}[h]{w{l}{12cm}}
-            $\exp x = 1 + x + \dfrac{x^2}{2} + \dfrac{x^3}{3!} + \cdots + \dfrac{x^n}{n!} + \cdots$ \\
+            $\exp x = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + \cdots + \dfrac{x^n}{n!} + \cdots$ \\
             \addlinespace
             $\ln(1 + x) = x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dfrac{x^4}{4} 
                 + \cdots + (-1)^{k + 1}\dfrac{x^k}{k} + \cdots$ \\
@@ -2272,5 +2274,107 @@
     证明：$\rots \mat{F} = \rot \circ \grads \varphi = \dif(\dif \varphi) = 0$。
 
     中心场 $\mat{F}(\mat{r}) = f(r)\mat{r}$ 总是保守场，势函数 $\varphi(r) = \int_{1}^{r} \rho f(\rho)\sdif\rho$。验算 $\grad \varphi = \mat{F}$ 即可。
+
+    \chapter{级数}
+    \section{常数项级数}
+
+    \section{函数项级数}
+
+    \section{幂级数}
+
+        \begin{longtable}[h]{c | c c l}
+            \colalign{c}{收敛域} & & & \colalign{l}{展开式} \\
+            \midrule
+
+            $(-\infty, +\infty)$ & $\exp(x)$ & $=$ & 
+            {\large $\sum\limits_{n = 0}^{\infty} \dfrac{x^n}{n!}$} \\
+            $R = +\infty$ & & $=$ &
+            {\large $1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + \dfrac{x^4}{4!} + \cdots$} \\
+            
+            \addlinespace
+            \addlinespace
+
+            $(-1, 1 \textcolor{red}{]}$ & $\ln(1 + x)$ & $=$ &
+            {\large $\sum\limits_{n = \textcolor{red}{1}}^{\infty} (-1)^{n + 1} \dfrac{x^n}{n}$} \\
+            $R = 1$ & & $=$ &
+            {\large $x - \dfrac{x^2}{2} + \dfrac{x^3}{3} - \dfrac{x^4}{4} + \cdots$} \\
+            
+            \addlinespace
+            \midrule
+            \addlinespace
+
+            $(-\infty, +\infty)$ & $\sin(x)$ & $=$ & 
+            {\large $\sum\limits_{n = 0}^{\infty} (-1)^n\dfrac{x^{2n + 1}}{(2n + 1)!}$} \\
+            $R = +\infty$ & & $=$ &
+            {\large $x - \dfrac{x^3}{3!} + \dfrac{x^5}{5!} - \dfrac{x^7}{7!} + \cdots$} \\
+            
+            \addlinespace
+            \addlinespace
+
+            $(-\infty, +\infty)$ & $\cos(x)$ & $=$ & 
+            {\large $\sum\limits_{n = 0}^{\infty} (-1)^n\dfrac{x^{2n}}{(2n)!}$} \\
+            $R = +\infty$ & & $=$ &
+            {\large $1 - \dfrac{x^2}{2!} + \dfrac{x^4}{4!} - \dfrac{x^6}{6!} + \cdots$} \\
+            
+            \addlinespace
+            \midrule
+            \addlinespace
+
+            $\textcolor{red}{[} -1, 1 \textcolor{red}{]}$ & $\arcsin(x)$ & $=$ &
+            {\large $\sum\limits_{n = 0}^{\infty} \dfrac{(2n - 1)!!}{(2n)!!} \cdot \dfrac{x^{2n + 1}}{2n + 1}$} \\
+            $R = 1$ & & $=$ &
+            {\large $x + \dfrac{1}{2} \cdot \dfrac{x^3}{3} + \dfrac{1 \times 3}{2 \times 4} \cdot \dfrac{x^5}{5} + \cdots$} \\
+
+            \addlinespace
+            \addlinespace
+
+            $\textcolor{red}{[} -1, 1 \textcolor{red}{]}$ & $\arccos(x)$ & $=$ &
+            {\large $\dfrac{\pi}{2} - \arcsin(x)$} \\
+            $R = 1$ & & $=$ &
+            {\large $\dfrac{\pi}{2} - \left(x + \dfrac{1}{2} \cdot \dfrac{x^3}{3} + \dfrac{1 \times 3}{2 \times 4} \cdot \dfrac{x^5}{5} + \cdots\right)$} \\
+
+            \addlinespace
+            \addlinespace
+
+            $\textcolor{red}{[} -1, 1 \textcolor{red}{]}$ & $\arctan(x)$ & $=$ &
+            {\large $\sum\limits_{n = 0}^{\infty} (-1)^n \dfrac{x^{2n + 1}}{2n + 1}$} \\
+            $R = 1$ & & $=$ &
+            {\large $x - \dfrac{x^3}{3} + \dfrac{x^5}{5} - \dfrac{x^7}{7} + \cdots$} \\
+
+            \addlinespace
+            \addlinespace
+
+            $\textcolor{red}{[} -1, 1 \textcolor{red}{]}$ & $\text{arccot}(x)$ & $=$ &
+            {\large $\dfrac{\pi}{2} - \arctan(x)$} \\
+            $R = 1$ & & $=$ &
+            {\large $\dfrac{\pi}{2} - \left(x - \dfrac{x^3}{3} + \dfrac{x^5}{5} - \dfrac{x^7}{7} + \cdots\right)$} \\
+
+            \addlinespace
+            \midrule
+            \addlinespace
+
+            $(-1, 1)$ & $(1 + x)^\alpha$ & $=$ &
+            {\large $\sum\limits_{n = 0}^{\infty} \dbinom{\alpha}{n} x^n$} \\
+            $R = 1$ & & $=$ &
+            {\large $1 + \alpha x + \dfrac{\alpha(\alpha - 1)}{2!} x^2 + \dfrac{\alpha(\alpha - 1)(\alpha - 2)}{3!} x^3 + \cdots$} \\
+
+            \addlinespace
+            \addlinespace
+
+            $(-1, 1)$ & $\dfrac{1}{1 + x}$ & $=$ &
+            {\large $\sum\limits_{n = 0}^{\infty} (-1)^n x^n$} \\
+            $R = 1$ & & $=$ &
+            {\large $1 - x + x^2 - x^3 + \cdots$} \\
+            
+            \addlinespace
+            \addlinespace
+
+            $(-1, 1)$ & $\dfrac{1}{1 - x}$ & $=$ &
+            {\large $\sum\limits_{n = 0}^{\infty}  x^n$} \\
+            $R = 1$ & & $=$ &
+            {\large $1 + x + x^2 + x^3 + \cdots$} \\
+        \end{longtable}
+
+    \section{傅里叶级数}
 
 \end{document}
