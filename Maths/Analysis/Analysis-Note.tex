@@ -905,9 +905,9 @@
         \begin{longtable}[h]{w{c}{2cm}*{2}{|w{c}{6cm}}}
             $\int_I \frac{\dif x}{x^p}$ & 瑕积分 $I = (0, a]$ & 无穷积分 $I = [a, \infty)$ \\
             \midrule
-            $0 < p \leqslant 1$         & 发散                & 收敛 \\
+            $0 < p \leqslant 1$         & 收敛                & 发散 \\
             \midrule
-            $1 < p$                     & 收敛                & 发散 
+            $p > 1$                     & 发散                & 收敛 
         \end{longtable}
 
         比较 $f(x)$ 与 $\frac{C}{x^p} / \frac{C}{(x - a)^p}$ 或讨论 $\lim x^pf(x) / (x - a)^pf(x)$。
@@ -2306,6 +2306,8 @@
         a. $0 < \lambda < +\infty$，则 $\sum a$ 与 $\sum b$ 敛散性相同；\\
         b. $\lambda = 0$（$a_n << b_n$），若 $\sum b$ 收敛则 $\sum a$ 收敛；\\
         c. $\lambda = +\infty$（$a_n >> b_n$），若 $\sum b$ 发散则 $\sum a$ 发散。
+
+        也可在 $n \to \infty$ 时对 $a$ 做等价无穷大/小替换，本质仍是比较准则，但没有显式写出 $b$。
 
         取等比级数 $\sum aq^n$ 作为 $\sum b$，可以导出下列两个准则。二者的优点是基于 $\{a_n\}$ 自身判断，而不用显式给出 $\sum b$。唯一不足是极限形式下 $\lambda = 1$ {\heiti 不能做出任何判断}。
 
