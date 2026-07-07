@@ -1438,7 +1438,7 @@
 
         本质依然为线性近似，一元的线性性进化为线性映射，而线性映射用矩阵描述。
 
-        进一步地，可定义偏微分。任取一些维度的集合，不妨记 $\mat{x} = (\mat{x}, \mat{y})$，则 $\Dif_x F(\mat{x_0}, \mat{y}_0) := A$。这里把子空间整体视为变量。
+        进一步地，可定义偏微分。任取一些维度的集合，不妨记 $\mat{x} = (\mat{x}, \mat{y})$，则 $\Dif_x F(\mat{x}_0, \mat{y}_0) := A$。这里把子空间整体视为变量。
 
         高阶微分需要张量，即（比矩阵）更高维的结构来描述，不讨论。
 
@@ -1902,7 +1902,7 @@
                 y = \rho \sin\varphi \sin\theta \\
                 z = \rho \cos\theta
             \end{cases}$ & $\begin{aligned}
-                \dif s &= \rho^2 \sin\varphi \sdif\theta \sdif\varphi \\
+                \dif s &= \rho^2 \sin\varphi \sdif\theta \sdif\varphi \quad (\rho \equiv r) \\
                 \dif V &= \rho^2 \sin\varphi \sdif\rho \sdif\theta \sdif\varphi
             \end{aligned}$ \\
             \midrule
@@ -2218,8 +2218,8 @@
     \end{itemize}
 
     $$\begin{aligned}
-        S =& \oint_{(L)} y\sdif x + x \sdif y \\
-        V =& \oint_{(S)} x\sdif y \land \dif z + y\sdif z \land \dif x + z\sdif x \land \dif y
+        S =& \frac{1}{2} \oint_{(L)} y\sdif x + x \sdif y \\
+        V =& \frac{1}{3} \oint_{(S)} x\sdif y \land \dif z + y\sdif z \land \dif x + z\sdif x \land \dif y
     \end{aligned}$$
 
     \chapter{场论}
@@ -2361,11 +2361,11 @@
     \section{幂级数}
         \subsection{收敛半径}
         对 $\forall a_n \neq 0$，有
-        $$R = \lim_{n \to \infty} \frac{1}{\sqrt[n]{|a_{n}|}} = \lim_{n \to \infty} |\frac{a_n}{a_{n + 1}}|$$
+        $$R = \lim_{n \to \infty} \frac{1}{\sqrt[n]{|a_{n}|}} = \lim_{n \to \infty} \left|\frac{a_n}{a_{n + 1}}\right|$$
 
         $R = 0$ 退化为单点 $\{x_0\}$，$R = +\infty$ 为 $\field{R}$。$0 < R < +\infty$ 时，区间端点的敛散性未知，需另行验证。
 
-        若端点为奇点，则必然不在收敛域内。在复平面上，收敛半径由最近的奇点决定，这同样会限制 $\field{R}$ 上的收敛半径。
+        若端点为奇点，则{\heiti 必然不在收敛域}内。但非奇点未必收敛，如 $\frac{1}{1 + x}$ 在 $x = 1$ 发散。在复平面上，收敛半径由最近的奇点决定，这同样会限制 $\field{R}$ 上的收敛半径。
 
         \subsection{性质}
         \subsubsection{内闭一致收敛性}
