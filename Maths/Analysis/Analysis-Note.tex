@@ -2277,11 +2277,109 @@
 
     \chapter{级数}
     \section{常数项级数}
+        \subsection{定义}
+
+        \subsection{性质}
+
+        \subsection{正项级数}
+        \subsubsection{常用级数}
+        \begin{itemize}
+            \item $p$ 级数及衍生：$\sum \dfrac{1}{n^p}$，$\sum \dfrac{1}{n (\ln n)^p}$，$\sum \dfrac{1}{n \ln n (\ln \ln n)^p}$ \\
+                a. $p > 1$：收敛；\\
+                b. $p \leqslant 1$：发散。
+            \item 等比级数：$\sum aq^n$ \\
+                a. $|q| < 1$：收敛于 $\frac{a}{1 - q}$；\\
+                b. $|q| \geqslant 1$：发散。
+            \item 调和级数：$\sum \frac{1}{n}$ 发散。
+        \end{itemize}
+
+        \subsubsection{比较准则}
+        对正项级数 $\sum a$ 和 $\sum b$，用 $b$ 判断 $a$。
+        
+        普通形式：若存在常数 $\lambda$ 和 $N > 0$，使得 $\forall n > N$ \\
+        a. $a_n \leqslant \lambda b_n$（$\lambda \geqslant 0$），若 $\sum b$ 收敛则 $\sum a$ 收敛；\\
+        b. $a_n \geqslant \lambda b_n$（$\lambda > 0$），若 $\sum b$ 发散则 $\sum a$ 发散。
+
+        极限形式：若存在极限
+        $$\lim_{n \to \infty} \frac{a_n}{b_n} = \lambda \quad \lambda \in [0, +\infty) \cup \{+\infty\}$$
+        有：\\
+        a. $0 < \lambda < +\infty$，则 $\sum a$ 与 $\sum b$ 敛散性相同；\\
+        b. $\lambda = 0$（$a_n << b_n$），若 $\sum b$ 收敛则 $\sum a$ 收敛；\\
+        c. $\lambda = +\infty$（$a_n >> b_n$），若 $\sum b$ 发散则 $\sum a$ 发散。
+
+        取等比级数 $\sum aq^n$ 作为 $\sum b$，可以导出下列两个准则。二者的优点是基于 $\{a_n\}$ 自身判断，而不用显式给出 $\sum b$。唯一不足是极限形式下 $\lambda = 1$ {\heiti 不能做出任何判断}。
+
+        \subsubsection{Cauchy 检根法}
+        普通形式：\\
+        a. 若存在 $N > 0$，使得 $\forall n > N, \, \sqrt[n]{a_n} < 1$，则 $\sum a$ 收敛；\\
+        b. 若存在无穷多个 $n$ 满足 $\sqrt[n]{a_n} \geqslant 1$，则 $\sum a$ 发散。
+
+        极限形式：若存在极限
+        $$\lim_{n \to \infty} \sqrt[n]{a_n} = \lambda$$
+        有：\\
+        a. 若 $\lambda < 1$，则 $\sum a$ 收敛；\\
+        b. 若 $\lambda > 1$，则 $\sum a$ 发散。
+
+        \subsubsection{D'Alembert 检比法}
+        此处限制 $a_n > 0$ 为严格正项级数。
+
+        普通形式：\\
+        a. 若存在 $N > 0$，使得 $\forall n > N, \; \dfrac{a_{n + 1}}{a_n} < 1$，则 $\sum a$ 收敛；\\
+        b. 若存在 $N > 0$，使得 $\forall n > N, \; \dfrac{a_{n + 1}}{a_n} \geqslant 1$，则 $\sum a$ 发散。
+
+        极限形式：若存在极限
+        $$\lim_{n \to \infty} \frac{a_{n + 1}}{a_n} = \lambda$$
+        有：\\
+        a. 若 $\lambda < 1$，则 $\sum a$ 收敛；\\
+        b. 若 $\lambda > 1$，则 $\sum a$ 发散。
+
+        \subsubsection{积分准则}
+        源自几何直观。
+
+        若存在函数 $f(x)$ 在 $[1, +\infty)$ 上非负且单调递减，满足 $\forall n, \; a_n = f(n)$（显然蕴涵 $\{a_n\}$ 单调递减），则正项级数 $\sum a$ 与广义积分
+        $$\int_{1}^{+\infty} f(x)\sdif x$$
+        敛散性相同。
+
+        \subsection{交错级数}
+        形如 $\sum (-1)^n a_n$，其中 $\forall n, \; a_n > 0$。
+
+        \subsubsection{Leibniz 准则}
+        若 $\{a_n\}$ 但单调递减，且 $\lim_{n \to \infty} a_n = 0$，则交错级数 $\sum (-1)^n a_n$ 收敛。
+
+        进一步地，$S \leqslant a_0$，部分和 $S_n$ 满足 $|S - S_n| \leqslant a_{n + 1}$
+
+        \subsection{任意项级数}
+        绝对收敛
+
+        条件收敛
 
     \section{函数项级数}
+        \subsection{定义}
+
+        \subsection{一致收敛}
 
     \section{幂级数}
+        \subsection{收敛半径}
+        对 $\forall a_n \neq 0$，有
+        $$R = \lim_{n \to \infty} \frac{1}{\sqrt[n]{|a_{n}|}} = \lim_{n \to \infty} |\frac{a_n}{a_{n + 1}}|$$
 
+        $R = 0$ 退化为单点 $\{x_0\}$，$R = +\infty$ 为 $\field{R}$。$0 < R < +\infty$ 时，区间端点的敛散性未知，需另行验证。
+
+        若端点为奇点，则必然不在收敛域内。在复平面上，收敛半径由最近的奇点决定，这同样会限制 $\field{R}$ 上的收敛半径。
+
+        \subsection{性质}
+        \subsubsection{内闭一致收敛性}
+
+        \subsubsection{加减与乘法}
+
+        \subsubsection{求导与积分}
+        $\sum a_n x^n$ 与其逐项导数 $\sum n a_n x^{n - 1}$ 有相同的收敛半径 $R$。（但收敛域可以不同，端点需验证。）
+
+        $\sum a_n x^n$ 有任意阶导数，并且导数可通过逐项求导获得。
+
+        推论：有任意次积分，并且也可通过逐项积分获得。收敛半径不变，只需验证端点。
+
+        \subsection{幂级数展开}
         \begin{longtable}[h]{c | c c l}
             \colalign{c}{收敛域} & & & \colalign{l}{展开式} \\
             \midrule
@@ -2365,6 +2463,12 @@
             {\large $\sum\limits_{n = 0}^{\infty} \dbinom{\alpha}{n} x^n$} \\
             $R = 1$ & & $=$ &
             {\large $1 + \alpha x + \dfrac{\alpha(\alpha - 1)}{2!} x^2 + \dfrac{\alpha(\alpha - 1)(\alpha - 2)}{3!} x^3 + \cdots$} \\
+            & & &
+            {\large $\begin{cases}
+            (-1, 1) & \alpha \leqslant -1 \\
+            (-1, 1] & -1 < \alpha < 0 \\
+            [-1, 1] & \alpha > 0
+            \end{cases}$} \\
 
             \addlinespace
             \addlinespace
@@ -2384,5 +2488,27 @@
         \end{longtable}
 
     \section{傅里叶级数}
+        \subsection{正交函数系}
+        定义内积：
+        $$(f, g) := C \int_{a}^{b} f(x) g(x) \sdif x$$
+        其中 $C > 0$ 为一常数。
+
+        取 $[a, b] = [-\pi, \pi]$，$C = \frac{1}{\pi}$，有：\\
+        a. $\forall n, m \in \field{N}^+, \; n \neq m$，$(\cos nx, \cos mx) = (\cos nx, \sin mx) = (\sin nx, \cos mx) = 0$ \\
+        b. $(\cos nx, \cos nx) = (\sin nx, \sin nx) = (\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}) = 1$
+
+    $$\begin{cases}
+        a_n = &\frac{1}{l} \int_{x_0 - l}^{x_0 + l} f(x) \cos \frac{n \pi x}{l} \sdif x \quad (n \geqslant 0) \\
+        b_n = &\frac{1}{l} \int_{x_0 - l}^{x_0 + l} f(x) \sin \frac{n \pi x}{l} \sdif x \quad (n \geqslant 1) 
+    \end{cases}$$
+    一般地，$a_0$ 需单独计算，以避免除 0。
+
+    $$S(x) = \frac{f(x^-) + f(x^+)}{2}$$
+
+    奇函数：只含 $\sin$，称正弦级数；\\
+    偶函数：只含 $\cos$，称余弦级数。
+
+    奇延拓：$\forall a_n = 0$，$b_n = \frac{2}{l} \int_{0}^{l}$ \\
+    偶延拓：$\forall b_n = 0$，$a_n = \frac{2}{l} \int_{0}^{l}$
 
 \end{document}
