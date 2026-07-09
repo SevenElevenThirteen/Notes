@@ -51,6 +51,8 @@
 
 \newcommand{\unit}[1]{\mathrm{#1}}
 
+\newcommand{\field}[1]{\mathbb{#1}}
+
 \linespread{1.05}%行间距
 \setlength{\parskip}{8pt}%段落间距
 \setlength{\parindent}{0pt}%不缩进
@@ -512,5 +514,248 @@
         \addlinespace
         感生电场 & 无源 & 有旋 & 非保守 & \\
     \end{longtable}
+
+    \chapter{振动与波动}
+    \section{简谐运动}
+        \subsection{振动方程}
+        $$\begin{aligned}
+            & F = -kx \\
+            \iff & \frac{\dif^2 x}{\dif t^2} + \omega^2 x = 0 \\
+            \iff & x = A \cos (\omega t + \varphi)
+        \end{aligned}$$
+
+        参数：
+        \begin{itemize}
+            \item 角频率 $\omega = \sqrt{\dfrac{k}{m}}$ \\
+                周期 $T = \frac{2\pi}{\omega}$ \\
+                频率 $\nu = \frac{1}{T} = \frac{\omega}{2\pi}$
+            \item 振幅 $A = \sqrt{x^2 + \dfrac{v^2}{\omega^2}} \quad \forall t$
+            \item 初相位 $\varphi_0 = \arctan -\dfrac{v_0}{\omega x_0}$
+        \end{itemize}
+
+        旋转矢量法：模长为 $A$ 的矢量绕原点逆时针转动，角速度 $\omega$，投影到横轴。$x = \Re[A \exp(i \omega t)]$ \\
+        $\varphi_0$ 按 $x_0$ 和 $v_0$ 的符号取角，即矢量初始角。
+
+        \subsection{振动合成}
+        \subsubsection{同频率}
+        $\nu_1 = \nu_2 \; \iff \; \omega_1 = \omega_2$
+
+        $x_{1/2} = A_{1/2} \cos(\omega t + \varphi_{1/2})$，$\Delta\varphi = \varphi_1 - \varphi_2$
+
+        $$\implies\begin{cases}
+            A &= \sqrt{A_1^2 + A_2^2 + 2A_1A_2\cos\Delta\varphi} \\
+            \tan\varphi &= \dfrac{A_1\sin\varphi_1 + A_2\sin\varphi_2}{A_1\cos\varphi_1 + A_2\cos\varphi_2}
+        \end{cases}$$
+
+        \subsubsection{频率接近}
+        $\nu_1 + \nu_2 >> |\nu_1 - \nu_2|$，且假设 $A_1 = A_2$
+        
+        $x_{1/2} = A_0 \cos(2\pi\nu_{1/2}t)$
+
+        $$\implies\begin{cases}
+            x &= 2A_0 \cos(2\pi \, \dfrac{\nu_1 - \nu_2}{2} \, t) \cos(2\pi \, \dfrac{\nu_1 + \nu_2}{2} \, t) \\
+            A &= 2A_0 \\
+            \mu &\approx \dfrac{\nu_1 + \nu_2}{2}
+        \end{cases}$$
+
+        拍：振幅的周期变化，变化周期 $T = \frac{1}{|\nu_1 - \nu_2|}$
+
+        \subsubsection{正交}
+        $x = A_1\cos(\omega_1 t)$，$y = A_2\cos(\omega_2 t + \varphi)$
+
+        用和差角公式展开 $y$，余弦部分用 $x$ 换元，解 $\sin \omega t = \lambda x + \mu y$。另从 $x$ 得 $\cos \omega t = \gamma x$，于是用 $\sin^2 + \cos^2 = 1$ 消去 $t$，得轨迹方程。
+
+        \subsection{能量}
+        $$\begin{aligned}
+            E_k &= \frac{1}{2} m \omega^2 A^2 \sin^2(\omega t + \varphi) \\ 
+            E_p &= \frac{1}{2} k A^2 \cos^2(\omega t + \varphi) \\
+            E &= \frac{1}{2} k A^2 \\
+            \bar{E}_k = \bar{E}_p &= \frac{1}{2} E = \frac{1}{4} k A^2
+        \end{aligned}$$
+
+    \section{波动}
+        \subsection{波动方程}
+        $$\begin{aligned}
+            \text{向右} &\quad y(x, t) = A \cos (\omega t - kx + \varphi) = A \cos 2\pi (\nu t - \dfrac{x}{\lambda} + C) \\
+            \text{向左} &\quad y(x, t) = A \cos (\omega t + kx + \varphi) = A \cos 2\pi (\nu t + \dfrac{x}{\lambda} + C)
+        \end{aligned}$$
+
+        参数：
+        \begin{itemize}
+            \item 波速 $u = \dfrac{\omega}{k} = \dfrac{\lambda}{T}$ \\
+                波速取决于介质。
+            \item 角波数 $k = \dfrac{2\pi}{\lambda}$ \\
+                $2 \pi$ 距离中完整波的数目
+            \item 初相 $\varphi$：看 $t = 0$ 时{\heiti 波源}的振动情况，看质点简谐运动的波形图，而非波在 $t = t_0$ 时 $y = y(x)$ 图。
+        \end{itemize}
+
+        行波方程：$y(x + u \Delta t, \, t + \Delta t) \equiv y(x, t)$
+
+        \subsection{反射波}
+        \subsubsection{换原点}
+        $x = 0 \to x = x_0$，$y = f(x) \to y = f(x + x_0)$。并非平移图像左加右减。
+
+        在 $t = t_0$ 的 $y-x$ 图上，沿 $\vect{u}$ 方向，前面的相位落后之后的相位。从 $x = 0 \to x = x_0$，相位从 $\varphi_0 \to \varphi_0 + \Delta\varphi$，只修改 $\varphi$。
+
+        \subsubsection{半波损失}
+        自由端不变，固定端 $\varphi += \pi$（反相）。进一步地，以波速 $u$ 大小划分疏密，波速大则密，波速小则疏，有
+        a. 波疏到波密：半波损失 \\
+        b. 波密到波疏：无
+
+        {\heiti 只有反射有半波损失}。
+
+        对于光，以折射率划分，$n$ 小则疏（光速大），$n$ 大则密（光速小）。规律与机械波相同。
+
+        \subsubsection{反射波方程}
+        以反射点为原点写方程，仅把 $k$ 取反。若半波损失则 $\varphi$ 加 $\pi$。
+
+        \subsection{驻波}
+        两列相向传播的等振幅 $A$ 的相干波（$\nu$ 相同）。
+
+        $$\begin{cases}
+            y_1 &= A\cos 2\pi (\nu t - \dfrac{x}{\lambda}) \\
+            y_2 &= A\cos 2\pi (\nu t + \dfrac{x}{\lambda})
+        \end{cases} \quad \implies \; y = y_1 + y_2 = 2A \boxed{\cos 2\pi\dfrac{x}{\lambda}} \cos 2\pi\nu t$$
+
+        振幅随位置变化：\\
+        a. 波腹 $\left| \cos 2 \pi \dfrac{x}{\lambda} \right| = 1$，振幅最大；\\
+        b. 波节 $\left| \cos 2 \pi \dfrac{x}{\lambda} \right| = 0$，恒静止。
+
+        相邻波腹 / 相邻波节：$\Delta x = \frac{\lambda}{2}$
+
+        a. 波疏到波密：半波损失，为波节 \\
+        b. 波密到波疏：无，为波腹
+
+        \subsubsection{简正频率}
+        在特定频率 $\nu$ 下，乐器内形成驻波，强度高。
+
+        基频：最低的发生驻波的频率 $\nu$；\\
+        谐频：基频的整数倍。
+
+        长度为 $l$ 的管子，自由/固定决定了两端为波腹/波节，继而决定了波形图。
+        \begin{itemize}
+            \item 左右固定 $\nu = \dfrac{u}{2l} \times k \quad k \in \field{N}_+$
+            \item 一端固定一端自由：$\nu = \dfrac{u}{4l} \times (2k + 1) \quad k \in \field{N}_+$ \\
+                谐频只能取{\heiti 奇数倍}！
+            \item 左右自由：$\nu = \dfrac{u}{2l} \times k \quad k \in \field{N}_+$
+        \end{itemize}
+
+    \chapter{光学}
+    \section{基础}
+        \subsection{光的波长}
+        可见光 $\lambda = 400 \sim 700 \text{nm}$
+
+        红光 $\lambda$ 大，$n$ 小；\\
+        紫光 $\lambda$ 小，$n$ 大。
+
+        \subsection{光的叠加}
+        相干光：频率 $\nu$ 相同，振动方向 $\vect{E}, \vect{H}$ 相同，相位差 $\Delta\varphi$ 恒定。\\
+        相干长度：原子发光时间有限（随机发光），一次仅能产生 $\delta_{\max}$ 长度的光。一般地，仅能利用同一原子产生的光造相干光束。激光不同，是人为制造的大量相干光。
+
+        $n$ 束相干光叠加，相邻两束相位差 $\Delta\varphi = \theta \in [0, \pi]$ 为定值：拼正多边形。\\
+        a. $\theta = 0$：同向合成，振动最强；\\
+        b. $n\theta = 2 m \pi, \; m = \{1, \cdots, n - 1\}$：合振动为 $\vect{0}$。
+
+        光程：$t$ 时间内折算为真空中的距离，$\delta = n s$，其中 $n$ 为折射率；\\
+        光程差：$\Delta\delta$
+
+        凸透镜：等光程性 \\
+        a. 平行光射入，记光与主光轴夹角为 $\theta$，则汇于焦平面上一点 $P$，且该点距焦点距离 $x = f\tan\theta$；\\
+        b. 记所有平行光出发与同一平面，出发时均垂直该平面，则到 $P$ 时所有光的光程 $\delta$ 相同。
+        
+        \subsection{光的反射}
+        以折射率划分，$n$ 小则疏（光速大），$n$ 大则密（光速小）。\\
+        a. 波疏到波密：半波损失 \\
+        b. 波密到波疏：无
+
+        {\heiti 只有反射有半波损失}。
+
+    \section{干涉}
+        \subsubsection{杨氏双缝干涉}
+        孔间距 $d$，双缝到屏距离 $L$，$L >> d$。
+
+        $$\delta = \dfrac{x d}{L} = \begin{cases}
+            k \lambda & \quad \text{明纹} \\
+            (k + \frac{1}{2}) \lambda & \quad \text{暗纹}
+        \end{cases}$$
+
+        $$\Delta x = \frac{\lambda L}{d}$$
+
+        白光照射，中央为白光，从近到远为从紫光到红光。
+
+        \subsubsection{薄膜干涉}
+        膜的上表面反射光，与下表面反射光，干涉。若膜上、中、下的折射率单调变化，则无需考虑半波损失（全无，或全有）。
+
+        膜厚度 $d$，$\delta = 2 n d \cos\varphi$，$\varphi$ 为折射角。
+
+        一般仅考虑垂直入射。
+
+        \subsubsection{劈尖干涉}
+        上层玻璃的下表面反射光，与下层玻璃的上表面反射光，干涉。有没有半波损失？
+
+        劈尖空隙 $d$，$\delta = 2nd + \frac{\lambda}{2}$，$\Delta x = \dfrac{\lambda}{2 n \theta}$，其中 $\theta$ 为玻璃夹角。
+
+        \subsubsection{牛顿环}
+        上层玻璃的下表面反射光，与下层玻璃的上表面反射光，干涉。有没有半波损失？
+
+        中央暗纹：半波损失。
+
+        $$\begin{aligned}
+            \text{明纹} \quad &r = \sqrt{(k - \frac{1}{2}) \dfrac{R\lambda}{n}} \\
+            \text{暗纹} \quad &r = \sqrt{k \dfrac{R\lambda}{n}}
+        \end{aligned}$$
+
+        $$R = \frac{n(r_{k + N}^2 - r_k^2)}{N \lambda}$$
+
+    \section{衍射}
+        \subsubsection{夫琅和费单缝衍射}
+        孔直径 $d$，记点 $P$ 与孔中心连线与水平轴夹角 $\theta$。
+
+        上下对称，即 $k$ 可取正负。
+
+        菲涅尔半波带法：按 $\Delta\delta = \frac{\lambda}{2}$ 切分孔，相邻半波带相互抵消。
+        $$k \in \field{Z} \land k \neq 0 \quad \begin{cases}
+            d\sin\theta = k \lambda &\quad \text{暗纹}\\
+            d\sin\theta = (k + \frac{1}{2}) \lambda &\quad \text{明纹}
+        \end{cases}$$
+        $$x = \begin{cases}
+            k \dfrac{\lambda f}{d} & \quad \text{暗纹} \\
+            (k + \frac{1}{2}) \dfrac{\lambda f}{d} & \quad \text{明纹}
+        \end{cases}$$
+
+        {\heiti 结论与杨氏双缝干涉相反}！
+
+        中央明纹宽 $2 \dfrac{\lambda f}{d}$，角宽度 $\Delta\theta = 2\dfrac{\lambda}{d}$ \\
+        其它明纹宽度和角宽度均为中央明纹的一半，相邻明纹/暗纹距离 $\Delta x = \dfrac{\lambda f}{d}$。
+
+        {\heiti 斜入射}：$\delta = d \sin \varphi - d \sin \theta$，角表示入射角和屏上位置，光程差为孔上下端点的差。
+
+        \subsubsection{艾里斑}
+        圆孔直径 $d$，中央明纹为圆。
+
+        瑞利判据：两个光点，其与圆孔中心夹角 $\theta$，二者发出的光波长 $\lambda$。当
+        $$\theta \geqslant \theta_0 := 1.22 \frac{\lambda}{d}$$
+        时，人/仪器可以从屏幕上区分二者。
+
+        \subsubsection{光栅}
+        孔大小 $a$，相邻孔中心距 $d$（光栅常数），共 $N$ 个孔。视为 $N$ 个单缝衍射的叠加，单缝衍射的明暗纹条件为前提。
+
+        上下对称，即 $k$ 可取正负。
+
+        $\theta$ 处，相邻 $\delta = d \sin\theta$，对应相位差 $\Delta\varphi = 2\pi \dfrac{\delta}{\lambda} = \dfrac{2\pi}{\lambda}d\sin\theta$。视为 $N$ 个共面、同 $\nu$ 的振动合成。
+
+        $$\begin{cases}
+            d \sin\theta = k \lambda \;\; k \in \field{Z} &\quad\text{主极大明纹} \;\Delta\varphi \equiv 0 \pmod {2\pi} \\
+            d \sin\theta = \dfrac{k\lambda}{N} \;\; k \in \field{Z} \land N \not\mid k &\quad\text{暗纹}
+        \end{cases}$$
+
+        $k$-th 主极大明纹角宽度 $\Delta\theta_k = \dfrac{2\lambda}{N d \cos\theta_k}$
+
+        最大级数：$d\sin\theta = k\lambda \; \implies \; k \dfrac{d \sin\theta}{\lambda} < \dfrac{d}{\lambda}$
+
+        {\heiti 缺级}：该处为单缝衍射暗纹，虽然满足光栅主极大明纹方程。在所有 $\dfrac{d}{a}$ 的所有整数倍级数 $k$ 处缺级。
+
+        瑞利判据：两束光在 $k$-th 处恰好可分辨
+        $$\dfrac{\lambda}{\Delta\lambda} = k N$$
 
 \end{document}
