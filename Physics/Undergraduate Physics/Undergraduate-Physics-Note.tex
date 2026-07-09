@@ -573,6 +573,8 @@
             \bar{E}_k = \bar{E}_p &= \frac{1}{2} E = \frac{1}{4} k A^2
         \end{aligned}$$
 
+        能量的变化频率为 $2 \nu$。
+
     \section{波动}
         \subsection{波动方程}
         $$\begin{aligned}
@@ -591,6 +593,8 @@
 
         行波方程：$y(x + u \Delta t, \, t + \Delta t) \equiv y(x, t)$
 
+        {\heiti 相位滞后}：在传播方向上，头部的相位滞后与后面。$\Delta\varphi = - 2\pi \dfrac{r}{\lambda}$
+
         \subsection{反射波}
         \subsubsection{换原点}
         $x = 0 \to x = x_0$，$y = f(x) \to y = f(x + x_0)$。并非平移图像左加右减。
@@ -598,7 +602,7 @@
         在 $t = t_0$ 的 $y-x$ 图上，沿 $\vect{u}$ 方向，前面的相位落后之后的相位。从 $x = 0 \to x = x_0$，相位从 $\varphi_0 \to \varphi_0 + \Delta\varphi$，只修改 $\varphi$。
 
         \subsubsection{半波损失}
-        自由端不变，固定端 $\varphi += \pi$（反相）。进一步地，以波速 $u$ 大小划分疏密，波速大则密，波速小则疏，有
+        自由端不变，固定端 $\varphi += \pi$（反相）。进一步地，以波速 $u$ 大小划分疏密，波速大则密，波速小则疏，有 \\
         a. 波疏到波密：半波损失 \\
         b. 波密到波疏：无
 
@@ -640,6 +644,8 @@
             \item 左右自由：$\nu = \dfrac{u}{2l} \times k \quad k \in \field{N}_+$
         \end{itemize}
 
+        $\Delta \nu \iff \frac{\lambda}{2}$，每次向管子中多塞入半个波长，只是初始状态不同（$\frac{\lambda}{2}$ 与 $\frac{\lambda}{4}$）导致中间情况只能取奇数倍。
+
     \chapter{光学}
     \section{基础}
         \subsection{光的波长}
@@ -680,6 +686,7 @@
         \end{cases}$$
 
         $$\Delta x = \frac{\lambda L}{d}$$
+        条纹间距反映到两个孔的光程差变化，与光源位置无关。
 
         白光照射，中央为白光，从近到远为从紫光到红光。
 
@@ -746,7 +753,7 @@
 
         $$\begin{cases}
             d \sin\theta = k \lambda \;\; k \in \field{Z} &\quad\text{主极大明纹} \;\Delta\varphi \equiv 0 \pmod {2\pi} \\
-            d \sin\theta = \dfrac{k\lambda}{N} \;\; k \in \field{Z} \land N \not\mid k &\quad\text{暗纹}
+            d \sin\theta = \dfrac{k\lambda}{N} \;\; k \in \field{Z} \land N \nmid k &\quad\text{暗纹}
         \end{cases}$$
 
         $k$-th 主极大明纹角宽度 $\Delta\theta_k = \dfrac{2\lambda}{N d \cos\theta_k}$
