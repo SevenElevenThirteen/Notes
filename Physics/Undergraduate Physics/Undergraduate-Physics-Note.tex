@@ -392,40 +392,75 @@
         这说明 $W = q \oint = 0$。
 
         \subsection{电势}
-
-        $\varphi_{\vecr_0} = \int_{\vecr_0}^{0} \vece \cdot \dif \vect{l}$
+        $\varphi_{\vecr_0} = \int_{\vecr_0}^{+\infty} \vece \cdot \dif \vect{l}$
 
         $U_{ab} = \int_{a}^{b} \vece \cdot \dif \vect{l}$
 
         电势{\heiti 可叠加}：$\varphi = \sum \varphi_i$
 
         \subsection{二级结论}
-        微分关系：\\
-        a. $\vece = \conste \sum \frac{\dif q}{r^2} \vect{e_r}$ \\
-        b. $\dif\Phi_e = \vece \cdot \dif \vecs$ \\
-        c. $\dif \varphi = \conste \frac{\dif q}{r}$
+        \subsubsection{微分关系}
+        $\vece = \conste \sum \dfrac{\dif q}{r^2} \vect{e_r}$
+        
+        $\dif\Phi_e = \vece \cdot \dif \vecs$
+        
+        $\dif \varphi = \conste \dfrac{\dif q}{r}$
 
-        \begin{itemize}
-            \item 点电荷 $Q$ \\
-                $\vece = \conste \frac{Q}{r^2} \vect{e_r}$ \\
-                $\varphi = \conste \frac{Q}{r}$
-        \end{itemize}
+        \subsubsection{点电荷}
+        $\vece = \conste \dfrac{Q}{r^2} \vect{e_r}$
+
+        $\varphi = \conste \dfrac{Q}{r}$
+
+        \subsubsection{无穷大带电物体}
+        均匀带电直导线，记电荷线密度 $\lambda$。电场处处垂直于导线，又记 $r$ 为该点到导线的距离。
+        $$\vece = \frac{\lambda}{2 \pi \varepsilon r}$$
+
+        均匀带电平面，记电荷面密度 $\sigma$。
+        $$\vece \equiv \frac{\sigma}{2\varepsilon_0}$$
+
+        \subsubsection{带电球壳}
+        无论球壳带电是否均匀，仅考虑球壳电量 $Q$ 对球心产生的电势贡献，有
+        $$\varphi = \oint_{S} \conste \frac{\dif q}{r} = \conste \frac{Q}{r}$$
+
+        \subsubsection{带电圆环}
+        记圆环带电 $Q$，半径 $R$。以圆心为原点，对中心轴线上距离为 $x$ 处：
+        $$\vece = \conste \frac{q x}{(R^2 + x^2)^{\frac{3}{2}}}$$
 
     \section{静电场中的导体}
         \subsection{静电平衡}
+        条件：\\
+        a. 导体内部无电场 $\vece \equiv \vect{0}$ \\
+        b. 导体表面电场与表面垂直 $\vece \bot S$
+
+        此时导体内部及表面处处等势，导体表面为等势面。
+
+        由高斯定理 $\oint \vece \cdot \dif \vecs = \frac{q}{\varepsilon_0}$，知内部无电荷，电荷只分布在容器外表面（空腔上亦无电荷）。
 
         \subsection{电容器}
-        电容 $C := \frac{Q}{U}$
+        电容 $C := \dfrac{Q}{U}$
 
-        平行板电容器：$C = \frac{\eps_0 S}{d}$
+        平行板电容器：$C = \dfrac{\eps_0 S}{d}$
         
-        电场能量 $E = \frac{1}{2} \frac{Q^2}{C} = \frac{1}{2} CU^2 = \frac{1}{2} QU$
+        电场能量 $E = \dfrac{1}{2} \dfrac{Q^2}{C} = \dfrac{1}{2} CU^2 = \dfrac{1}{2} QU$
 
-        能量密度 $\omega_0 = \frac{1}{2} \eps_0 E^2$
+        能量密度 $\omega_0 = \dfrac{1}{2} \varepsilon_0 \vece^2$。能量 $W_e = \int_{V} \frac{1}{2} \varepsilon_0 \vece^2 \sdif V$。
+
+        \subsubsection{球形电容器}
+        半径分别为 $r < R$ 的两个金属球壳，分别带电 $-q, \, q$。
+
+        $\vece = \conste \dfrac{q}{x^2}$，$U = \int_{r}^{R} \vece \cdot \dif \vecr$
+
+        $$C = 4 \pi \varepsilon_0 \dfrac{Rr}{R - r}$$
+
+        $W_e = \dfrac{q^2}{8 \pi \eps} (\dfrac{1}{r} - \dfrac{1}{R})$
+
+        \subsubsection{柱形电容器}
+        高 $H$，内外半径为 $r < R$ 的两个圆柱薄筒。
+
+        $$C = \frac{2 \pi \varepsilon_0 H}{\ln \frac{R}{r}}$$
 
     \section{恒定磁场}
         \subsection{基础}
-
         真空磁导率 $\mu_0 = 4 \pi \times 10^{-7} \,\unit{N \cdot A^{-2}}$
 
         $\constb = 10^{-7}$
@@ -475,6 +510,26 @@
         $$\dif \vecf = I \dif \vecl \times \vecb$$
 
         \subsection{二级结论}
+        \subsubsection{无限长直导线}
+        磁场环形分布，记 $r$ 为该点到导线的距离。$\vecb = \dfrac{\mu_0 I}{2 \pi r}$
+
+        两根无限长直导线并排，同向吸引，反向排斥。记间距为 $d$，单位长度守力 $\dfrac{F}{L} = \dfrac{\mu_0 I_1 I_2}{2 \pi d}$
+
+        \subsubsection{圆电流}
+        记圆环半径 $R$，在中心处：
+
+        $\vecb = \dfrac{\mu_0 I}{2 R}$
+
+        在中心轴线上，距圆心 $x$ 处。记 $\tan\theta = \dfrac{R}{x}$，则
+        
+        $\vecb = \dfrac{\mu_0 I R \sin\theta}{2 x^2}$
+
+        \subsubsection{无限长通电螺线管}
+        记单位长度内有 $n$ 匝。
+
+        密绕，螺线管内 $\vecb = \mu_0 n I$。
+
+        非密绕，外部磁场极弱，可近似 $\vecb = \mu_0 n I$。
 
     \section{电磁场}
         \subsection{电动势}
@@ -488,6 +543,8 @@
         \subsubsection{电磁感应定律}
         $$\eforce_{\text{i}} = -\frac{\dif \Phi}{\dif t}$$
 
+        对 $N$ 匝线圈，记磁链 $\Psi := N\Phi$，则 $\eforce_{\text{i}} = -N \dfrac{\dif \Phi}{\dif t} = - \dfrac{\dif \Psi}{\dif t}$
+
         若放置一个闭合回路，则电流方向与感应电动势方向一致，从低电势至高电势。这是楞次定律的结果。
 
         \subsubsection{楞次定律}
@@ -495,8 +552,28 @@
 
         \subsection{磁生电}
         \subsubsection{动生电动势}
+        $\vecv \cross \vecb$ 的方向为正极方向。电荷受洛伦兹力运动，因其为非静电力，从负极向正极运动。
+
+        记正极 $a$，负极 $b$，则 $\eforce_{\text{i}} = \int_{b}^{a} (\vecv \cross \vecb) \cdot \dif \vecl$
+
+        对于回路，又有 $\eforce_{\text{i}} = -\dfrac{\dif \Phi}{\dif t}$。因此对于磁场中的运动导线，可补成回路，再减去辅助线的电动势。导体的电动势是客观唯一的，尽管计算过程与中间结果依回路而定，但答案不变。
 
         \subsubsection{感生电动势}
+        变化的磁场激发一种涡旋电场。
+
+        任取 $S$ 为一个以 $l$ 为边界的曲面，记 $\vecs$ 的取向与闭合回路 $\vecl$ 构成右手螺旋关系，并假设曲面 $S$ 不变，则：
+        $$\oint_{l} \vece_{\text{涡}} \cdot \dif\vecl = -\int_{S} \frac{\partial \vecb}{\partial t} \dif \vecs$$
+
+        $\vece_{\text{涡}}$ 与 $\dfrac{\partial \vecb}{\partial t}$ 构成左手螺旋关系。{\heiti 非保守场}，做功与路径有关。
+
+        \subsection{自感与互感}
+        \subsubsection{自感}
+        $\Psi = LI$，自感系数 $L$，单位：亨 $\text{H}$。
+
+        $L$ 由自身性质决定。
+
+        \subsubsection{互感}
+        $M = M_{12} = M_{21}$。$I_1$ 对 $I_2$ 产生 $\Psi_{1 \to 2} = M I_1$。
 
     \section{总结}
     保守场等价于有势场。
