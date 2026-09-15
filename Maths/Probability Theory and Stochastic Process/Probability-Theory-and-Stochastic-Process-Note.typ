@@ -1,0 +1,109 @@
+/* 中文伪粗体 */
+#import "@preview/cuti:0.4.0": show-cn-fakebold
+#show: show-cn-fakebold
+
+/* 画图 */
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+
+/* a more friendly templete for numbering */
+#import "@preview/numbly:0.1.0": numbly
+
+/* text sizes */
+#let 初号 = 42pt
+#let 小初 = 36pt
+#let 一号 = 28pt
+#let 小一 = 24pt
+#let 二号 = 21pt
+#let 小二 = 18pt
+#let 三号 = 16pt
+#let 小三 = 15pt
+#let 四号 = 14pt
+#let 小四 = 12pt
+#let 五号 = 10.5pt
+#let 小五 = 9pt
+
+/*
+    字体设置
+    Times New Roman 不支持中文
+    NSimSun 新宋体
+    默认小四号
+*/
+#set text(
+    font: ("Times New Roman", "NSimSun"),
+    size: 小四
+)
+
+/*
+    页面设置
+    A4
+    页边缘：上下 2.54cm；左右 1.91cm
+*/
+#set page(
+    paper: "a4",
+    margin: (x: 2.54cm, y: 1.91cm), 
+    numbering: "1"
+)
+
+#page(numbering: none)[
+    #align(center + horizon)[
+
+        #text(size: 40pt)[
+            #set par(spacing: 40pt)
+            
+            Probability Theory
+
+            &
+
+            Stochastic Process
+        ]
+
+        #v(1em)
+        #text(size: 20pt)[
+            1001
+        ]
+
+        #v(6em)
+        #text(size: 20pt)[
+            #datetime.today().display()
+        ]
+    ]
+]
+#counter(page).update(1)
+
+#set heading(numbering: "A.a.1.")
+
+#set align(center)
+#text(size: 四号)[
+    #outline(
+        title: [
+            #v(0.5em)
+            #text(size: 初号)[Contents]
+            #v(1em)
+        ],
+        indent: n => n * 1em,
+        depth: 4 // only Part, Chapter & Section will display
+    )
+]
+
+#pagebreak()
+#counter(page).update(1)
+#set align(start)
+
+#show heading: it => {
+    let arr = counter(heading).get()
+    
+    if it.level == 1 {
+        set align(center)
+        set text(size: 初号)
+        it
+        v(1em)
+    }
+    else if it.level == 2 {
+        set align(center)
+        set text(size: 二号)
+        it
+    }
+    else {
+        it
+    }
+}
