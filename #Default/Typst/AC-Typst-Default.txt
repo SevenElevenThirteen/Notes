@@ -1,0 +1,150 @@
+/* 中文伪粗体 */
+#import "@preview/cuti:0.4.0": show-cn-fakebold
+#show: show-cn-fakebold
+
+/* 画图 */
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+
+/* a more friendly templete for numbering */
+#import "@preview/numbly:0.1.0": numbly
+
+/* text sizes */
+#let 初号 = 42pt
+#let 小初 = 36pt
+#let 一号 = 28pt
+#let 小一 = 24pt
+#let 二号 = 21pt
+#let 小二 = 18pt
+#let 三号 = 16pt
+#let 小三 = 15pt
+#let 四号 = 14pt
+#let 小四 = 12pt
+#let 五号 = 10.5pt
+#let 小五 = 9pt
+
+/*
+    字体设置
+    Times New Roman 不支持中文
+    NSimSun 新宋体
+    默认小四号
+*/
+#set text(
+    font: ("Times New Roman", "NSimSun"),
+    size: 小四
+)
+
+/*
+    页面设置
+    A4
+    页边缘：上下 2.54cm；左右 1.91cm
+*/
+#set page(
+    paper: "a4",
+    margin: (x: 2.54cm, y: 1.91cm), 
+    numbering: "1"
+)
+
+#page(numbering: none)[
+    #align(center + horizon)[
+
+        #text(size: 80pt, font: "Old English Text MT")[
+            #set par(spacing: 40pt)
+            
+            Analytic
+
+            Combinatorics
+        ]
+
+        #v(1em)
+        #text(size: 40pt, tracking: 5pt, font: "Old English Text MT")[
+            1001
+        ]
+
+        #v(6em)
+        #text(size: 20pt, font: "Old English Text MT")[
+            #datetime.today().display()
+        ]
+    ]
+]
+#counter(page).update(1)
+
+#let prefixs = ("Part", "Chapter", "Section")
+#set heading(numbering: (..arr) => { // type(arr) is argument; Or can also use numbly to replace all these stuffs !
+    arr = arr.pos() // .pos() captures positional arguments
+
+    if arr.len() == 1 {
+        return [
+            #set text(size: 三号, font: "Old English Text MT")
+            #prefixs.at(0)
+            #numbering("A.", arr.at(0))
+        ]
+    }
+    if arr.len() == 2 {
+        return [
+            #set text(size: 三号, font: "Old English Text MT")
+            #prefixs.at(1)
+            #numbering("1.", arr.at(1))]
+    }
+    if arr.len() == 3 {
+        return [ // at most 3, since outline.depth = 3
+            #set text(size: 三号, font: "Old English Text MT")
+            #prefixs.at(2)
+            #numbering("1.", arr.at(1), arr.at(2))
+        ]
+    }
+    return []
+})
+
+#set align(center)
+#text(size: 四号)[
+    #outline(
+        title: [
+            #v(0.5em)
+            #text(size: 初号, font: "Old English Text MT")[Contents]
+            #v(1em)
+        ],
+        indent: n => n * 1em,
+        depth: 4 // only Part, Chapter & Section will display
+    )
+]
+
+#pagebreak()
+#counter(page).update(1)
+#set align(start)
+
+#show heading: it => {
+    let arr = counter(heading).get()
+    
+    if it.level == 1 {
+        page()[
+            #set align(center + horizon)
+            #set text(size: 初号)
+
+            #text(font: "Old English Text MT")[ #prefixs.at(0) #numbering("A.", arr.at(0)) ]
+            #v(1em)
+            #it.body
+        ]
+    }
+    else if it.level == 2 {
+        align(center)[
+            #set text(size: 一号)
+            #set par(spacing: 15pt)
+
+            #text(font: "Old English Text MT")[ #prefixs.at(1) #numbering("1.", arr.at(1)) ]
+
+            #it.body
+            #divider()
+        ]
+    }
+    else if it.level == 3 [
+        #set text(size: 小二)
+        #text(font: "Old English Text MT")[
+            #prefixs.at(2) #numbering("1.", arr.at(1), arr.at(2))
+        ]
+        #it.body
+    ]
+    else [
+        #set text(size: 小三)
+        #it.body
+    ]
+}

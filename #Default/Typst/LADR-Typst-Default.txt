@@ -47,18 +47,16 @@
 #page(numbering: none)[
     #align(center + horizon)[
 
-        #text(size: 40pt)[
+        #text(size: 80pt)[
             #set par(spacing: 40pt)
             
-            Probability Theory
+            Linear Algebra
 
-            &
-
-            Stochastic Process
+            Done Right
         ]
 
         #v(1em)
-        #text(size: 20pt)[
+        #text(size: 40pt)[
             1001
         ]
 
@@ -70,7 +68,31 @@
 ]
 #counter(page).update(1)
 
-#set heading(numbering: "A.a.1.")
+#let prefixs = ("Chapter", "Chapter", "Section")
+#set heading(numbering: (..arr) => { // type(arr) is argument; Or can also use numbly to replace all these stuffs !
+    arr = arr.pos() // .pos() captures positional arguments
+
+    if arr.len() == 1 {
+        return [
+            #set text(size: 三号)
+            #prefixs.at(0)
+            #numbering("1", arr.at(0))
+        ]
+    }
+    if arr.len() == 2 {
+        return [
+            #set text(size: 三号)
+            #numbering("1A", arr.at(0), arr.at(1))
+        ]
+    }
+    if arr.len() == 3 {
+        return [ // at most 3, since outline.depth = 3
+            #set text(size: 三号)
+            #numbering("1", arr.at(2))
+        ]
+    }
+    return []
+})
 
 #set align(center)
 #text(size: 四号)[
@@ -93,40 +115,38 @@
     let arr = counter(heading).get()
     
     if it.level == 1 {
-        set align(center)
-        set text(size: 初号)
-        it
-        v(1em)
+        page()[
+            #set align(center + horizon)
+            #set text(size: 初号)
+
+            #text()[ #prefixs.at(0) #numbering("1", arr.at(0)) ]
+            #v(1em)
+            #it.body
+        ]
     }
     else if it.level == 2 {
-        set align(center)
-        set text(size: 二号)
-        it
+        align(center)[
+            #set text(size: 一号)
+            #set par(spacing: 15pt)
+
+            #text()[
+                #numbering("1A", arr.at(0), arr.at(1))
+                #(" ")
+                #it.body
+            ]
+
+            #divider()
+        ]
     }
-    else {
-        it
-    }
+    else if it.level == 3 [
+        #set text(size: 小二)
+        #text()[
+            #numbering("1.", arr.at(2))
+        ]
+        #it.body
+    ]
+    else [
+        #set text(size: 小三)
+        #it.body
+    ]
 }
-
-= Definitions
-
-== 随机事件及运算
-
-=== 随机事件
-
-随机试验：可重复，所有可能结果可知，结果不可预知。
-Trial / Experiment, T/E
-
-样本空间 $SS$
-
-事件 Event is a subset of $SS$
-
-样本点 $e in SS$；基本事件 ${e} subset SS$；事件 $T subset SS$；不可能事件 $emptyset$；必然事件 $SS$
-
-=== 事件的关系
-
-- $A$ 发生 $arrow$ $B$ 发生：$A subset B$，$B$ *包含* $A$
-- $A = B arrow.l.r.double A subset B and B subset A$，$A$ 和 $B$ 相等
-- $A union B$：$A$ 和 $B$ 至少有一个发生，和事件
-- $A B$：$A$ 和 $B$ 同时发生，积事件
-- $A - B$：$A$ 发生，$B$ 不发生
