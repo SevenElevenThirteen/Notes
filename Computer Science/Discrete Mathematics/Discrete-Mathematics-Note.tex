@@ -325,4 +325,50 @@
         \item \textbf{WLOG}: without loss of generality.
     \end{itemize}
 
+    \chapter{Relations}
+
+    Can't use emptyset for {\heiti Cartesian Product}.
+
+    \section{Definitions}
+    A binary relation $R$ from $A$ to $B$ is a subset of $A \times B$: $R \subset A \times B$
+
+    If $(a, b) \in R$, then $a$ is related to $b$. The {\heiti order} is matter. Denoted as $a R b$ or $(a, b) \in R$. 
+    Otherwise, $a \, R\!\!\!\!/ \, b$ or $(a, b) \notin R$.
+
+    The length of tuple is called {\heiti degree}. e.g. The degree of $A \times \cdots \times A$ is $n$.\\
+    $A_i$ is called the domains of $R$.
+
+    Virtualize: Order ! \\
+    a. {\heiti directed} bipartite graph \\
+    b. {\heiti directed} graph for $R \subset A \times A$ \\
+    c. 01-matrix
+
+    Inverse Relation $R^{-1} := \{(b, a): (a, b) \in R\}$.\\
+    e.g. $R = \{(a, b): a < b\}$, then $R^{-1} = \{(a, b): a > b\}$. Note that if $R = \{(a, b): p(a, b)\}$, $R^{-1}$ is {\heiti not} $\{(a, b): \lnot p(a, b)\}$ !
+
+    some special relation on $A$: 
+    \begin{itemize}
+        \item 空关系 $\emptyset$
+        \item 恒等关系 $I_A = \{(a, a): \forall a\}$
+        \item 全域关系 $U_A = \{(a, b): \forall a \forall b\}$
+    \end{itemize}
+
+    Properties:
+    \begin{itemize}
+        \item 自反性 Reflexive: $\forall x \in A, x R x$ \\
+            Each node has a self-loop.
+        \item 反自反性 Irreflexive: $\forall x \in A, (x, x) \notin R$ \\
+            Irreflexive is {\heiti not} the negation of reflexive ! \\
+            $R$ can be neither reflexive nor irreflexive. $R$ is both reflexive and irreflexive iff $A = \emptyset$ (however, Cartesian Product asks $A \neq \emptyset$ in $A \times A$, so?). \\
+            Each node must not have a self-loop.
+        \item 对称性 Symmetric: $R = R^{-1}$ (a.k.a. $\forall x, y \in A \; (x, y) \in R \iff (y, x) \in R$) \\
+            （等价地）All edges are bi-directed.
+        \item 反对称性 Antisymmetric: $(x, y) \in R \land (y, x) \in R \; \implies \; x = y$ \\
+            Antisymmetric is {\heiti not} "not symmetric" ! \\
+            For any two different vertices, there are at most one directed edge link them.
+        \item 非对称性 Asymmetric: $(x, y) \in R \; \implies \; (y, x) \notin R$ \\
+            Completely no symmetric. A necessary condition is no self-loop.
+        \item 传递性 Transitive: $(x, y), (y, z) \in R \; \implies \; (x, z) \in R$
+    \end{itemize}
+
 \end{document}
