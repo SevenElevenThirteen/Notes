@@ -220,12 +220,69 @@ $cal(F)$ 为样本空间 $Omega$ 上的 $sigma$-代数（$tilde cal(F) = 2^Omega
     + #[
         可列可加性：
         若 $A_i in cal(F)$, $i = 1, dots.c$ 满足 $A_i inter A_j = emptyset$，则
-        $ P(union.big_(i = 0)^oo A_i) = sum_(i = 0)^oo P(A_i) $
+        $ P(union.big_(i = 1)^oo A_i) = sum_(i = 1)^oo P(A_i) $
     ]
 ]
 则称 $P$ 为定义在 $(Omega, cal(F))$ 上的概率，概率空间 $(Omega, cal(F), P)$
 
 性质：
-- #[
++ #[
     $P(emptyset) = 0$
 ]
+
++ #[
+    若 ${A_n}$ 为一列两两互不相容事件，则
+    $ P(union.big_(i = 1)^n A_i) = sum_(i = 1)^n P(A_i) $
+
+    证明：补 $emptyset$，但需说明 $A_i ' A_j ' = emptyset$
+]
++ #[
+    $P(A) = 1 - P(opp(A))$
+]
++ #[
+    单调性：若 $A subset B$，则 $P(B - A) = P(B) - P(A)$，于是 $P(A) leq P(B)$
+]
++ #[
+    $P(A union B) = P(A) + P(B) - P(A B)$
+
+    推广：$ P(union.big_(i = 1)^(n) A_i) = sum_(S subset {1, dots.c, n}) (-1)^(|S| - 1) P(product_(i in S) A_i) $
+
+    证明：$A union B = A union (B - A B)$，二者互不相容。又 $A B subset B$，$P(B - A B) = P(B) - P(A B)$
+]
++ #[
+    连续性：\
+    a. 若 $A_1 subset A_2 subset dots.c$，记 $A = union.big A_i$，则 $P(A) = lim P(A_i)$ \
+    b. 若 $A_1 supset A_2 supset dots.c$，记 $A = inter.big A_i$，则 $P(A) = lim P(A_i)$
+
+    证明：a. 单调有界有极限。取 $B_1 = A_1, B_i = A_i - A_(i - 1)$，则 $A = union.big B_i$。\
+    b. 
+]
+
+== 条件概率
+
+=== 定义
+
+给定 $(Omega, cal(F), P)$，设事件 $B$ 满足 $P(B) > 0$，定义映射
+$ P(ast | B): cal(F) arrow.hook RR\
+P(A | B) arrow.bar P(A)/P(B) $
+依次验证 $P(ast | B)$ 满足公理化的 3 个条件，故其确为概率，称条件概率。继而概率的 6 条性质可以迁移到条件概率。
+
+=== 公式
+
+==== 乘法公式
+
+$P(B) > 0$ 时，$P(A B) = P(A) times P(A | B)$
+
+推广：若 $P(A_1 dots.c A_(n - 1)) > 0$，则
+$ P(A_1 dots.c A_n) = P(A_1) times P(A_2 | A_1) times P(A_3 | A_1 A_2) times dots.c times P(A_n | A_1 dots.c A_(n - 1)) $
+
+==== 全概率公式
+
+一个 $SS$ 的划分 ${B_n}$ 是满足如下条件的一列事件：\
+a. $B_i B_j = emptyset$ \
+b. $union.big B_i = SS$
+
+取一列划分 ${B_n}$，则：
+$ P(A) = sum P(A | B_i) P(B_i) $
+
+推论：$min{P(A | B_i)} leq P(A) leq max{P(A | B_i)}$
