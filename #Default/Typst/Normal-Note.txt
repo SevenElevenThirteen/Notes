@@ -64,6 +64,16 @@
 #let leq = math.lt.slant
 #let geq = math.gt.slant
 
+#let proof-style = [proof.]
+#let proof(body) = block( // using grid to create auto left hanging
+    grid(
+        columns: (auto, 1fr),
+        gutter: 0.5em,
+        proof-style,
+        body,
+    ),
+)
+
 #page(numbering: none)[
     #align(center + horizon)[
 

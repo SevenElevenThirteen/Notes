@@ -47,6 +47,7 @@
 /* spacing */
 // em is the size of cur font, about the width of one Chinese character
 #let en = sym.space.en // 1/2 em, about one letter in monospaced font e.g. console
+#let sp = sym.space
 // space: 1/4 em, equal to a normal "space" when enter a "space"
 
 // wide : 2    em, ~ \qquad 
@@ -64,8 +65,20 @@
 #let leq = math.lt.slant
 #let geq = math.gt.slant
 
+#let proof-style = [证明：]
+#let proof(body) = block( // using grid to create auto left hanging
+    grid(
+        columns: (auto, 1fr),
+        gutter: 0.5em,
+        proof-style,
+        body,
+    ),
+)
+
 /* specific math abbr. */
 #let opp(x) = math.overline(x)
+#let upr(x) = math.upright(x)
+#let eve(x, y) = $upright(#x)_(#y)$
 
 #page(numbering: none)[
     #align(center + horizon)[
@@ -100,7 +113,7 @@
     #outline(
         title: [
             #v(0.5em)
-            #text(size: 初号)[Contents]
+            #text(size: 初号)[目录]
             #v(1em)
         ],
         indent: n => n * 1em,
@@ -134,7 +147,7 @@
     }
 }
 
-= Definitions
+= 定义
 
 == 随机事件及运算
 
@@ -264,14 +277,14 @@ $cal(F)$ 为样本空间 $Omega$ 上的 $sigma$-代数（$tilde cal(F) = 2^Omega
 
 给定 $(Omega, cal(F), P)$，设事件 $B$ 满足 $P(B) > 0$，定义映射
 $ P(ast | B): cal(F) arrow.hook RR\
-P(A | B) arrow.bar P(A)/P(B) $
+P(A | B) arrow.bar P(A B)/P(B) $
 依次验证 $P(ast | B)$ 满足公理化的 3 个条件，故其确为概率，称条件概率。继而概率的 6 条性质可以迁移到条件概率。
 
 === 公式
 
 ==== 乘法公式
 
-$P(B) > 0$ 时，$P(A B) = P(A) times P(A | B)$
+$P(B) > 0$ 时，$P(A B) = P(A) times P(A | B) = P(B) times P(B | A)$
 
 推广：若 $P(A_1 dots.c A_(n - 1)) > 0$，则
 $ P(A_1 dots.c A_n) = P(A_1) times P(A_2 | A_1) times P(A_3 | A_1 A_2) times dots.c times P(A_n | A_1 dots.c A_(n - 1)) $
@@ -284,5 +297,80 @@ b. $union.big B_i = SS$
 
 取一列划分 ${B_n}$，则：
 $ P(A) = sum P(A | B_i) P(B_i) $
+#proof()[
+    $A = A SS = A (union B_i) = union (A B_i)$，而 $(A B_i) inter (A B_j) = emptyset$。由可列可加性展开，再基于乘法公式。
+]
 
 推论：$min{P(A | B_i)} leq P(A) leq max{P(A | B_i)}$
+
+==== 贝叶斯公式
+
+- #[
+    两枚硬币：一枚正反一样，一枚正常。等概率随机取一枚，在连抛两次都是正面的条件下，第三次是正面的概率？
+
+    记事件 $eve(A, i)$ 为第 $i$ 次为正面，$upr(F)$ 为使用正常硬币。已知 $P(eve(A, ast) | upr(F)) = 1/2 en P(eve(A, ast) | opp(upr(F))) = 1$
+
+    在第一次实验前：$P(upr(F)) = 1/2 en P(opp(upr(F))) = 1/2$
+
+    在第一次实验后 a.k.a. 第二次实验前：
+    $ P(upr(F) | eve(A, 1)) &= P(upr(F)eve(A, 1))/P(eve(A, 1))
+    = (P(eve(A, 1) | upr(F)) P(upr(F)))/(P(eve(A, 1) | upr(F)) P(upr(F)) sp + sp P(eve(A, 1) | upr(opp(F))) P(opp(upr(F)))) \
+    &= (1/2 times 1/2)/(1/2 times 1/2 + 1 times 1/2) = 1/3 $
+
+    第二次实验后，将其视为在第一次基础上的实验，第一次的后验概率变为第二次的先验概率：（形式上，所有推演套在 $P(ast | eve(A, 1))$ 中。亦可看作 $P(upr(F) eve(A, 1) eve(A, 2))  slash P(eve(A, 1) eve(A, 2))$ 上下同除 $P(eve(A, 1))$。）
+    $ P(upr(F) | eve(A, 1) eve(A, 2)) &= (P(upr(F) eve(A, 2) | eve(A, 1)))/(P(eve(A, 2) | eve(A, 1)))
+    = (P(eve(A, 2) | upr(F) eve(A, 1)) P(upr(F) | eve(A, 1)))/(P(eve(A, 2) | upr(F) eve(A, 1)) P(upr(F) | eve(A, 1)) + P(eve(A, 2) | opp(upr(F)) eve(A, 1)) P(opp(upr(F)) | eve(A, 1))) \
+    &= (1/2 times 1/3)/(1/2 times 1/3 + 1 times 2/3) = 1/5 $
+    
+    另一方面，把第一次的式子代入第二次：
+    $ &quad P(upr(F) | eve(A, 1) eve(A, 2)) \
+    &= (P(eve(A, 2) | upr(F) eve(A, 1)) P(upr(F) | eve(A, 1)))/(P(eve(A, 2) | upr(F) eve(A, 1)) P(upr(F) | eve(A, 1)) + P(eve(A, 2) | opp(upr(F)) eve(A, 1)) P(opp(upr(F)) | eve(A, 1))) \
+    &= (P(eve(A, 2) | upr(F) eve(A, 1)) times (P(eve(A, 1) | upr(F)) P(upr(F)))/(P(eve(A, 1) | upr(F)) P(upr(F)) + P(eve(A, 1) | upr(opp(F))) P(opp(upr(F)))))/(P(eve(A, 2) | upr(F) eve(A, 1)) times (P(eve(A, 1) | upr(F)) P(upr(F)))/(P(eve(A, 1) | upr(F)) P(upr(F)) + P(eve(A, 1) | upr(opp(F))) P(opp(upr(F)))) + P(eve(A, 2) | opp(upr(F)) eve(A, 1)) times (P(eve(A, 1) | opp(upr(F))) P(opp(upr(F))))/(P(eve(A, 1) | upr(F)) P(upr(F)) + P(eve(A, 1) | upr(opp(F))) P(opp(upr(F)))))\
+    &= (P(eve(A, 2) | upr(F) eve(A, 1)) P(eve(A, 1) | upr(F)) P(upr(F)))/(P(eve(A, 2) | upr(F) eve(A, 1)) P(eve(A, 1) | upr(F)) P(upr(F)) sp + sp P(eve(A, 2) | opp(upr(F)) eve(A, 1)) P(eve(A, 1) | opp(upr(F))) P(opp(upr(F))))\
+    &= (1/2 times 1/2 times 1/2)/(1/2 times 1/2 times 1/2 + 1 times 1 times 1/2) = 1/5 $
+
+    可见使用两次贝叶斯公式和使用一次是等价的。
+
+    最后，
+    $ P(eve(A, 3) | eve(A, 1) eve(A, 2)) &= P(eve(A, 3) | upr(F) eve(A, 1) eve(A, 2)) P(upr(F) | eve(A, 1) eve(A, 2)) + P(eve(A, 3) | opp(upr(F)) eve(A, 1) eve(A, 2)) P(opp(upr(F)) | eve(A, 1) eve(A, 2)) \
+    &= 1/2 times 1/5 + 1 times 4/5 = 9/10 $
+]
+
+#divider()
+
+记 ${B_n}$ 为 $SS$ 的一个划分，若 $P(upr(A)) > 0$ 且 $forall i, P(B_i) > 0$，则：
+$ P(B_t | upr(A)) = (P(upr(A) B_t))/(P(upr(A))) = (P(upr(A) | B_t) P(B_t))/(sum P(upr(A) | B_i) P(B_i)) $
+核心源自乘法公式的交换性 Exchangability，算两次：$P(A B) = P(A) times P(A | B) = P(B) times P(B | A)$
+
+推论：找主要原因看*乘积*而非单项 Product Matters !
+$ arg max_t P(B_t | upr(A)) &= arg max_t (P(upr(A) | B_t) P(B_t))/(sum P(upr(A) | B_i) P(B_i)) \
+&= arg max_t P(upr(A) | B_t) P(B_t) $
+
+假设现有一列样本 ${x_n}$，视为一次实验与 $n$ 次连续实验是等价的，这称贝叶斯公式的相合性 Coherence。证明无非展开与归纳。于是可以递推 Recursive：
+$ P(theta_t | x_1 dots.c x_(n + 1)) = (P(x_(n + 1) | theta_t sp x_1 dots.c x_n) times P(theta_t | x_1 dots.c x_n))/(sum P(x_(n + 1) | theta_i sp x_1 dots.c x_n) times P(theta_i | x_1 dots.c x_n)) $
+
+若 $P(x_(n + 1) | theta sp x_1 dots.c x_n) equiv P(?|theta)$（实验相互独立？），则运算只是对右侧的反复替换。
+
+== 独立性
+
+=== 定义
+
+若事件 $upright(A), upright(B)$ 满足
+$ P(upright(A B)) = P(upright(A)) P(upright(B)) $
+则称 A, B 为相互独立的事件 / A, B 相互独立。
+
+独立性依赖概率：如考虑 $Omega = {1, 2, 3, 4}$，$cal(F) = 2^Omega$，$upr(A) = {1, 2}, upr(B) = {1, 3}$
+- #[
+    $P_1: P_1({1}) = P_1({2}) = P_1({3}) = P_1({4}) = 1/4$
+
+    $ cases(reverse: #true,
+        P(upr(A B)) = P({1}) = 1/4,
+        P(A) = P(B) = 1/2) imply P(upr(A B)) = P(upr(A)) P(upr(B)) $
+]
+- #[
+    $P_2: P_1({1}) = 1/2, P_1({2}) = P_1({3}) = 1/4,  P_1({4}) = 0$
+
+    $ cases(reverse: #true,
+        P(upr(A B)) = P({1}) = 1/2,
+        P(A) = P(B) = 1/2 + 1/4 = 3/4) imply P(upr(A B)) != P(upr(A)) P(upr(B)) $
+]

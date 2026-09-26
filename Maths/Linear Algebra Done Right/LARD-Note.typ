@@ -146,7 +146,7 @@
             #v(1em)
         ],
         indent: n => n * 1em,
-        depth: 3 // only Part, Chapter & Section will display
+        depth: 4 // only Part, Chapter & Section will display
     )
 ]
 
@@ -320,4 +320,4 @@ $P_U$ 把 $v$ 拍到低维空间。
     ]
 ]
 
-=== Minimizatino Problems
+=== Minimization Problems
