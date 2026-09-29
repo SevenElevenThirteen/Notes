@@ -129,6 +129,7 @@
     let arr = counter(heading).get()
     
     if it.level == 1 {
+        pagebreak(weak: true)
         set align(center)
         set text(size: 初号)
         it
@@ -147,7 +148,7 @@
     }
 }
 
-= 定义
+= 基础
 
 == 随机事件及运算
 
@@ -353,7 +354,7 @@ $ P(theta_t | x_1 dots.c x_(n + 1)) = (P(x_(n + 1) | theta_t sp x_1 dots.c x_n) 
 
 == 独立性
 
-=== 定义
+=== 两个事件的独立性
 
 若事件 $upright(A), upright(B)$ 满足
 $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
@@ -374,3 +375,63 @@ $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
         P(upr(A B)) = P({1}) = 1/2,
         P(A) = P(B) = 1/2 + 1/4 = 3/4) imply P(upr(A B)) != P(upr(A)) P(upr(B)) $
 ]
+
+性质：
++ #[
+    若 $upr(A), upr(B)$ 相互独立，则 $opp(upr(A)), upr(B)$、$upr(A), opp(upr(B))$ 和 $opp(upr(A)), opp(upr(B))$ 均相互独立。
+
+    $P()$
+]
+
++ #[
+    若 $P(upr(A)) > 0, P(upr(B)) > 0$，则 $upr(A), upr(B)$ 相互独立，与 $upr(A), upr(B)$ 互不相容不能同时成立。
+
+    若同时成立，则 $P(upr(A)) P(upr(B)) =^("独立性") P(upr(A B)) =^("互不相容") P(emptyset) = 0$，与 $P(upr(A)) > 0, P(upr(B)) > 0$ 矛盾。
+]
++ #[
+    若 $P(upr(A)) > 0$，则 $upr(A), upr(B)$ 相互独立的充要条件是
+    $ P(upr(B) | upr(A)) = P(upr(B)) $
+]
+
+
+=== 多个事件的独立性
+
+有一列事件 ${upr(A)_n}$：
+
+==== 两两独立
+
+若 $ P(upr(A)_i upr(A)_j) = P(upr(A)_i) P(upr(A)_j) med forall i != j $
+称 ${upr(A)_n}$ 两两独立。
+
+两两独立*不一定* $P(product upr(A)) = product P(upr(A))$
+
+==== 相互独立
+
+若 $ P(product_(i in S) upr(A)_i) = product_(i in S) P(upr(A)_i) med forall S subset {1, dots.c, n} and |S| geq 2 $
+称 ${upr(A)_n}$ 相互独立。
+
+性质：
++ #[
+    若 ${upr(A)_n}$ 相互独立，则从中任取 $m leq n$ 个事件，这些事件也相互独立。
+]
+
++ #[
+    若 ${upr(A)_n}$ 相互独立，则把任意 $m leq n$ 个事件 $upr(A)_i$ 换成其对立事件 $opp(upr(A)_i)$，这些事件仍相互独立。
+]
+
+== 伯努利试验
+
+= 随机变量及分布
+
+== 随机变量
+
+=== 定义
+
+$X: Omega to RR$，则 ${omega in cal(F): X(omega) leq x}$ 是一个事件，简记为 $X leq x$。$P(X leq x)$ 是 $X compose P = RR to Omega to RR$ 的映射。
+
+随机变量 r.v. $X, Y, Z, dots.c$ 本质是映射。
+
+分布函数 d.f. $F_X (x) := P(X leq x)$
+
+e.g. 抛一次硬币，记 $X$ 为正面的次数，且令正面向上的概率为 0.7。则 $ F_X (x) = cases(0 &x < 0, 0.3 med &0 leq x < 1, 1 &x geq 1) $
+右连续，左不一定连续。

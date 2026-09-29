@@ -27,3 +27,50 @@ assessments:
 
 - the Cruise robotaxi accident
 - AI-assisted medical diagnosis
+
+# L3
+
+ethical issues in AI:
+- ai-assisted recruitment
+- (lethal) autonomous weapons
+- ai safety
+- future work
+
+## def of theory
+- unifies knowledges
+- guide analysis
+
+## def of ethical theory
+synthesize moral rules, generalize moral experiences
+
+## ethical theories
+- actor/agent: virtue ethics
+  emphasize the character of person
+  If you are a good person(or try to be ~), then the right action will follow, effortlessly. 好人自然会行好事，而无需多余的约束。
+- action: denotology
+  emph~ intrinsic rightness/wrongness of action
+- result: consequentialism
+  good/bad result -> god/bad
+  which action will produce the best overall result
+
+e.g. Lying to save a person's life?
+- conse~: obvious, lie
+- virtue e~: lie
+  a virtous person would not normally lie, but "honest" does not necessarily require helping a murderer find a victim
+- denotology: not lie
+
+---
+
+virtue ethics:
+
+Aristotle: 
+a virtous person knows what to do. / have the right judgement. 
+be at the mean virtue(?) / "the golden mean", aware of two extreme: deficiency & excess 过犹不及，中庸之道
+
+---
+
+denotology
+
+Kant
++ Act only according to that maxim whereby you can at the same time will that it should become a universal law.
+  道德是某种“普适准则”？
