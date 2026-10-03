@@ -1,13 +1,9 @@
-/* 中文伪粗体 */
-#import "@preview/cuti:0.4.0": show-cn-fakebold
-#show: show-cn-fakebold
+/* packages */
+#import "../../__Template/Typst-Template/Packages-for-Typst-Template.typ": *
 
-/* 画图 */
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
-// #import "@preview/cetz:0.5.2"
-
-/* a more friendly templete for numbering */
-#import "@preview/numbly:0.1.0": numbly
+/* abbrs */
+#import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
+#let proof = proof-template.with(prefix: [证明：]) // more recommended by GPT 5.6 Luna, and get ce when try to use set/show
 
 /* Circuit */
 #import "@preview/zap:0.6.0"
@@ -48,42 +44,8 @@
 //   symbol("tri-state", name, draw: draw, ..args)
 // }
 
-/* spacing */
-// em is the size of cur font, about the width of one Chinese character
-#let en = sym.space.en // 1/2 em, about one letter in monospaced font e.g. console
-// space: 1/4 em, equal to a normal "space" when enter a "space"
-
-// wide : 2    em, ~ \qquad 
-// quad : 1    em, ~ \quad
-// thick: 5/18 em, ~ \;
-// med  : 2/9  em, ~ \:
-// thin : 1/6  em, ~ \,
-
-/* general math abbr. */
-#let iff = math.arrow.l.r.double
-#let imply = math.arrow.r.double
-#let to = math.arrow.r
-#let get = math.arrow.l
-
-#let leq = math.lt.slant
-#let geq = math.gt.slant
-
 /* specific math abbr. */
 #let ne(x) = math.overline(x)
-
-/* text sizes */
-#let 初号 = 42pt
-#let 小初 = 36pt
-#let 一号 = 28pt
-#let 小一 = 24pt
-#let 二号 = 21pt
-#let 小二 = 18pt
-#let 三号 = 16pt
-#let 小三 = 15pt
-#let 四号 = 14pt
-#let 小四 = 12pt
-#let 五号 = 10.5pt
-#let 小五 = 9pt
 
 /*
     字体设置

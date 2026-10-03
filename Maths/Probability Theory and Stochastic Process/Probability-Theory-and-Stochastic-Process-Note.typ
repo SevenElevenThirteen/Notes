@@ -1,26 +1,9 @@
-/* 中文伪粗体 */
-#import "@preview/cuti:0.4.0": show-cn-fakebold
-#show: show-cn-fakebold
+/* packages */
+#import "../../__Template/Typst-Template/Packages-for-Typst-Template.typ": *
 
-/* 画图 */
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
-
-/* a more friendly templete for numbering */
-#import "@preview/numbly:0.1.0": numbly
-
-/* text sizes */
-#let 初号 = 42pt
-#let 小初 = 36pt
-#let 一号 = 28pt
-#let 小一 = 24pt
-#let 二号 = 21pt
-#let 小二 = 18pt
-#let 三号 = 16pt
-#let 小三 = 15pt
-#let 四号 = 14pt
-#let 小四 = 12pt
-#let 五号 = 10.5pt
-#let 小五 = 9pt
+/* abbrs */
+#import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
+#let proof = proof-template.with(prefix: [证明：]) // more recommended by GPT 5.6 Luna, and get ce when try to use set/show
 
 /*
     字体设置
@@ -44,41 +27,15 @@
     numbering: "1"
 )
 
-/* spacing */
-// em is the size of cur font, about the width of one Chinese character
-#let en = sym.space.en // 1/2 em, about one letter in monospaced font e.g. console
-#let sp = sym.space
-// space: 1/4 em, equal to a normal "space" when enter a "space"
-
-// wide : 2    em, ~ \qquad 
-// quad : 1    em, ~ \quad
-// thick: 5/18 em, ~ \;
-// med  : 2/9  em, ~ \:
-// thin : 1/6  em, ~ \,
-
-/* general math abbr. */
-#let iff = math.arrow.l.r.double
-#let imply = math.arrow.r.double
-#let to = math.arrow.r
-#let get = math.arrow.l
-
-#let leq = math.lt.slant
-#let geq = math.gt.slant
-
-#let proof-style = [证明：]
-#let proof(body) = block( // using grid to create auto left hanging
-    grid(
-        columns: (auto, 1fr),
-        gutter: 0.5em,
-        proof-style,
-        body,
-    ),
-)
-
 /* specific math abbr. */
 #let opp(x) = math.overline(x)
 #let upr(x) = math.upright(x)
 #let eve(x, y) = $upright(#x)_(#y)$
+
+#let upra = $upr(A)$
+#let uprb = $upr(B)$
+#let oppa = $opp(upr(A))$
+#let oppb = $opp(upr(B))$
 
 #page(numbering: none)[
     #align(center + horizon)[
@@ -290,6 +247,8 @@ $P(B) > 0$ 时，$P(A B) = P(A) times P(A | B) = P(B) times P(B | A)$
 推广：若 $P(A_1 dots.c A_(n - 1)) > 0$，则
 $ P(A_1 dots.c A_n) = P(A_1) times P(A_2 | A_1) times P(A_3 | A_1 A_2) times dots.c times P(A_n | A_1 dots.c A_(n - 1)) $
 
+于是 $n$ 个事件的交可视为 $n$ 个事件依次发生。
+
 ==== 全概率公式
 
 一个 $SS$ 的划分 ${B_n}$ 是满足如下条件的一列事件：\
@@ -318,7 +277,7 @@ $ P(A) = sum P(A | B_i) P(B_i) $
     = (P(eve(A, 1) | upr(F)) P(upr(F)))/(P(eve(A, 1) | upr(F)) P(upr(F)) sp + sp P(eve(A, 1) | upr(opp(F))) P(opp(upr(F)))) \
     &= (1/2 times 1/2)/(1/2 times 1/2 + 1 times 1/2) = 1/3 $
 
-    第二次实验后，将其视为在第一次基础上的实验，第一次的后验概率变为第二次的先验概率：（形式上，所有推演套在 $P(ast | eve(A, 1))$ 中。亦可看作 $P(upr(F) eve(A, 1) eve(A, 2))  slash P(eve(A, 1) eve(A, 2))$ 上下同除 $P(eve(A, 1))$。）
+    第二次实验后，将其视为在第一次基础上的实验，第一次的后验概率变为第二次的先验概率：（形式上，所有推演套在 $P(ast | eve(A, 1))$ 中。亦可看作 $P(upr(F) eve(A, 1) eve(A, 2))  slash P(eve(A, 1) eve(A, 2))$ *上下同除* $P(eve(A, 1))$。）
     $ P(upr(F) | eve(A, 1) eve(A, 2)) &= (P(upr(F) eve(A, 2) | eve(A, 1)))/(P(eve(A, 2) | eve(A, 1)))
     = (P(eve(A, 2) | upr(F) eve(A, 1)) P(upr(F) | eve(A, 1)))/(P(eve(A, 2) | upr(F) eve(A, 1)) P(upr(F) | eve(A, 1)) + P(eve(A, 2) | opp(upr(F)) eve(A, 1)) P(opp(upr(F)) | eve(A, 1))) \
     &= (1/2 times 1/3)/(1/2 times 1/3 + 1 times 2/3) = 1/5 $
@@ -380,7 +339,7 @@ $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
 + #[
     若 $upr(A), upr(B)$ 相互独立，则 $opp(upr(A)), upr(B)$、$upr(A), opp(upr(B))$ 和 $opp(upr(A)), opp(upr(B))$ 均相互独立。
 
-    $P()$
+    只需说明 $upr(A), upr(B) imply opp(upr(A)), upr(B)$，其它均由其替换而得。$upr(B) = upr(A B) union opp(upr(A))upr(B) and (upr(A B)) inter (opp(upr(A))upr(B)) = emptyset$，于是 $P(upr(B)) = P(upr(A B)) + P(opp(upr(A))upr(B)) = P(upra)P(uprb) + P(oppa uprb)$。移项 $P(oppa uprb) = P(uprb)(1 - P(upra)) = P(oppa)P(uprb)$。
 ]
 
 + #[
@@ -389,25 +348,22 @@ $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
     若同时成立，则 $P(upr(A)) P(upr(B)) =^("独立性") P(upr(A B)) =^("互不相容") P(emptyset) = 0$，与 $P(upr(A)) > 0, P(upr(B)) > 0$ 矛盾。
 ]
 + #[
-    若 $P(upr(A)) > 0$，则 $upr(A), upr(B)$ 相互独立的充要条件是
+    若 $P(upr(A)) > 0$，则 $upr(A), upr(B)$ 相互独立的*充要条件*是
     $ P(upr(B) | upr(A)) = P(upr(B)) $
 ]
 
-
 === 多个事件的独立性
-
-有一列事件 ${upr(A)_n}$：
 
 ==== 两两独立
 
-若 $ P(upr(A)_i upr(A)_j) = P(upr(A)_i) P(upr(A)_j) med forall i != j $
+若一列事件 ${upr(A)_n}$ 满足 $ P(upr(A)_i upr(A)_j) = P(upr(A)_i) P(upr(A)_j) med forall i != j $
 称 ${upr(A)_n}$ 两两独立。
 
-两两独立*不一定* $P(product upr(A)) = product P(upr(A))$
+两两独立*不一定* $P(product upr(A)) = product P(upr(A))$。如掷两次骰子，$upra$ 为第一次为偶数，$uprb$ 为第二次为奇数，$upr(C)$ 为两次奇偶性相同。可得 $P(upra) = P(uprb) = P(upr(C)) = 1/2$，$P(upra uprb) = P(upra upr(C)) = P(uprb upr(C)) = 1/4$ 故两两独立。但显然 $P(upra uprb upr(C)) = 0$。
 
 ==== 相互独立
 
-若 $ P(product_(i in S) upr(A)_i) = product_(i in S) P(upr(A)_i) med forall S subset {1, dots.c, n} and |S| geq 2 $
+若一列事件 ${upr(A)_n}$ 满足 $ P(product_(i in S) upr(A)_i) = product_(i in S) P(upr(A)_i) med forall S subset {1, dots.c, n} and |S| geq 2 $
 称 ${upr(A)_n}$ 相互独立。
 
 性质：
@@ -417,6 +373,8 @@ $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
 
 + #[
     若 ${upr(A)_n}$ 相互独立，则把任意 $m leq n$ 个事件 $upr(A)_i$ 换成其对立事件 $opp(upr(A)_i)$，这些事件仍相互独立。
+
+    只需说明换一个 $upra to oppa$ 无影响，而其证明与两个事件的情景本质相同。
 ]
 
 == 伯努利试验

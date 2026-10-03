@@ -1,0 +1,35 @@
+/* packages */
+#import "../../__Template/Typst-Template/Packages-for-Typst-Template.typ": *
+
+/* abbrs */
+#import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
+#let proof = proof-template.with(prefix: [证明：]) // more recommended by GPT 5.6 Luna, and get ce when try to use set/show
+
+/*
+    字体设置
+    Times New Roman 不支持中文
+    NSimSun 新宋体
+    默认小四号
+*/
+#set text(
+    font: ("Times New Roman", "NSimSun"),
+    size: 小四号
+)
+
+/*
+    页面设置
+    A4
+    页边缘：上下 2.54cm；左右 1.91cm
+*/
+#set page(
+    paper: "a4",
+    margin: (x: 2.54cm, y: 1.91cm)
+)
+
+/*
+    段落设置
+    段前空两格
+*/
+#set par(
+    hanging-indent: -2em
+)

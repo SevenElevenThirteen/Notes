@@ -1,26 +1,9 @@
-/* 中文伪粗体 */
-#import "@preview/cuti:0.4.0": show-cn-fakebold
-#show: show-cn-fakebold
+/* packages */
+#import "../../__Template/Typst-Template/Packages-for-Typst-Template.typ": *
 
-/* 画图 */
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
-
-/* a more friendly templete for numbering */
-#import "@preview/numbly:0.1.0": numbly
-
-/* text sizes */
-#let 初号 = 42pt
-#let 小初 = 36pt
-#let 一号 = 28pt
-#let 小一 = 24pt
-#let 二号 = 21pt
-#let 小二 = 18pt
-#let 三号 = 16pt
-#let 小三 = 15pt
-#let 四号 = 14pt
-#let 小四 = 12pt
-#let 五号 = 10.5pt
-#let 小五 = 9pt
+/* abbrs */
+#import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
+#let proof = proof-template.with(prefix: [证明：]) // more recommended by GPT 5.6 Luna, and get ce when try to use set/show
 
 /*
     字体设置
