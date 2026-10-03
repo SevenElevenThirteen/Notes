@@ -1,5 +1,6 @@
 /* packages */
 #import "../../__Template/Typst-Template/Packages-for-Typst-Template.typ": *
+#show: environment
 
 /* abbrs */
 #import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *

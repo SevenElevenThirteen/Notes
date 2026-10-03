@@ -1,6 +1,5 @@
 /* 中文伪粗体 */
 #import "@preview/cuti:0.4.0": show-cn-fakebold
-#show: show-cn-fakebold
 
 /* graphic */
 #import "@preview/cetz:0.5.2" // using #cetz.balabala
@@ -8,3 +7,9 @@
 
 /* a more friendly template for numbering */
 #import "@preview/numbly:0.1.0": numbly
+
+#let environment(body) = { // add all show/set rules here !
+    show: show-cn-fakebold
+
+    body // never forget this !
+}

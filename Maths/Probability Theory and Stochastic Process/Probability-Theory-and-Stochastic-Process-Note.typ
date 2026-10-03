@@ -1,5 +1,6 @@
 /* packages */
 #import "../../__Template/Typst-Template/Packages-for-Typst-Template.typ": *
+#show: environment
 
 /* abbrs */
 #import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
@@ -378,6 +379,20 @@ $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
 ]
 
 == 伯努利试验
+
+- #[
+    伯努利试验：结果只有 $upra slash oppa$，$P(upra) = p$
+]
+
+- #[
+    $n$ 重伯努利试验：满足如下约定：
+    + #[结果只有 $upra slash oppa$。]
+    + #[$P(upra_i) equiv p$（概率不变）。]
+    + #[$upra_1, dots.c, upra_n$ 相互独立 / $n$ 次试验相互独立。]
+    + #[进行了 $n$ 次。]
+]
+
+$n$ 次发生 $k$ 次：$P = binom(n, k) med p^k med q^(n - k) quad (q = 1 - p)$
 
 = 随机变量及分布
 
