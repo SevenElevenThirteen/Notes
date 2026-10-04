@@ -28,10 +28,14 @@
 #let iff = math.arrow.l.r.double
 #let imply = math.arrow.r.double
 #let to = math.arrow.r
+#let hookto = math.arrow.r.hook
+#let barto = math.arrow.r.bar
 #let get = math.arrow.l
 
 #let leq = math.lt.slant
 #let geq = math.gt.slant
+
+#let parallel = math.slash.double
 
 #let proof-template(body, prefix: [proof. ]) = block( // using grid to create auto left hanging
     grid(
