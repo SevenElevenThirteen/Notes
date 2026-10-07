@@ -482,19 +482,19 @@ $ sim: space (m, n) sim (m', n') iff m + n' = m' + n $
 反身性和对称性是显然的，传递性：$forall (a, b) sim (c, d) sim (e, f)$
 $ cases(a + d = b + c space (mathrm(i)), c + f = d + e space (mathrm(i i)))
 implies^(mathrm(i + i i)) a + f = b + e $
-记 $(m, n)$ 所属等价类为 $bracket.l.double m, n bracket.r.double$
+记 $(m, n)$ 所属等价类为 $bracket.l.stroked m, n bracket.r.stroked$
 \
 
 *Definition 2.6.1* 定义整数集\
 $ZZ$ 为 $NN^2$ 对 $sim$ 的商
 
-$NN$ 嵌入 $ZZ$：$ NN &to ZZ \ x &arrow.bar bracket.l.double x, 0 bracket.r.double $
+$NN$ 嵌入 $ZZ$：$ NN &to ZZ \ x &arrow.bar bracket.l.stroked x, 0 bracket.r.stroked $
 
 *Definition 2.6.2* 定义和、积\
-$ bracket.l.double m, n bracket.r.double + bracket.l.double r, s bracket.r.double &= 
-bracket.l.double m + r, n + s bracket.r.double \
-bracket.l.double m, n bracket.r.double bracket.l.double r, s bracket.r.double &= 
-bracket.l.double m r + n s, n r + m s bracket.r.double $
+$ bracket.l.stroked m, n bracket.r.stroked + bracket.l.stroked r, s bracket.r.stroked &= 
+bracket.l.stroked m + r, n + s bracket.r.stroked \
+bracket.l.stroked m, n bracket.r.stroked bracket.l.stroked r, s bracket.r.stroked &= 
+bracket.l.stroked m r + n s, n r + m s bracket.r.stroked $
 可以证明是良定义的
 （即，等价替换 $(m, n) to (m', n')$，新的运算结果与原先的依然等价）\
 注：下文显然的良定义证明均略
@@ -507,7 +507,7 @@ bracket.l.double m r + n s, n r + m s bracket.r.double $
 注：$x dot 0 = x dot (0 + 0) = x dot 0 + x dot 0$，消去得 $x dot 0 = 0$
 
 定义加法逆元运算：
-$-bracket.l.double m, n bracket.r.double = bracket.l.double n, m bracket.r.double$\
+$-bracket.l.stroked m, n bracket.r.stroked = bracket.l.stroked n, m bracket.r.stroked$\
 进而可定义减法，又有
 $x + (-1) dot x = 1 dot x + (-1) dot x = 0 implies (-1) dot x = -x$
 
@@ -753,8 +753,8 @@ $ NN union.sq.big NN to NN $
 均为双射。
 
 *Annotation 2.9.9* Proposition 2.9.8 的推广\
-任意两个集合的基数 $kappa, gimmel$，其中至少一者为无穷，有 $kappa dot gimmel = max{kappa, gimmel} = kappa + gimmel$。
-上述命题是 $kappa = gimmel = aleph_0$ 的特例。证明略。
+任意两个集合的基数 $kappa, gimel$，其中至少一者为无穷，有 $kappa dot gimel = max{kappa, gimel} = kappa + gimel$。
+上述命题是 $kappa = gimel = aleph_0$ 的特例。证明略。
 
 *Corollary 2.9.10*\
 设 $(A_i)_(i in I)$ 是一族可数集，且下标集 $I$ 本身可数，则 $union.big_(i in I) A_i$ 可数。\

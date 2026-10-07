@@ -9,6 +9,7 @@
 #show figure.caption: it => {
     it.body
 }
+#set enum(numbering: "a.")
 
 /* specific math abbr. */
 #let def = [*Def*.]
@@ -26,7 +27,7 @@
 
 // norm(u) => ||u||
 #let orcom(u) = $#u^bot$ // orthogonal complement
-#let dotpro(u, v) = $chevron #u, #v chevron.r$
+#let innpro(u, v) = $chevron #u, #v chevron.r$
 
 /*
     字体设置
@@ -162,6 +163,111 @@
 
 == Inner Products and Norms
 
+=== Inner Products
+
+#def Dot Product
+$ x dot y := sum x_i y_i quad x, y in RR^n $
+
+希望把 $RR^n$ 的点积推广到 $CC^n$ 上。对于 $z = (z_1, dots.c, z_n)$，定义 $norm(z) = sqrt(sum |z_i|^2)$ 是自然的。但在 $CC$ 上 $|z_i| = z_i dot overline(z_i)$，于是 $norm(z)^2 = sum z_i dot overline(z_i) imply norm(z)^2 = z dot overline(z)$。这进一步诱导 $innpro(u, v) := u dot overline(v)$ 的定义。于是 $RR^n$ 上的对称 性变为了 $CC^n$ 上的共轭对称性。
+
+#def Inner Product \
+An inner product on $V$ is is a function that takes each ordered pair $(u, v)$ of elements of $V$ to a number $innpro(u, v) in FF$ and has the following properties:
+- #[
+    *positivity*\
+    $innpro(v, v) geq 0 quad forall v in V$
+]
+- #[
+    *definiteness*\
+    $innpro(v, v) = 0 iff v = 0$
+]
+- #[
+    *additivity in first slot*\
+    $innpro(u + v, w) = innpro(u, w) + innpro(v, w) quad forall u, v, w in V$
+]
+- #[
+    *homogeneity in first slot*\
+    $innpro(lambda u, v) = lambda innpro(u, v) quad forall lambda in FF sp forall u, v in V$
+]
+- #[
+    *conjugate symmetry*\
+    $innpro(u, v) = overline(innpro(v, u)) quad forall u, v in V$
+]
+
+E.g. #[
+    #set enum(numbering: "a.")
+    + #[
+        Euclidean inner product
+        $innpro(w, z) := sum w_i overline(z_i)$
+    ]
+    + #[
+        For $c_1, dots.c, c_n > 0$, define $innpro(w, z) := sum c_i w_i overline(z_i)$
+    ]
+    + #[
+        An inner product can be defined on the vector space of continuous real-valued functions on the interval $[-1, 1]$ by $innpro(f, g) := integral_(-1)^1 f g$
+    ]
+    + #[
+        On $cal(P)(RR)$, $innpro(p, q) := p(0) q(0) + integral_(-1)^1 p' q'$ or $innpro(p, q) := integral_0^oo p(x) q(x) exp(-x) dif x$
+    ]
+]
+
+#def Inner Product Space\
+A vector space $V$ with an inner product.
+
+#prop
++ #[
+    For each fixed $v in V$, the function $innpro(dot, v): V to FF, sp u barto innpro(u, v)$ is a linear map.
+]
+
++ #[
+    $innpro(0, v) = innpro(v, 0) = 0 quad forall v in V$
+
+    线性映射映 $0 barto 0$，故 $innpro(0, v) = 0$。共轭对称性继而推出后者。
+]
++ #[
+    $innpro(u, v + w) = innpro(u, v) + innpro(u, w) quad forall u, v, w in V$
+
+    $innpro(u, v + w) = overline(innpro(v + w, u)) = overline(innpro(v, u)) + overline(innpro(w, u)) = innpro(u, v) + innpro(u, w)$
+]
++ #[
+    $innpro(u, lambda v) = overline(lambda) innpro(u, v) quad forall lambda in FF sp forall u, v in V$
+
+    $innpro(u, lambda v) = overline(innpro(lambda v, u)) = overline(lambda) thin overline(innpro(v, u)) = overline(lambda) innpro(u, v)$
+]
+
+=== Norms
+
+#def Norm, $norm(v)$
+$ norm(v) := sqrt(innpro(v, v)) $
+
+#prop
++ #[
+    $norm(v) = 0 iff v = 0$
+]
+
++ #[
+    $norm(lambda v) = abs(lambda) thin norm(v) quad forall lambda in FF$
+
+    $norm(lambda v)^2 = innpro(lambda v, lambda v) = lambda thin overline(lambda) innpro(v, v) = abs(lambda)^2 norm(v)^2$
+]
+
+#def Orthogonal \
+$u, v$ are called orthogonal iff $innpro(u, v) = 0$.
+
+#thm Pythagorean Theorem\
+If $u$ and $v$ are orthogonal, then
+$ norm(u + v)^2 = norm(u)^2 + norm(v)^2 $
+
+#thm Cauchy-Schwarz Inequality\
+$ abs(innpro(u, v)) leq norm(u) thin norm(v) $
+This inequality is an equality iff one of them is a scalar nultiple of the other.
+
+#thm Triangle Inequality
+$ norm(u + v) leq norm(u) + norm(v) $
+This inequality is an equality iff one of them is a nonnegative real multiple of the other.
+
+#thm Parallelogram Equality 平行四边形等式\
+$ norm(u + v)^2 + norm(u - v)^2 = 2(norm(u)^2 + norm(v)^2) $
+
 == Orthonormal Bases
 
 == Orthogonal Complements
@@ -171,7 +277,7 @@
 #def *Orthogonal Complement*
 
 $U subset V$, *not necessary to be a subspace*, then the orthogonal complement of $U$ is the set of all vectors that are orthogonal to every vector in $U$
-$ orcom(U) := {v in V: forall u in U, dotpro(u, v) = 0} $
+$ orcom(U) := {v in V: forall u in U, innpro(u, v) = 0} $
 
 e.g. 取 $V$ 为所有二维向量的集合，$U = {(1, 1)}$，则 $orcom(U)$ 为 $y = -x$ 上的所有向量。
 
@@ -188,7 +294,7 @@ e.g. 取 $V$ 为所有二维向量的集合，$U = {(1, 1)}$，则 $orcom(U)$ �
     + #[
         $orcom({0}) = V, en orcom(V) = {0}$
 
-        前者显然，后者 $u != 0 imply dotpro(u, u) != 0 imply u in.not orcom(V)$
+        前者显然，后者 $u != 0 imply innpro(u, u) != 0 imply u in.not orcom(V)$
     ]
     + #[
         $U inter orcom(U) subset {0}$
@@ -210,8 +316,8 @@ $ V = U dirsum orcom(U) $
     *rewrite using the orthogonal basis of $U$*
 
     Let ${e_m}$ be a orthogonal basis of $U$, consider
-    $ v = underbrace(sum dotpro(v, e_i) e_i, u in U) en + en underbrace(v - sum dotpro(v, e_i) e_i, w) $
-    Only need to prove $w in orcom(U)$, and thus only need to prove $dotpro(w, e_i) = 0$ for all $e_i$. Obviously.
+    $ v = underbrace(sum innpro(v, e_i) e_i, u in U) en + en underbrace(v - sum innpro(v, e_i) e_i, w) $
+    Only need to prove $w in orcom(U)$, and thus only need to prove $innpro(w, e_i) = 0$ for all $e_i$. Obviously.
 ]
 
 #cov If $U subset V$ is finite-dimensional subspace, then  $dim orcom(U) = dim V - dim U$
@@ -222,7 +328,7 @@ $ U = orcom((orcom(U))) $
 proof.
 - #[
     $U subset orcom((orcom(U)))$: 
-    by definition, $u in U imply dotpro(u, v) = 0 space forall v in orcom(U) imply u in orcom((orcom(U)))$
+    by definition, $u in U imply innpro(u, v) = 0 space forall v in orcom(U) imply u in orcom((orcom(U)))$
 ]
 - #[
     $orcom((orcom(U))) subset U$: suppose $v in orcom((orcom(U)))$. Since $V = U dirsum orcom(U)$, then $v = u + w$ for some $u in U, w in orcom(U)$. From above $U subset orcom(orcom(U))$, so $u in orcom((orcom(U)))$. Therefore
@@ -277,11 +383,11 @@ $P_U$ 把 $v$ 拍到低维空间。
     + #[
         $forall v in V, en norm(P_U v) leq norm(v)$
 
-        $norm(v)^2 = dotpro(u + w, u + w) = dotpro(u, u) + dotpro(w, w) + 2 dotpro(u, w) = norm(P_U u)^2 + dotpro(w, w)$
+        $norm(v)^2 = innpro(u + w, u + w) = innpro(u, u) + innpro(w, w) + 2 innpro(u, w) = norm(P_U u)^2 + innpro(w, w)$
     ]
     + #[
         If ${e_m}$ is an orthogonal basis of $U$, then $forall v in V$,
-        $ P_U v = sum dotpro(v, e_i) e_i $
+        $ P_U v = sum innpro(v, e_i) e_i $
         前文已用过。
     ]
 ]
@@ -290,18 +396,18 @@ $P_U$ 把 $v$ 拍到低维空间。
 
 #thm Riesz Representation Theorem
 
-Suppose $V$ is finite-dimensional. For each $v in V$, define $phi_v in V'$ by $ phi_v (u) := dotpro(u, v) quad forall u in V $
+Suppose $V$ is finite-dimensional. For each $v in V$, define $phi_v in V'$ by $ phi_v (u) := innpro(u, v) quad forall u in V $
 Then $v barto phi_v$ is a one-to-one function from $V$ onto $V'$. 双射
 
 proof for surjective: a constructive proof.\
-If $phi = 0$, then $phi = phi_0$. Thus assume $phi != phi_0$, hence $null phi != V$, which implies $orcom((null phi)) != {0}$. Take $w in orcom((null phi)) and w != 0$. (From the conclusion, we know actually $w parallel v$. Assume $w = k v$, then $norm(w)^2 = dotpro(k v, k v) = k dotpro(v, k v) = k  overline(k) norm(v)^2, med overline(phi(w)) = overline(dotpro(k v, v)) = dotpro(v, k v) = overline(k) norm(v)^2$) Let
+If $phi = 0$, then $phi = phi_0$. Thus assume $phi != phi_0$, hence $null phi != V$, which implies $orcom((null phi)) != {0}$. Take $w in orcom((null phi)) and w != 0$. (From the conclusion, we know actually $w parallel v$. Assume $w = k v$, then $norm(w)^2 = innpro(k v, k v) = k innpro(v, k v) = k  overline(k) norm(v)^2, med overline(phi(w)) = overline(innpro(k v, v)) = innpro(v, k v) = overline(k) norm(v)^2$) Let
 $ v = overline(phi(w))/norm(w)^2 med w $
-Take the norm of both sides, $norm(v) = abs(phi(w))/norm(w)$. Apply $phi$ to both sides gives $phi(v) = (overline(phi(w)) phi(w))/(norm(w)^2) = abs(phi(w))^2/norm(w)^2 = norm(v)^2 = dotpro(v, v)$. Now for each $u in V$, rewrite it as
+Take the norm of both sides, $norm(v) = abs(phi(w))/norm(w)$. Apply $phi$ to both sides gives $phi(v) = (overline(phi(w)) phi(w))/(norm(w)^2) = abs(phi(w))^2/norm(w)^2 = norm(v)^2 = innpro(v, v)$. Now for each $u in V$, rewrite it as
 $ u &= (u - phi(u)/phi(v) v) + phi(u)/phi(v) v $
 
 $ &phi(u - phi(u)/phi(v) v) = phi(u) - phi(u)/phi(v) phi(v) = 0 \
 &imply u - phi(u)/phi(v) v in null phi \
-& imply^(v in orcom(null phi)) dotpro(u, v) = dotpro(phi(u)/phi(v) v, v) = phi(u)/phi(v) norm(v)^2 = phi(u) $
+& imply^(v in orcom(null phi)) innpro(u, v) = innpro(phi(u)/phi(v) v, v) = phi(u)/phi(v) norm(v)^2 = phi(u) $
 
 === Minimization Problems
 
@@ -322,7 +428,7 @@ The inequality is an equality iff $u = P_U v$.
 *Function Approximation*
 
 任取一组正交基用于拟合。必须指定拟合的区间，以确定内积定义。
-$ dotpro(f, g) &:= integral_l^r f(x) g(x) dif x \
+$ innpro(f, g) &:= integral_l^r f(x) g(x) dif x \
 min norm(f - g) &iff min integral_l^r (f - g)^2 dif x $
 
 泰勒级数只保证邻域内精度，而此方法在完整定义域上最优。
@@ -375,7 +481,7 @@ $range T bij V slash null T$，但 $w in T$ 对应的是 $null T$ 的平移。�
     ]
 ]
 
-#prop Pseudoinverse provides best approximate solution or best solution\
+#prop Pseudoinverse provides best approximate solution or best solution \
 Suppose $V$ is finite-dimensional, $T in LM(V, W)$, $w in W$.
 #[
     #set enum(numbering: "a.")
@@ -390,3 +496,7 @@ Suppose $V$ is finite-dimensional, $T in LM(V, W)$, $w in W$.
         with equality iff $v = T^dagger w$
     ]
 ]
+
+= Operators on Inner Product Spaces
+
+== Self-Adjoint and Normal Operators
