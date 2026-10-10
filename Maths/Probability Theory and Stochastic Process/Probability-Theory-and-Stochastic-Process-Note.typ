@@ -226,8 +226,11 @@ $cal(F)$ 为样本空间 $Omega$ 上的 $sigma$-代数（$tilde cal(F) = 2^Omega
     a. 若 $A_1 subset A_2 subset dots.c$，记 $A = union.big A_i$，则 $P(A) = lim P(A_i)$ \
     b. 若 $A_1 supset A_2 supset dots.c$，记 $A = inter.big A_i$，则 $P(A) = lim P(A_i)$
 
-    证明：a. 单调有界有极限。取 $B_1 = A_1, B_i = A_i - A_(i - 1)$，则 $A = union.big B_i$。\
-    b. 
+    #proof()[
+        a. 单调有界有极限。取 $B_1 = A_1, B_i = A_i - A_(i - 1)$，则 $A = union.big B_i$。
+
+        b. 依单调性，$P(A_1) geq P(A_2) geq dots.c geq P(A) geq 0$。
+    ]
 ]
 
 == 条件概率
@@ -396,15 +399,89 @@ $n$ 次发生 $k$ 次：$P = binom(n, k) med p^k med q^(n - k) quad (q = 1 - p)$
 
 = 随机变量及分布
 
-== 随机变量
+== 定义
+
+=== 随机变量
+
+$X: Omega to RR$，则 ${omega in Omega: X(omega) leq x} in cal(F)$ 是一个事件，简记为 ${X leq x}$。
+
+$P{X leq x}$ 是 $P compose X: RR to^X Omega to^P RR$ 的映射。
+
+随机变量 r.v. (random variable) $X, Y, Z, dots.c$ 本质是映射。
+
+=== 分布函数
+
+分布函数 d.f. (distribution function) $F_X (x) := P{X leq x}$
+
+e.g. 抛一次硬币，记 $X$ 为正面的次数，且令正面向上的概率为 0.7。则 $ F_X (x) = cases(0 &x < 0, 0.3 med &0 leq x < 1, 1 &x geq 1) $
+
+性质：
++ #[
+    $F(x)$ 不减。
+]
+
++ #[
+    $lim_(x to -oo) F(x) = 0$, $lim_(x to +oo) F(x) = 1$
+
+    $F(x)$ 单调且有界，$x to oo slash -oo$ 的极限均存在。$emptyset subset dots.c subset {X leq x} subset dots.c subset Omega$，前者逼近 $emptyset$，后者逼近 $Omega$。
+]
++ #[
+    $F(x)$ 右连续，即 $F(x) = F(x^+)$。
+
+    取一列 ${x_n} to x_0^+$，有 ${X leq x_1} supset {X leq x_2} supset dots.c supset {X leq x_0}$，依概率的连续性可得。而 $F(x)$ 不一定左连续，见上例。
+]
+
+间断点不可去，事实上 $x_0$ 处间断说明 $P(X = x_0) > 0$。
+
+若函数 $f: RR to RR$ 满足分布函数的三条性质，则存在 $(Omega, cal(F), P)$ 和 $X: Omega to RR$ 满足其分布函数恰为 $f$。
+
+计算：
++ #[
+    $P(a < X leq b) = F(b) - F(a)$
+]
+
++ #[
+    $P(X = b) = F(b) - F(b^-)$
+]
+
+离散型和连续性不构成随机变量的分类。
+
+== 离散型随机变量
 
 === 定义
 
-$X: Omega to RR$，则 ${omega in cal(F): X(omega) leq x}$ 是一个事件，简记为 $X leq x$。$P(X leq x)$ 是 $X compose P = RR to Omega to RR$ 的映射。
+$X$ 的取值是至多可列种。
 
-随机变量 r.v. $X, Y, Z, dots.c$ 本质是映射。
+分布律 d.l. (distribution law): $P(X = x_k) = p_k quad k = 1, dots.c$
 
-分布函数 d.f. $F_X (x) := P(X leq x)$
+d.f. $F(x) = sum_(x_k leq x) p_k$
 
-e.g. 抛一次硬币，记 $X$ 为正面的次数，且令正面向上的概率为 0.7。则 $ F_X (x) = cases(0 &x < 0, 0.3 med &0 leq x < 1, 1 &x geq 1) $
-右连续，左不一定连续。
+=== 常见分布
+
+==== 几何分布
+
+重复独立进行伯努利试验，直到 $upra$ 出现（其概率为 $p$）。试验次数 $X in NN_+ union {oo}$
+
+考虑事件“$upra$ 从未发生”，可记为 ${X = oo}$，需说明 $P{X = oo} = 0$。
+- #[
+    取 $union_(k = 1)^oo {X = k}$，这不含 ${X = oo}$。$P{X = oo} = 1 - P(union_(k = 1)^oo {X = k})$
+]
+- #[
+    取 $lim_(k to oo) {X geq k}$，这包含 ${X = oo}$。$P{X = oo} = lim_(k to oo) P{X geq k}$
+]
+
+d.l. $P{X = k} = p q^(k - 1)$
+
+==== 0-1 分布
+
+扔一次硬币，正面概率 $p$，正面次数 $X in {0, 1}$。$X tilde (0-1)$
+
+d.l. $P{X = k} = p^k (1 - p)^k quad k in {0, 1}$
+
+==== 二项分布
+
+同一枚硬币扔 $n$ 次，正面概率均为 $p$，正面次数 $X in {0, dots.c , n}$。$X tilde b(n, p)$
+
+$X = sum X_i quad X_i tilde (0-1)$
+
+d.l. $P{X = k} = binom(n, k) p^k q^(n - k)$，单峰

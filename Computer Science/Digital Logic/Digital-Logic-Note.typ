@@ -45,6 +45,9 @@
 //   symbol("tri-state", name, draw: draw, ..args)
 // }
 
+/* 卡诺图 by ds v4.1 flash */
+#import "karnaugh.typ": kmap
+
 /* specific math abbr. */
 #let ne(x) = math.overline(x)
 
@@ -292,18 +295,27 @@ e.g. $(4.79)_(10) = (0100 space . space 0111 space 1001)_(8421"BCD")$
 
 *运算律*：
 - #[
+    $dot$ 对 $times$ 分配，$times$ 对 $dot$ 分配。
+]
+
+- #[
     De Morgan's
 
     $ne(sum A) = sum ne(A) wide ne(product A) = product ne(A)$
 ]
-
 - #[
     吸收
 
-    $A + A dot B = A dot (1 + B) = A$ \
-    $A dot (A + B) = A + A dot B = A$ \
-    $A + ne(A) dot B = (A + ne(A)) dot (A + B) = A + B$ \
+    $A + A dot B = A dot (1 + B) = A$
+
+    $A + ne(A) dot B = (A + ne(A)) dot (A + B) = A + B$
+
+    $A B + ne(A)C + B C = A B + ne(A)C$，推广 $A B + ne(A)C + B C D dots.c = A B + ne(A) C$
+
+    $A dot (A + B) = A + A dot B = A$
+
     $(A + B) dot (A + C) = A + B dot C$
+
 ]
 
 *规则*：
@@ -315,9 +327,74 @@ e.g. $(4.79)_(10) = (0100 space . space 0111 space 1001)_(8421"BCD")$
     反演：De Morgan's 的扩展
 
     $F to ne(F)$：先 $dot to +$，后 $+ to dot$，再 $0 to 1 en 1 to 0 en A to ne(A) en ne(B) to B$。这里 $A, B$ 均为最小变量，跨域多个变量的长取非不变。
+
+    e.g. $A dot ne(B + C) + C D med to med (ne(A) + ne(ne(B) dot ne(C))) dot (ne(C) + ne(D))$
 ]
 - #[
     对偶：$A equiv B iff A' equiv B'$，或，一个等式的对偶式亦成立
 
     $F to F'$：先 $dot to +$，后 $+ to dot$，再 $0 to 1 en 1 to 0$。
 ]
+
+*转换*：用还原律 $A to ne(ne(A))$，配合 De Morgan's
+- #[
+    与或式：$product + product + dots.c + product$
+
+    或与式展开括号。
+
+    $A ne(B) + B ne(C)$
+]
+
+- #[
+    或与式：$sum times sum times dots.c times sum$
+
+    与或式两次取反，两次展开。
+
+    $ne(ne(A ne(B) + B ne(C))) &= ne((ne(A) + B) dot (ne(B) + C)) = ne(ne(A) thin ne(B) + ne(A)C + B C) = ne(ne(A) thin ne(B) + B C)\
+    &= (A + B)(ne(B) + ne(C))$
+]
+- #[
+    *与*非式：只使用与非门；在*与*或式上两次取反，一次展开。
+
+    $ne(ne(A ne(B) + B ne(C))) = ne(ne(A ne(B)) dot ne(B ne(C)))$
+]
+- #[
+    *或*非式：只使用或非门；在*或*与式上两次取反，一次展开。
+
+   $ne(ne((A + B)(ne(B) + ne(C)))) = ne(ne(A + B) + ne(ne(B) + ne(C)))$
+]
+- #[
+    与或非式：外层套一个长取反；在或非式上，内层取反下传
+
+    $ne(ne(A + B) + ne(ne(B) + ne(C))) = ne(ne(A) thin ne(B) + B C)$
+]
+
+== 卡诺图
+
+最小项
+
+相邻最小项：$n-1$ 个变量相同，另一个 $A$ 和 $ne(A)$
+
+*卡诺图*
+
+将 $n$ 变量的 $2^n$ 个最小项排成循环矩阵，使得相邻最小项 $iff$ 相邻方格。为此，将变量均匀分配至行列，按格雷码排列。
+四个角总是相邻！
+
+四联通 $imply n = 4$。$n = 5$ 的卡诺图增加一条对称轴，对称方格相邻。$n geq 5$ 已不直观。
+
+#grid(columns: 2, column-gutter: 1em, row-gutter: 1em)[
+    #kmap(("A", "B"))
+][
+    #kmap(("A", "B", "C"))
+][
+    #kmap(("A", "B", "C", "D"))
+]
+
+一个任意的与项，在卡诺图上对应于一个循环连续的、大小为 $2^k$ 的矩形。\
+e.g. $n = 4$，$A B med to med (11, 00)(11, 01)(11, 11)(11, 10)$
+
+反之，一个这样的矩形可以等价地化简为一个与项。
+
+逻辑式子化为与或式，画在卡诺图上。重新用大小为 $2^k$ 的循环矩形覆盖。允许重复覆盖，因为外层运算是或。希望最小化矩形数量。（方案不唯一，如一个长度为6的环；一般地，属于集合覆盖问题 NP-Hard）
+
+无关项：（在实际情况下）不会出现的最小项。可以任意指定为 0/1。在卡诺图中，无关项可以辅助构建大矩形，而不需全部覆盖。

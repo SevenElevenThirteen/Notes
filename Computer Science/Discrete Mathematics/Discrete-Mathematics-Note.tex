@@ -30,20 +30,22 @@
 \newcommand{\true}{\mathbf{T}}
 \newcommand{\false}{\mathbf{F}}
 
+\newcommand{\field}[1]{\mathbb{#1}}%域
+
 % \setcounter{chapter}{-1}
 
 \title{Discrete Mathematics}
 \author{1001}
 
 \begin{document}
-    \maketitle
+\maketitle
 
-    \tableofcontents % use LaTeXmk
-    \cleardoublepage
+\tableofcontents % use LaTeXmk
+\cleardoublepage
 
-    \chapter{Logic and Proofs}
-    {\large $\mathbf{The\ Only\ Truth\ is\ the\ Truth\ Table.}$}
-    
+\chapter{Logic and Proofs}
+{\large $\mathbf{The\ Only\ Truth\ is\ the\ Truth\ Table.}$}
+
     \section{Basic}
     \textbf{Proposition}: A declarative sentence that is either True or False, but not both. \\
     not declarative: $x + 1 = 3$ \\
@@ -190,7 +192,7 @@
 
         PNF 必存在，构造性证明，略。\\
         PNF 不唯一。
-    
+
     \section{Rules of Inference}
     a \textbf{valid argument}: $(\bigand\text{premises}) \to \text{conclusion}$
 
@@ -295,7 +297,7 @@
                     x \to y \\ \lnot x
                 \end{cases} \nRightarrow  \lnot y$
         \end{itemize}
-    
+
     \section{Proof Methods}
     Direct Proof.
 
@@ -325,50 +327,89 @@
         \item \textbf{WLOG}: without loss of generality.
     \end{itemize}
 
-    \chapter{Relations}
-
-    Can't use emptyset for {\heiti Cartesian Product}.
+\chapter{Relations}
+Can't use emptyset for {\heiti Cartesian Product}.
 
     \section{Definitions}
     A binary relation $R$ from $A$ to $B$ is a subset of $A \times B$: $R \subset A \times B$
 
-    If $(a, b) \in R$, then $a$ is related to $b$. The {\heiti order} is matter. Denoted as $a R b$ or $(a, b) \in R$. 
-    Otherwise, $a \, R\!\!\!\!/ \, b$ or $(a, b) \notin R$.
+    If $(a, b) \in R$, then $a$ is related to $b$. The \textbf{order} matters. Denoted as $a R b$ or $(a, b) \in R$. 
+    Otherwise, $a \, R\!\!\!\!/ \; b$ or $(a, b) \notin R$.
 
     The length of tuple is called {\heiti degree}. e.g. The degree of $A \times \cdots \times A$ is $n$.\\
     $A_i$ is called the domains of $R$.
 
-    Virtualize: Order ! \\
-    a. {\heiti directed} bipartite graph \\
-    b. {\heiti directed} graph for $R \subset A \times A$ \\
-    c. 01-matrix
+    \subsection{Representation}
+        \textbf{Order!}
 
-    Inverse Relation $R^{-1} := \{(b, a): (a, b) \in R\}$.\\
-    e.g. $R = \{(a, b): a < b\}$, then $R^{-1} = \{(a, b): a > b\}$. Note that if $R = \{(a, b): p(a, b)\}$, $R^{-1}$ is {\heiti not} $\{(a, b): \lnot p(a, b)\}$ !
+        \begin{itemize}
+            \item \textbf{directed} bipartite graph
+            \item \textbf{directed} graph for $R \subset A \times A$
+            \item 01-matrix: $R: A \to B$, $M_{i, j} = [(a_i, b_j) \in R]$ \\
+                $M_{R \cap S} = M_R \land M_S$; $M_{R \cup S} = M_R \lor M_S$ \\
+                $M_{S \circ R} = M_S \odot M_R$ a.k.a. $M_{i, j} = \lor (M_{S_{i, k}} \land M_{R_{k, j}})$ \\
+                $M_{R^n} = M_R^n$
+        \end{itemize}
 
-    some special relation on $A$: 
-    \begin{itemize}
-        \item 空关系 $\emptyset$
-        \item 恒等关系 $I_A = \{(a, a): \forall a\}$
-        \item 全域关系 $U_A = \{(a, b): \forall a \forall b\}$
-    \end{itemize}
+    \subsection{Special Relations}
+        \begin{itemize}
+            \item 空关系 $\emptyset$
+            \item 恒等关系 $I_A = \{(a, a): \forall a\}$
+            \item 全域关系 $U_A = \{(a, b): \forall a \forall b\}$
+        \end{itemize}
 
-    Properties:
-    \begin{itemize}
-        \item 自反性 Reflexive: $\forall x \in A, x R x$ \\
-            Each node has a self-loop.
-        \item 反自反性 Irreflexive: $\forall x \in A, (x, x) \notin R$ \\
-            Irreflexive is {\heiti not} the negation of reflexive ! \\
-            $R$ can be neither reflexive nor irreflexive. $R$ is both reflexive and irreflexive iff $A = \emptyset$ (however, Cartesian Product asks $A \neq \emptyset$ in $A \times A$, so?). \\
-            Each node must not have a self-loop.
-        \item 对称性 Symmetric: $R = R^{-1}$ (a.k.a. $\forall x, y \in A \; (x, y) \in R \iff (y, x) \in R$) \\
-            （等价地）All edges are bi-directed.
-        \item 反对称性 Antisymmetric: $(x, y) \in R \land (y, x) \in R \; \implies \; x = y$ \\
-            Antisymmetric is {\heiti not} "not symmetric" ! \\
-            For any two different vertices, there are at most one directed edge link them.
-        \item 非对称性 Asymmetric: $(x, y) \in R \; \implies \; (y, x) \notin R$ \\
-            Completely no symmetric. A necessary condition is no self-loop.
-        \item 传递性 Transitive: $(x, y), (y, z) \in R \; \implies \; (x, z) \in R$
-    \end{itemize}
+    \subsection{Properties}
+        \begin{itemize}
+            \item 自反性 Reflexive: $\forall x \in A, x R x$ \\
+                Each node has a self-loop. \\
+                All elements on the main diagonal are 1.
+            \item 反自反性 Irreflexive: $\forall x \in A, (x, x) \notin R$ \\
+                Irreflexive is \textbf{not} the negation of reflexive ! \\
+                $R$ can be neither reflexive nor irreflexive. $R$ is both reflexive and irreflexive iff $A = \emptyset$ (however, Cartesian Product asks $A \neq \emptyset$ in $A \times A$, so?). \\
+                Each node must not have a self-loop. \\
+                All elements on the main diagonal are 0.
+            \item 对称性 Symmetric: $R = R^{-1}$ (a.k.a. $\forall x, y \in A \; (x, y) \in R \iff (y, x) \in R$) \\
+                （等价地）All edges are bi-directed. \\
+                All are same across the main diagonal.
+            \item 反对称性 Antisymmetric: $(x, y) \in R \land (y, x) \in R \; \implies \; x = y$ \\
+                Antisymmetric is \textbf{not} "not symmetric" ! \\
+                For any two different vertices, there are at most one directed edge link them. \\
+                All 1's are across from 0's.
+            \item 非对称性 Asymmetric: $(x, y) \in R \; \implies \; (y, x) \notin R$ \\
+                Completely no symmetric. Asymmetric $\iff$ Antisymmetric $\land$ Irreflexive. \\
+                No self-loops, and for any two different vertices, there are at most one directed edge link them. \\
+                All elements on the main diagonal are 0, and all 1's are across from 0's.
+            \item 传递性 Transitive: $(x, y), (y, z) \in R \; \implies \; (x, z) \in R$
+        \end{itemize}
+        
+    \subsection{Operations}
+        Inverse Relation:
+        $R^{-1} := \{(b, a): (a, b) \in R\}$.\\
+        e.g. $R = \{(a, b): a < b\}$, then $R^{-1} = \{(a, b): a > b\}$.\\
+        Note that if $R = \{(a, b): p(a, b)\}$, $R^{-1}$ is \textbf{not} $\{(a, b): \lnot p(a, b)\}$ !
 
-\end{document}
+        Properties of Inverse Relation:\\
+        a. $(R^{-1})^{-1} = R$ \\
+        b. $(R \; \cap/\cup/- \; S)^{-1} = R^{-1} \;\cap/\cup/- \; S^{-1}$ \\
+        c. $R \subset S \iff R^{-1} \subset S^{-1}$ \\
+        d. $(R \circ S)^{-1} = S^{-1} \circ R^{-1}$
+
+        Composition:
+        $S \circ R: A \mathop\to\limits^{R} B \mathop\to\limits^{S} C$
+        
+        Power:\\
+        a. $R^0 := I$\\
+        b. $R^n := R^{n - 1} \circ R$\\
+        c. $R^{-n} := (R^{-1})^n$
+        
+        \textbf{Thm}. $R$ is transitive iff $R^n \subset R$ for all $n \in \field{N}_+$
+        
+        \textbf{Thm}. Composition of relations satisfies the associative law.
+        
+    \section{Closures of Relations}
+        
+    \section{Equivalence Relations}
+
+    \section{Partial Orderings}
+
+    \end{document}
