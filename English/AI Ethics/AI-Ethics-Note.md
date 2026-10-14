@@ -74,3 +74,6 @@ denotology
 Kant
 + Act only according to that maxim whereby you can at the same time will that it should become a universal law.
   道德是某种“普适准则”？
+
+# L4
+

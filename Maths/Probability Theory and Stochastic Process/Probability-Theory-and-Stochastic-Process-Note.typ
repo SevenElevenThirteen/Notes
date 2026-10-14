@@ -458,6 +458,36 @@ d.f. $F(x) = sum_(x_k leq x) p_k$
 
 === 常见分布
 
+==== 0-1 分布
+
+扔一次硬币，正面概率 $p$，正面次数 $X in {0, 1}$。
+
+$X tilde (0-1)$
+
+d.l. $P{X = k} = p^k (1 - p)^k quad k in {0, 1}$
+
+==== 二项分布
+
+同一枚硬币扔 $n$ 次，正面概率均为 $p$，正面次数 $X in {0, dots.c , n}$。
+
+$X tilde b(n, p)$
+
+$X = sum X_i quad X_i tilde (0-1)$
+
+d.l. $P{X = k} = display(binom(n, k) p^k q^(n - k))$，单峰 $(n + 1)p - 1 leq k leq (n + 1)p$ a.k.a. $(n + 1)p$ 上下取整。
+
+==== 泊松分布
+
+泊松定理：若 $n p_n = lambda$ 为常数且 $X_n tilde b(n, p_n)$，则
+$ lim_(n to oo) P{X_n = k} = (lambda^k exp(-lambda))/(k!) $
+#proof()[
+    $ binom(n, k) p^k q^(n - k) &= (n(n - 1) dots.c (n - k + 1))/(k!) (lambda/n)^k (1 - lambda/n)^(n - k) $
+]
+
+$X tilde pi(lambda)$
+
+d.l. $P{X = k} = display((lambda^k exp(-lambda))/(k!))$
+
 ==== 几何分布
 
 重复独立进行伯努利试验，直到 $upra$ 出现（其概率为 $p$）。试验次数 $X in NN_+ union {oo}$
@@ -472,16 +502,28 @@ d.f. $F(x) = sum_(x_k leq x) p_k$
 
 d.l. $P{X = k} = p q^(k - 1)$
 
-==== 0-1 分布
+无记忆性：$P{X = m + n | X > m} = $
 
-扔一次硬币，正面概率 $p$，正面次数 $X in {0, 1}$。$X tilde (0-1)$
+==== 帕斯卡分布
 
-d.l. $P{X = k} = p^k (1 - p)^k quad k in {0, 1}$
+==== 超几何分布
 
-==== 二项分布
+== 连续型随机变量
 
-同一枚硬币扔 $n$ 次，正面概率均为 $p$，正面次数 $X in {0, dots.c , n}$。$X tilde b(n, p)$
+=== 定义
 
-$X = sum X_i quad X_i tilde (0-1)$
+称 $X$ 为连续型随机变量，若存在 $f(x) geq 0$ 使其分布函数 $F(x)$ 满足
+$ F(x) = integral_(-oo)^x f(t) dif t $
+称 $f(x)$ 为概率密度函数 p.d.f. (probability density function)
 
-d.l. $P{X = k} = binom(n, k) p^k q^(n - k)$，单峰
+事件：随机点落到确定区间
+
+$F(x)$ 性质：
++ #[$F(x)$ 连续；]
++ #[$P{X = a} = 0$（但概率为0/1不代表不可能/必然事件）]
+
+$f(x)$ 性质：
+
+=== 常见分布
+
+==== 均为分布
