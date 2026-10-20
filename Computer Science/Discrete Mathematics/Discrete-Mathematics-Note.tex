@@ -347,7 +347,7 @@ Can't use emptyset for {\heiti Cartesian Product}.
             \item \textbf{directed} graph for $R \subset A \times A$
             \item 01-matrix: $R: A \to B$, $M_{i, j} = [(a_i, b_j) \in R]$ \\
                 $M_{R \cap S} = M_R \land M_S$; $M_{R \cup S} = M_R \lor M_S$ \\
-                $M_{S \circ R} = M_S \odot M_R$ a.k.a. $M_{i, j} = \lor (M_{S_{i, k}} \land M_{R_{k, j}})$ \\
+                $M_{S \circ R} = M_R \odot M_S$ a.k.a. $M_{i, j} = \lor (M_{S_{i, k}} \land M_{R_{k, j}})$ {\heiti 矩阵顺序不一样！}\\
                 $M_{R^n} = M_R^n$
         \end{itemize}
 
@@ -407,7 +407,37 @@ Can't use emptyset for {\heiti Cartesian Product}.
         \textbf{Thm}. Composition of relations satisfies the associative law.
         
     \section{Closures of Relations}
-        
+    \subsection{Definations}
+        For any property P, the "P closure" of $R$, if it exists, is defined as the "smallest" subset of $A \times A$ containing $R$ with P.
+
+        \begin{itemize}
+            \item contains $R$
+            \item has property $P$
+            \item "smallest": for every $R \subset T$ s.t. $T$ has property P, $S \subset T$.\\
+                因此，闭包是合法集合，且是所有合法 $T$ 的交集。若把集合的包含关系看作合法集之间的偏序关系，则存在闭包说明存在{\heiti 唯一}的极小元，这对 P 本身有所限制。
+        \end{itemize}
+
+        closures:
+        \begin{itemize}
+            \item reflexive closure: $r(R) = R \cup I_A$
+            \item symmetric closure: $s(R) = R \cup R^{-1}$
+            \item transitive closure: $t(R) = R^\ast = \mathop\cup\limits_{n \in \field{N}_+} R^n$
+        \end{itemize}
+
+    \subsection{Connectivity Relation}
+        a.k.a. transitive closure
+
+        $(a, b) \in R^n$: there exists a path from $a$ to $b$ with length $n$
+
+        $|A| = n$, if there is a path $a \rightsquigarrow b$, then there must exist a path with length $\leqslant n$. 
+        Therefore, $t(R) = R \cup \cdots \cup R^n$
+
+        \begin{itemize}
+            \item naïve algo: brute force $O(n^4)$
+            \item Warshall's: $w_{i, j} \gets w_{i, k} \land w_{k, j}$, $O(n^3)$ \\
+                interior vertices: exclude $a, b$
+        \end{itemize}
+
     \section{Equivalence Relations}
 
     \section{Partial Orderings}
