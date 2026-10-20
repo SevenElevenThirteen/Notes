@@ -435,7 +435,8 @@ Can't use emptyset for {\heiti Cartesian Product}.
         \begin{itemize}
             \item naïve algo: brute force $O(n^4)$
             \item Warshall's: $w_{i, j} \gets w_{i, k} \land w_{k, j}$, $O(n^3)$ \\
-                interior vertices: exclude $a, b$
+                interior vertices: exclude $a, b$ \\
+                init: $W = M_R$
         \end{itemize}
 
     \section{Equivalence Relations}
