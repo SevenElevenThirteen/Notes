@@ -5,6 +5,7 @@
 /* abbrs */
 #import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
 #let proof = proof-template.with(prefix: [证明：]) // more recommended by GPT 5.6 Luna, and get ce when try to use set/show
+#let example = proof-template.with(prefix: [e.g.])
 
 /*
     字体设置
@@ -397,7 +398,7 @@ $ P(upright(A B)) = P(upright(A)) P(upright(B)) $
 
 $n$ 次发生 $k$ 次：$P = binom(n, k) med p^k med q^(n - k) quad (q = 1 - p)$
 
-= 随机变量及分布
+= 一元随机变量
 
 == 定义
 
@@ -481,7 +482,9 @@ d.l. $P{X = k} = display(binom(n, k) p^k q^(n - k))$，单峰 $(n + 1)p - 1 leq 
 泊松定理：若 $n p_n = lambda$ 为常数且 $X_n tilde b(n, p_n)$，则
 $ lim_(n to oo) P{X_n = k} = (lambda^k exp(-lambda))/(k!) $
 #proof()[
-    $ binom(n, k) p^k q^(n - k) &= (n(n - 1) dots.c (n - k + 1))/(k!) (lambda/n)^k (1 - lambda/n)^(n - k) $
+    $ & quad lim_(n to oo) binom(n, k) p^k q^(n - k)\ &= lim_(n to oo)(n(n - 1) dots.c (n - k + 1))/(k!) (lambda/n)^k (1 - lambda/n)^(n - k)\
+    &= lim_(n to oo) lambda^k / k! dot (1 - lambda/n)^n dot (1 - lambda/n)^(-k) dot [1 (1 - 1/n)(1 - 2/n) dots.c (1 - (k - 1)/n)]\
+    &= lambda^k / k! dot e^(-k) dot 1 dot 1 = lambda^k / k! exp(-lambda) $
 ]
 
 $X tilde pi(lambda)$
@@ -502,11 +505,31 @@ d.l. $P{X = k} = display((lambda^k exp(-lambda))/(k!))$
 
 d.l. $P{X = k} = p q^(k - 1)$
 
-无记忆性：$P{X = m + n | X > m} = $
+$P{X > k} = p q^k (1 + q + q^2 + dots.c) = p q^k 1/(1 - q) = q^k$
+
+无记忆性：
+$ P{X > m + n | X > m} &= P{X > m + n, X > m}/P{X > m} = P{X > m + n}/P{X > m}\
+&= (p q^(m + n) (1 + q + q^2 + dots.c))/(p q^m (1 + q + q^2 + dots.c)) = q^n \
+&= P{X > n} $
+
+几何分布具有无记忆性，反之具有无记忆性的随机变量必然为几何分布（$p_(m + n) = p_m p_n imply {p_n}$ 为指数数列）
+
+无记忆性源自独立、同分布。
 
 ==== 帕斯卡分布
 
+概率为 $p$ 的伯努利试验，$upra$ 出现 $r$ 次时的试验次数 $X in {r, r + 1, dots.c}$
+
+d.l. $P{X = k} = binom(k - 1, r - 1) p^r q^(k - r)$
+
+记 $X_i$ 为在出现 $i - 1$ 次 $upra$ 后，出现第 $i$ 次 $upra$ 的试验次数，则 $X_i$ 服从几何分布\
+$X = sum X_i$
+
 ==== 超几何分布
+
+$N$ 件物品中 $M leq N$ 件有标记，不放回地取出 $n leq N$ 件物品，有标记的物品数量 $X in {0, dots.c, min{n, M}}$
+
+d.l. $P{X = k} = display((binom(M, k)binom(N - M, n - k))/binom(N, n)) quad 0 leq k leq min{n, M}$
 
 == 连续型随机变量
 
@@ -523,7 +546,146 @@ $F(x)$ 性质：
 + #[$P{X = a} = 0$（但概率为0/1不代表不可能/必然事件）]
 
 $f(x)$ 性质：
++ #[$F(x) = integral_(-oo)^x f(x) dif x$, $f(x) = F'(x)$]
 
 === 常见分布
 
-==== 均为分布
+==== 均匀分布
+
+若 $X$ 具有概率密度
+$ f(x) = cases(1/(b - a) & sp x in (a, b), 0 & sp x in.not (a, b)) $
+称 $X$ 服从均匀分布。
+
+$X tilde U(a, b)$
+
+r.v. X, satisfy:
++ #[If $(a, b) subset overline((c, d))$, $P{a < X < b} = 0$]
++ #[If $(a, b) subset (c, d)$, $P{a leq X leq b} prop (b - a)$]
+prove that $X tilde U(c, d)$ (trivial)
+
+==== 指数分布
+
+story: motality rate, jelly fish
+
+p.d.f.
+$ f(x) = cases(lambda exp(-lambda x) & sp x > 0, 0 & sp x leq 0) $
+
+d.f.
+$ F(x) = cases(1 - exp(-lambda x) & sp x > 0, 0 & sp x leq 0) $
+
+$P{X > k} = 1 - F(k) = exp(-lambda k)$
+
+无记忆性：$P{X > m + n | X > m} = P{X > n}$
+#proof()[
+    $ P{X > m + n | X > m} &= P{X > m + n, X > m}/P{X > m} = P{X > m + n}/P{X > m}\
+    &= exp(-lambda (m + n))/exp(-lambda m) = exp(-lambda n)\
+    &= P{X > n} $
+]
+
+若 r.v. $X$ 满足如下条件，则服从指数分布：
++ #[$forall x < 0$, $F_X (x) = 0$]
++ #[无记忆性]
++ #[连续函数]
+#proof()[$g(x + y) = g(x) g(y)$，在 $QQ$ 上为指数函数，连续则 $RR$ 上也是。]
+
+#example()[
+    若元件在 $t$ 时间内发生故障的次数 $N(t) tilde pi(lambda t)$，那么相邻两次故障间隔 $T$ 服从指数分布。
+
+    $P{T > t} = P{N(t) = 0} = (lambda t)^0 / 0! exp(-lambda t) = exp(-lambda t)$
+
+    $F(t) = P{T leq t} = 1 - exp(-lambda t)$
+]
+
+
+==== 正态分布
+
+#example()[
+    $f(x) = exp(A x^2 + B x + C)$ 是某随机变量 $X$ 的概率密度函数，$A, B, C$ 关系？
+
+    $C$ 用于调面积。$A > 0$ 时显然发散；$A = 0$ 时，$exp(B x)$ 也发散（于是指数分布只能定义半个实轴）；因此 $A < 0$。
+
+    考虑用高斯积分处理 $exp(-x^2)$，于是配方 $A x^2 + B x = A(x + B/(2A))^2 -B^2/(4A)$
+    
+    换元 $t = sqrt(-A)(x + B/(2A))$，$dif t = sqrt(-A) dif x$，于是
+    $ integral_(-oo)^(oo) exp(A x^2 + B x) dif x &= integral_(-oo)^(oo) exp(-t^2 - B^2/(4A)) dot 1/sqrt(-A) dif t\
+    &= 1/sqrt(-A) exp(-B^2/(4A)) integral_(-oo)^(oo) exp(-t^2) dif t\
+    &= exp(-B^2/(4A)) sqrt(pi/(-A)) $
+
+    为使其成为概率密度函数，需
+    $ exp(C - B^2/(4A)) sqrt(pi/(-A)) = 1 imply C = ln sqrt(-A/pi) + B^2/(4A) $
+
+    凑正态分布公式。记 $sigma = 1/sqrt(-2A)$，则 $A = -1/(2 sigma^2)$；记 $mu = sigma^2 B$，则 $B = mu/sigma^2$，进而有
+    $ C = ln sqrt(1/(2 pi sigma^2)) + mu^2/sigma^4 dot (-sigma^2/2) = ln 1/(sigma sqrt(2 pi)) - mu^2/(2 sigma^2) $
+
+    带回原式：
+    $ f(x) &= exp(A x^2 + B x + C) = exp(-1/(2 sigma^2) x^2 + mu/sigma^2 x + ln 1/(sigma sqrt(2 pi)) - mu^2/(2 sigma^2))\
+    &= 1/(sigma sqrt(2 pi)) exp(-1/(2 sigma^2) x^2 + mu/sigma^2 x - mu^2/(2 sigma^2))\
+    &= 1/(sigma sqrt(2 pi)) exp(-1/2 ((x - mu)/sigma)^2) $
+
+    这即正态分布。
+]
+
+p.d.f.
+$ f(x) = 1/(sigma sqrt(2 pi)) exp(-1/2 ((x - mu)/sigma)^2) $
+
+$X tilde N(mu, sigma^2)$, $sigma > 0$
+
+换元 $t = (x - mu)/sigma$, $dif x = sigma dif t$，则
+$ integral_(-oo)^oo f(x) dif x &= integral_(-oo)^oo 1/sqrt(2 pi) e^(-1/2 t) dif t $
+
+标准正态分布 $X tilde N(0, 1)$，特别地，其概率密度/分布函数用 $phi slash Phi$
+
+- #[
+    一张表
+    $ integral_(a)^b f(x) dif x &= integral_(-a)^b 1/sqrt(2 pi) e^(-1/2 t) dif t \
+    &=^(t = (x - mu) slash sigma) integral_((a - mu)/sigma)^() phi(t) dif t \
+    &= Phi((b - mu)/sigma) - Phi((a - mu)/sigma) $
+]
+- #[
+    $Phi(-z) = 1 - Phi(z)$ 任意偶函数
+]
+
+== 随机变量的函数
+
+=== 定义
+r.v. $X: Omega to RR^n$, 连续函数 $g: RR^n to RR^m$, $g(X): Omega to RR^m$
+
+=== 做法
+
+==== 离散型
+
+trivial
+
+==== 连续型
+
+为求 $Y = g(X)$ 的 p.d.f. $f_Y$，先求 d.f. $F_Y$，另记 $I_y = {x: g(x) leq y}$
+
+$F_Y (y) = P{Y leq y} = P{g(X) leq y} = P{X in I_y} = integral_(I_y) f_X (x) dif x = integral_(g(X) leq y) f_X (x) dif x$
+
+之后 $f_Y (y) = dif/(dif y) F_Y (y)$
+
+用 $F_X (x)$ 暂存 $integral_(g(X) leq y) f_X (x) dif x$，再用链式法则打开，省去一步积分。
+
+#example()[
+    r.v. $X$, p.d.f. $f_X (x)$，求 $Y = X^2$
+
+    $y leq 0$: $F_Y (y) = 0 sp imply sp f_Y (y) = 0$
+
+    $y > 0$:
+    $ F_Y (y) &= P{-sqrt(y) leq X leq sqrt(y)}\
+    &= F_X (sqrt(y)) - F_X (-sqrt(y))\
+    f_Y (y) &= dif/(dif y) F_Y (y) = f_X (sqrt(y)) dot 1/(2sqrt(y)) - f_X (-sqrt(y)) dot (-1)/(2 sqrt(y)) quad "(chain rule)"\
+    &= (f_X (sqrt(y)) + f_X (-sqrt(y)))/(2 sqrt(y)) $
+]
+#example()[
+    r.v. $X tilde N(mu, sigma^2)$，证明 $Y = a X + b sp (a != 0)$ 也服从正态分布
+
+    不妨 $a > 0$，
+    $F_Y (y) = P{a X + b leq y} = P{X leq (y - b)/a} = F_X ((y - b)/a)$
+
+    $ f_Y (y) &= dif/(dif y) F_X ((y - b)/a) = f_X ((y - b)/a) dot 1/a\
+    &= 1/(sigma sqrt(2 pi)) exp( (( (y - b)/a -mu)/sigma)^2 ) dot 1/a\
+    &= 1/((a sigma) sqrt(2 pi)) exp(( (y - (a mu + b))/(a sigma) )^2) $
+
+    于是 $Y tilde N(a mu + b, a sigma)$
+]
