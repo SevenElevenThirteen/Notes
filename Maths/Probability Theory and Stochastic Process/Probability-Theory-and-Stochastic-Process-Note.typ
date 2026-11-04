@@ -6,6 +6,7 @@
 #import "../../__Template/Typst-Template/Abbrs-for-Typst-Template.typ": *
 #let proof = proof-template.with(prefix: [证明：]) // more recommended by GPT 5.6 Luna, and get ce when try to use set/show
 #let example = proof-template.with(prefix: [e.g.])
+#let dist-law = proof-template.with(prefix: [d.l.])
 
 /*
     字体设置
@@ -243,9 +244,9 @@ $ P(ast | B): cal(F) arrow.hook RR\
 P(A | B) arrow.bar P(A B)/P(B) $
 依次验证 $P(ast | B)$ 满足公理化的 3 个条件，故其确为概率，称条件概率。继而概率的 6 条性质可以迁移到条件概率。
 
-=== 公式
+// === 公式
 
-==== 乘法公式
+=== 乘法公式
 
 $P(B) > 0$ 时，$P(A B) = P(A) times P(A | B) = P(B) times P(B | A)$
 
@@ -254,7 +255,7 @@ $ P(A_1 dots.c A_n) = P(A_1) times P(A_2 | A_1) times P(A_3 | A_1 A_2) times dot
 
 于是 $n$ 个事件的交可视为 $n$ 个事件依次发生。
 
-==== 全概率公式
+=== 全概率公式
 
 一个 $SS$ 的划分 ${B_n}$ 是满足如下条件的一列事件：\
 a. $B_i B_j = emptyset$ \
@@ -268,7 +269,7 @@ $ P(A) = sum P(A | B_i) P(B_i) $
 
 推论：$min{P(A | B_i)} leq P(A) leq max{P(A | B_i)}$
 
-==== 贝叶斯公式
+=== 贝叶斯公式
 
 - #[
     两枚硬币：一枚正反一样，一枚正常。等概率随机取一枚，在连抛两次都是正面的条件下，第三次是正面的概率？
@@ -404,7 +405,7 @@ $n$ 次发生 $k$ 次：$P = binom(n, k) med p^k med q^(n - k) quad (q = 1 - p)$
 
 === 随机变量
 
-$X: Omega to RR$，则 ${omega in Omega: X(omega) leq x} in cal(F)$ 是一个事件，简记为 ${X leq x}$。
+$X: Omega to RR$，则 ${omega in Omega: X(omega) leq x} in cal(F)$ 是一个事件，简记为 ${X leq x}$
 
 $P{X leq x}$ 是 $P compose X: RR to^X Omega to^P RR$ 的映射。
 
@@ -414,7 +415,7 @@ $P{X leq x}$ 是 $P compose X: RR to^X Omega to^P RR$ 的映射。
 
 分布函数 d.f. (distribution function) $F_X (x) := P{X leq x}$
 
-e.g. 抛一次硬币，记 $X$ 为正面的次数，且令正面向上的概率为 0.7。则 $ F_X (x) = cases(0 &x < 0, 0.3 med &0 leq x < 1, 1 &x geq 1) $
+e.g. 抛一次硬币，记 $X$ 为正面的次数，且令正面向上的概率为 0.7。则 $ F_X (x) = cases(0 &x < 0, 0.3 sp &0 leq x < 1, 1 &x geq 1) $
 
 性质：
 + #[
@@ -457,9 +458,9 @@ $X$ 的取值是至多可列种。
 
 d.f. $F(x) = sum_(x_k leq x) p_k$
 
-=== 常见分布
+// === 常见分布
 
-==== 0-1 分布
+=== 0-1 分布
 
 扔一次硬币，正面概率 $p$，正面次数 $X in {0, 1}$。
 
@@ -467,7 +468,7 @@ $X tilde (0-1)$
 
 d.l. $P{X = k} = p^k (1 - p)^k quad k in {0, 1}$
 
-==== 二项分布
+=== 二项分布
 
 同一枚硬币扔 $n$ 次，正面概率均为 $p$，正面次数 $X in {0, dots.c , n}$。
 
@@ -475,9 +476,13 @@ $X tilde b(n, p)$
 
 $X = sum X_i quad X_i tilde (0-1)$
 
-d.l. $P{X = k} = display(binom(n, k) p^k q^(n - k))$，单峰 $(n + 1)p - 1 leq k leq (n + 1)p$ a.k.a. $(n + 1)p$ 上下取整。
+#dist-law()[
+    $P{X = k} = display(binom(n, k) p^k q^(n - k)) to^"Poisson" (n p)^k/(k!)exp(-n p)$
+    
+    单峰 $(n + 1)p - 1 leq k leq (n + 1)p$ a.k.a. $floor((n + 1)p) sp slash sp ceil((n + 1)p)$
+]
 
-==== 泊松分布
+=== 泊松分布
 
 泊松定理：若 $n p_n = lambda$ 为常数且 $X_n tilde b(n, p_n)$，则
 $ lim_(n to oo) P{X_n = k} = (lambda^k exp(-lambda))/(k!) $
@@ -491,7 +496,7 @@ $X tilde pi(lambda)$
 
 d.l. $P{X = k} = display((lambda^k exp(-lambda))/(k!))$
 
-==== 几何分布
+=== 几何分布
 
 重复独立进行伯努利试验，直到 $upra$ 出现（其概率为 $p$）。试验次数 $X in NN_+ union {oo}$
 
@@ -503,9 +508,11 @@ d.l. $P{X = k} = display((lambda^k exp(-lambda))/(k!))$
     取 $lim_(k to oo) {X geq k}$，这包含 ${X = oo}$。$P{X = oo} = lim_(k to oo) P{X geq k}$
 ]
 
-d.l. $P{X = k} = p q^(k - 1)$
+#dist-law()[
+    $P{X = k} = p q^(k - 1)$
 
-$P{X > k} = p q^k (1 + q + q^2 + dots.c) = p q^k 1/(1 - q) = q^k$
+    $P{X > k} = p q^k (1 + q + q^2 + dots.c) = p q^k 1/(1 - q) = q^k$
+]
 
 无记忆性：
 $ P{X > m + n | X > m} &= P{X > m + n, X > m}/P{X > m} = P{X > m + n}/P{X > m}\
@@ -516,7 +523,7 @@ $ P{X > m + n | X > m} &= P{X > m + n, X > m}/P{X > m} = P{X > m + n}/P{X > m}\
 
 无记忆性源自独立、同分布。
 
-==== 帕斯卡分布
+=== 帕斯卡分布
 
 概率为 $p$ 的伯努利试验，$upra$ 出现 $r$ 次时的试验次数 $X in {r, r + 1, dots.c}$
 
@@ -525,7 +532,7 @@ d.l. $P{X = k} = binom(k - 1, r - 1) p^r q^(k - r)$
 记 $X_i$ 为在出现 $i - 1$ 次 $upra$ 后，出现第 $i$ 次 $upra$ 的试验次数，则 $X_i$ 服从几何分布\
 $X = sum X_i$
 
-==== 超几何分布
+=== 超几何分布
 
 $N$ 件物品中 $M leq N$ 件有标记，不放回地取出 $n leq N$ 件物品，有标记的物品数量 $X in {0, dots.c, min{n, M}}$
 
@@ -548,9 +555,9 @@ $F(x)$ 性质：
 $f(x)$ 性质：
 + #[$F(x) = integral_(-oo)^x f(x) dif x$, $f(x) = F'(x)$]
 
-=== 常见分布
+// === 常见分布
 
-==== 均匀分布
+=== 均匀分布
 
 若 $X$ 具有概率密度
 $ f(x) = cases(1/(b - a) & sp x in (a, b), 0 & sp x in.not (a, b)) $
@@ -563,9 +570,9 @@ r.v. X, satisfy:
 + #[If $(a, b) subset (c, d)$, $P{a leq X leq b} prop (b - a)$]
 prove that $X tilde U(c, d)$ (trivial)
 
-==== 指数分布
+=== 指数分布
 
-story: motality rate, jelly fish
+（在短期内，）“寿命”具有无记忆性，当前不受历史的影响。实际意义是外因固定（？）。$lambda$ 表示单位时间内 $upra$ 发生的次数（e.g. 选定一个群体 $N$，那么单位时间后会有 $N lambda$ 次）。
 
 p.d.f.
 $ f(x) = cases(lambda exp(-lambda x) & sp x > 0, 0 & sp x leq 0) $
@@ -596,8 +603,7 @@ $P{X > k} = 1 - F(k) = exp(-lambda k)$
     $F(t) = P{T leq t} = 1 - exp(-lambda t)$
 ]
 
-
-==== 正态分布
+=== 正态分布
 
 #example()[
     $f(x) = exp(A x^2 + B x + C)$ 是某随机变量 $X$ 的概率密度函数，$A, B, C$ 关系？
@@ -642,7 +648,12 @@ $ integral_(-oo)^oo f(x) dif x &= integral_(-oo)^oo 1/sqrt(2 pi) e^(-1/2 t) dif 
     &= Phi((b - mu)/sigma) - Phi((a - mu)/sigma) $
 ]
 - #[
-    $Phi(-z) = 1 - Phi(z)$ 任意偶函数
+    $Phi(-z) = 1 - Phi(z)$ 这对任意偶函数均成立。
+]
+- #[
+    $P{abs(X - mu) leq sigma} = 68.3%$\
+    $P{abs(X - mu) leq 2 sigma} = 95.4%$\
+    $P{abs(X - mu) leq 3 sigma} = 99.7%$
 ]
 
 == 随机变量的函数
@@ -650,13 +661,13 @@ $ integral_(-oo)^oo f(x) dif x &= integral_(-oo)^oo 1/sqrt(2 pi) e^(-1/2 t) dif 
 === 定义
 r.v. $X: Omega to RR^n$, 连续函数 $g: RR^n to RR^m$, $g(X): Omega to RR^m$
 
-=== 做法
+// === 做法
 
-==== 离散型
+=== 离散型
 
 trivial
 
-==== 连续型
+=== 连续型
 
 为求 $Y = g(X)$ 的 p.d.f. $f_Y$，先求 d.f. $F_Y$，另记 $I_y = {x: g(x) leq y}$
 
@@ -689,3 +700,156 @@ $F_Y (y) = P{Y leq y} = P{g(X) leq y} = P{X in I_y} = integral_(I_y) f_X (x) dif
 
     于是 $Y tilde N(a mu + b, a sigma)$
 ]
+
+= 多元随机变量
+
+== 定义
+
+$X: Omega to RR^n$, $omega hookto (X_1 (omega), dots.c, X_n (omega))$
+
+=== 联合分布
+
+（联合）分布函数 $F(x_1, dots.c, x_n) = P{X_1 leq x_1, dots.c, x_n leq x_n} = P( inter.big {X_i leq x_i} )$
+
+性质：
++ #[$F(x, y)$ 关于 $x slash y$ 均不减]
+
++ #[
+    $F(-oo, y) = F(x, -oo) = 0$, $F(+oo, +oo) = 1$
+
+    $0 leq F(x, y) leq F(x, +oo) = F_X (x)$，令 $x to -oo$ 得 $F(-oo, y) to 0$
+]
++ #[$F(x, y)$ 关于 $x slash y$ 均右连续]
++ #[
+    $forall (x_1, y_1) leq (x_2, y_2)$, $F(x_2, y_2) - F(x_1, y_2) - F(x_2, y_1) + F(x_1, y_1) geq 0$
+]
+
+计算：
++ #[
+    $P{x_1 < X leq x_2, y_1 < Y leq y_2} = F(x_2, y_2) - F(x_1, y_2) - F(x_2, y_1) + F(x_1, y_1)$
+]
++ #[
+    $P(inter.big {l_i < X_i leq r_i}) = sum (-1)^(|S|) F(r_i, l_j) sp forall i in S, j in.not S$
+]
+
+=== 边缘分布
+
+$F_X (x) sp slash sp F_Y (y)$ 是 $(X, Y)$ 关于 $X slash Y$ 的边缘分布函数。
+
+$F_X (x) = F(x, +oo)$
+
+== 离散型
+
+（联合）分布律 $P{X = x_i, Y = y_j} = p_(i j)$
+
+边缘分布律 $p_(i dot) = P{X = x_i} = sum_j p_(i j)$
+
+- #[
+    一般地，记 $X in {x_n}, Y in {y_m}$，并假设 $n, m geq 2$ 以排除无趣情况。若仅知边缘分布律 ${p_(i dot)}, {p_(dot j)}$，有 $n + m$ 个方程和 $n m$ 个未知数，显然通常不能唯一解出。考虑 $n = m = 2$，此时 $n m = n + m$，是否唯一确定？
+
+    通常不能。记方程为 $r_(1, 2), c_(1, 2)$，有 $r_1 + r_2 = c_1 + c_2 = sum sum p_(i, j)$，方程组线性相关，于是无唯一解。然而有限制 $p_(i, j) geq 0$，特殊情况下解唯一。e.g. $p_(0 dot) = p_(dot 0) = 0, p_(1 dot) = p_(dot 1) = 1 sp imply sp p_(1 1) = 1$
+]
+
+== 连续型
+
+=== 定义
+
+（联合）概率密度 $f(x, y)$ s.t. $F(x, y) = integral_(-oo)^x integral_(-oo)^y f(u, v) dif u dif v$
+
+性质：
++ #[
+    若 $f(x, y)$ 在 $(x, y)$ 连续，则 $f(x, y) = (partial^2 F)/(partial x partial y) (x, y)$
+]
+
+边缘概率密度 $f_X (x) = integral_(-oo)^(oo) f(x, y) dif y$
+
+=== 均匀分布
+
+记区域 $G subset R^2$ 的面积为 $S$，则
+$ f(x, y) = cases(1/S sp &(x, y) in G, 0 &(x, y) in.not G) $
+
+=== 正态分布
+
+$ f(x, y) = &1/(2 pi sigma_X sigma_Y sqrt(1 - rho^2)) times\ &exp(-1/(2 (1-rho^2)) (((x - mu_X)/sigma_X)^2 - 2 rho (x - mu_X)/sigma_X (y - mu_Y)/sigma_Y + ((y - mu_Y)/sigma_Y)^2)) $
+
+$(X, Y) tilde N(mu_X, mu_Y, sigma_X^2, sigma_Y^2, rho)$
+
+$rho in [-1, 1]$ 为相关系数，$rho = "cov"(X, Y)/(sigma_X sigma_Y)$
+
+==== 分解
+
+配方
+$ &((x - mu_X)/sigma_X)^2 - 2 rho (x - mu_X)/sigma_X (y - mu_Y)/sigma_Y + ((y - mu_Y)/sigma_Y)^2\
+=& ((x - mu_X)/sigma_X - rho (y - mu_Y)/sigma_Y)^2 + (1 - rho^2)((y - mu_Y)/sigma_Y)^2 $
+
+于是
+$ f(x, y) = &1/(2 pi sigma_X sigma_Y sqrt(1 - rho^2)) exp(-1/2 ((y - mu_Y)/sigma_Y)^2 - 1/(2(1 - rho^2)) ((x - mu_X)/sigma_X - rho (y - mu_Y)/sigma_Y)^2)\
+= &1/(sigma_Y sqrt(2 pi)) exp(-1/2 ((y - mu_Y)/sigma_Y)^2) times\
+ &1/(sigma_X sqrt(2 pi) sqrt(1 - rho^2)) exp(-1/(2(1 - rho^2)) ((x - mu_X)/sigma_X - rho (y - mu_Y)/sigma_Y)^2)\
+= &1/(sigma_Y sqrt(2 pi)) exp(-1/2 ((y - mu_Y)/sigma_Y)^2) times\
+&1/(sigma_X sqrt(2 pi) sqrt(1 - rho^2)) exp(-1/(2(1 - rho^2)) ((x - (mu_X + rho sigma_X/sigma_Y (y - mu_Y)))/sigma_X)^2) $
+
+第一项为 $N(mu_Y, sigma_Y^2)$ 的 p.d.f.，第二项为 $N(mu_X + rho sigma_X/sigma_Y (y - mu_Y), sigma_X^2(1 - rho^2))$ 的 p.d.f.
+
+对称地，若对 $y$ 配方，则第一项为 $N(mu_X, sigma_X^2)$ 的 p.d.f.，第二项为 $N(mu_Y + rho sigma_Y/sigma_X (x - mu_X), sigma_Y^2(1 - rho^2))$ 的 p.d.f.
+
+后面可以看到，这即是 $p(x, y) = p(x) p(y | x) = p(y) p(x | y)$ 的两种表示。
+
+==== 边缘分布
+
+$ f_X (x) = &integral_(-oo)^(oo) f(x, y) dif y\
+= &integral_(-oo)^(oo) 1/(sigma_X sqrt(2 pi)) exp(-1/2 ((x - mu_X)/sigma_X)^2) times\
+&1/(sigma_Y sqrt(2 pi) sqrt(1 - rho^2)) exp(-1/(2(1 - rho^2)) ((y - mu_Y)/sigma_Y - rho (x - mu_X)/sigma_X)^2) $
+
+换元 $t = 1/sqrt(1 - rho^2)((y - mu_Y)/sigma_Y - rho (x - mu_X)/sigma_X)$，于是 $dif y = sigma_Y sqrt(1 - rho^2) dif t$
+
+$ f_X (x) = & 1/(sigma_X sqrt(2 pi)) exp(-1/2 ((x - mu_X)/sigma_X)^2) times integral_(-oo)^(oo) 1/sqrt(2 pi) exp(-1/2 t^2) dif t\
+= & 1/(sigma_X sqrt(2 pi)) exp(-1/2 ((x - mu_X)/sigma_X)^2) $
+
+由此，$X tilde N(mu_X, sigma_X^2)$, $Y tilde N(mu_Y, sigma_Y^2)$。而 $rho$ 在过程中被约去，于是仅知 $f_X, f_Y$ 不能确定 $rho$。
+
+==== $n$ 元情景
+
+记 $bold(Sigma)$ 为 $n$ 阶正定对称矩阵，则定义 $n$ 元正态分布 $N(bold(mu), bold(Sigma))$
+$ p(bold(x)) = 1/((2 pi)^(n/2) sqrt(det bold(Sigma))) exp(-1/2 (bold(x - mu))bold(Sigma)^(-1)(bold(x - mu))^T) $
+$n = 2$ 时 $bold(mu) = (mu_X, mu_Y)^T, sp bold(sigma) = mat(sigma_X^2, rho sigma_X sigma_Y; rho sigma_X sigma_Y, sigma_Y^2)$
+
+== 独立性
+
+=== 定义
+
+取 $upra = {x_1 < X leq x_2}$, $uprb = {y_1 < Y leq y_2}$。二者独立则 $P{x_1 < X leq x_2, y_1 < Y leq y_2} = P{} P{}$。特别地，取 $(-oo, x), (-oo, y)$
+
+$F(x, y) = F_X (x) F_Y (y)$
+
+=== 等价条件
+
+==== 离散型
+
+$p_(i, j) = p_i p_j$
+
+
+==== 连续型
+
+合理猜测：\
+#[
+$p arrow.l.r f dif$ \
+$p_(i, j) = p_i p_j arrow.l.r f dif x dif y = f_X dif x f_Y dif y$
+]
+
+$f(x, y) = f_X (x) f_Y (y)$
+
+== 条件分布
+
+$P{X = x_i | Y = y_j} = p_(i, j)/p_(dot, j)$
+
+$P{X = x | Y = y} = P{X = x, Y = y}/P{Y = y}$ 为 0/0 型极限。为此，把 $Y = y$ 拓宽为 $abs(Y - y) < epsilon$，改为 $epsilon to 0^+$ 时的极限。而为使极限存在/可以应用 L'Hôpital 法则，需额外限制 $f_("who?") > 0$ 且在 $(x, y)$ 处连续。
+
+在 $Y = y$ 条件下 $X$ 的条件概率密度
+$ f_(X | Y)(x | y) = f(x, y)/f_Y(y) $
+
+== 函数分布
+
+$X: Omega to RR^n$, $g: RR^n to RR^m$, given $F_X$ and $Y = g(X)$, how to find out $F_Y$?
+
+证明：$X_i tilde N(mu_i, sigma_i^2)$ 且相互独立，则 $X = sum X_i tilde N(sum mu_i, sum sigma_i^2)$；本质？
