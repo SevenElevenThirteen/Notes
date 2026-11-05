@@ -572,7 +572,7 @@ prove that $X tilde U(c, d)$ (trivial)
 
 === 指数分布
 
-（在短期内，）“寿命”具有无记忆性，当前不受历史的影响。实际意义是外因固定（？）。$lambda$ 表示单位时间内 $upra$ 发生的次数（e.g. 选定一个群体 $N$，那么单位时间后会有 $N lambda$ 次）。
+（在短期内，）“寿命”具有无记忆性，当前不受历史的影响。实际意义是外因固定（？）。$lambda$ 表示单位时间内 $upra$ 发生的次数（e.g. 选定一个群体 $N$，那么单位时间后会有 $N lambda$ 次，如死亡率）。
 
 p.d.f.
 $ f(x) = cases(lambda exp(-lambda x) & sp x > 0, 0 & sp x leq 0) $
@@ -644,7 +644,7 @@ $ integral_(-oo)^oo f(x) dif x &= integral_(-oo)^oo 1/sqrt(2 pi) e^(-1/2 t) dif 
 - #[
     一张表
     $ integral_(a)^b f(x) dif x &= integral_(-a)^b 1/sqrt(2 pi) e^(-1/2 t) dif t \
-    &=^(t = (x - mu) slash sigma) integral_((a - mu)/sigma)^() phi(t) dif t \
+    &=^(t = (x - mu) slash sigma) integral_((a - mu)/sigma)^((b - mu)/sigma) phi(t) dif t \
     &= Phi((b - mu)/sigma) - Phi((a - mu)/sigma) $
 ]
 - #[
@@ -776,6 +776,12 @@ $(X, Y) tilde N(mu_X, mu_Y, sigma_X^2, sigma_Y^2, rho)$
 
 $rho in [-1, 1]$ 为相关系数，$rho = "cov"(X, Y)/(sigma_X sigma_Y)$
 
+==== 几何
+
+等高线为椭圆，中心 $(mu_X, mu_Y)$。
+
+$rho$ 影响椭圆的旋转，$bold(Sigma)$ 的特征向量 $v_1, v_2$ 为椭圆的长短轴方向，轴长正比于 $sqrt(lambda_1)$, $sqrt(lambda_2)$。对称正定矩阵一定存在两个正特征实根，也一定可以选出一对正交的特征向量。（$lambda_1 = lambda_2$ 时退化为圆）
+
 ==== 分解
 
 配方
@@ -816,40 +822,116 @@ $n = 2$ 时 $bold(mu) = (mu_X, mu_Y)^T, sp bold(sigma) = mat(sigma_X^2, rho sigm
 
 == 独立性
 
-=== 定义
+取 $upra = {x_1 < X leq x_2}$, $uprb = {y_1 < Y leq y_2}$。二者独立则 $P(upra uprb) = P(upra) P(uprb)$。特别地，取 $(-oo, x), (-oo, y)$，则 $P{X leq x, Y leq y} = P{X leq x} P{Y leq y}$，也即
+$ F(x, y) = F_X (x) F_Y (y) $
 
-取 $upra = {x_1 < X leq x_2}$, $uprb = {y_1 < Y leq y_2}$。二者独立则 $P{x_1 < X leq x_2, y_1 < Y leq y_2} = P{} P{}$。特别地，取 $(-oo, x), (-oo, y)$
+此时
+$ &P{x_1 < X leq x_2, y_1 < Y leq y_2}\
+= &F(x_2, y_2) - F(x_1, y_2) - F(x_2, y_1) + F(x_1, y_1) quad "(property of d.f.)"\
+= &F_X (x_2) F_Y (y_2) - F_X (x_1) F_Y (y_2) - F_X (x_2) F_Y (y_1) + F_X (x_1) F_Y (y_1) quad "(independence)"\
+= &(F_X (x_2) - F_X (x_1)) times (F_Y (y_2) - F_Y (y_1))\
+= &P{x_1 < X leq x_2} times P{y_1 < Y leq y_2} $
 
-$F(x, y) = F_X (x) F_Y (y)$
+于是 $F(x, y) = F_X (x) F_Y (Y)$ 是独立性的充要条件。
 
-=== 等价条件
+一般地，若 $F(x_1, dots.c, x_n) = product F_(X_i) (x_i)$，称 ${X_n}$ 相互独立。此时 $g_i (X_i)$ 也相互独立（${g_n}$ 为任意一列连续函数）。
 
-==== 离散型
+#divider()
 
-$p_(i, j) = p_i p_j$
+- #[
+    离散型：$p_(i, j) = p_i p_j$
+]
+- #[
+    连续型：$f(x, y) = f_X (x) f_Y (y)$
 
+    合理猜测：$p arrow.l.r f dif quad imply quad p_(i, j) = p_i p_j arrow.l.r f dif x dif y = f_X dif x f_Y dif y$    
 
-==== 连续型
+    充分性：$F(x, y) = integral integral f(u, v) = integral f(u) integral f(v) = F_X (x) F_Y (y)$\
+    必要性：$f(x, y) = (partial^2 F)/(partial x partial y) = (partial^2 F_X F_Y)/(partial x partial y) = (dif f(x) F_Y)/(dif y) = f_X (x) f_Y (y)$
 
-合理猜测：\
-#[
-$p arrow.l.r f dif$ \
-$p_(i, j) = p_i p_j arrow.l.r f dif x dif y = f_X dif x f_Y dif y$
 ]
 
-$f(x, y) = f_X (x) f_Y (y)$
+#divider()
+
+#example()[
+    正态分布 $X, Y$ 相互独立
+
+    $f(x, y) = f_X (x) f_Y (y) sp iff sp rho = 0$
+]
+
+
 
 == 条件分布
 
+==== 离散型
+
 $P{X = x_i | Y = y_j} = p_(i, j)/p_(dot, j)$
 
-$P{X = x | Y = y} = P{X = x, Y = y}/P{Y = y}$ 为 0/0 型极限。为此，把 $Y = y$ 拓宽为 $abs(Y - y) < epsilon$，改为 $epsilon to 0^+$ 时的极限。而为使极限存在/可以应用 L'Hôpital 法则，需额外限制 $f_("who?") > 0$ 且在 $(x, y)$ 处连续。
+==== 连续型
+
+$P{X leq x | Y = y} = P{X leq x, Y = y}/P{Y = y}$ 为 0/0 型极限。为此，把 $Y = y$ 拓宽为 $abs(Y - y) < epsilon$，改为 $epsilon to 0^+$ 时的极限。（不用 $X = x$ 是因为取到单点的概率为 0）
+
+$ &P{X leq x | Y = y}\
+= &lim_(epsilon to 0^+) P{X leq x | abs(Y - y) < epsilon}
+= lim_(epsilon to 0^+) P{X leq x, |Y - y| < epsilon}/P{|Y - y| < epsilon}\
+= &lim_(epsilon to 0^+) (F(x, Y + epsilon) - F(x, Y - epsilon))/(F_Y (Y + epsilon) - F_Y (Y - epsilon))\
+= &(partial F(x, y))/(partial y) sp slash sp ((dif F_Y (y))/(dif y)) quad ("div" 2 epsilon "on both")\
+= &integral_(-oo)^x f(t, y)/(f_Y (y)) dif t $
+
+需额外限制 $f_Y (y) > 0$ 且在 $(x, y)$ 处连续。
 
 在 $Y = y$ 条件下 $X$ 的条件概率密度
-$ f_(X | Y)(x | y) = f(x, y)/f_Y(y) $
+$ f_(X | Y)(x | y) = f(x, y)/(f_Y (y)) $
+
+#divider()
+
+#example()[
+    正态分布 $(x, y) tilde N(mu_1, mu_2, sigma_1, sigma_2, rho)$，求 $f_(Y | X) (y | x)$
+
+    由分解及边缘分布即得，服从 $N(mu_2 + rho sigma_2/sigma_1 (x - mu_1), sigma_2^2 (1 - rho^2))$
+]
 
 == 函数分布
 
 $X: Omega to RR^n$, $g: RR^n to RR^m$, given $F_X$ and $Y = g(X)$, how to find out $F_Y$?
 
 证明：$X_i tilde N(mu_i, sigma_i^2)$ 且相互独立，则 $X = sum X_i tilde N(sum mu_i, sum sigma_i^2)$；本质？
+
+- $Z = max{X_i}$
+- $Z = min{X_i}$
+- $Z = sum X_i$
+
+= 数字特征
+
+== 期望
+
+=== 离散型
+
+d.l. $P{X = x_i} = p_i$，若级数 $sum x_i p_i$ 绝对收敛，则定义
+$ E(X) := sum x_i p_i $ 
+
+- #[
+    0-1 分布：$E(X) = p$
+]
+- #[
+    $X tilde b(n, p)$：$E(X) = n p$
+]
+- #[
+    $X tilde pi(lambda)$：$E(X) = lambda$
+]
+
+=== 连续型
+
+$ E(X) := integral_(-oo)^(oo) x f(x) dif x $
+
+不存在 $E(X)$ 的随机变量？
+
+- #[
+    $X tilde U(a, b)$：$E(X) = (a + b)/2$
+]
+- #[
+    $X tilde N(mu, sigma^2)$：$E(X) = mu$
+]
+- #[
+    指数分布：$E(X) = 1/lambda$
+]

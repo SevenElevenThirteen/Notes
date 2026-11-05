@@ -10,6 +10,7 @@
 
 #let environment(body) = { // add all show/set rules here !
     show: show-cn-fakebold
+    show math.equation: set block(breakable: true) // 允许行间公式跨页，但只会在显式换行处切分
 
     body // never forget this !
 }
