@@ -8,6 +8,9 @@
 #let example = proof-template.with(prefix: [e.g.])
 #let dist-law = proof-template.with(prefix: [d.l.])
 
+#let var = "Var"
+#let cov = $C o v$
+
 /*
     字体设置
     Times New Roman 不支持中文
@@ -496,6 +499,10 @@ $X tilde pi(lambda)$
 
 d.l. $P{X = k} = display((lambda^k exp(-lambda))/(k!))$
 
+#example()[
+    $X tilde pi(lambda)$, $Y tilde pi(mu)$，则 $Z = X + Y tilde pi(lambda + mu)$
+]
+
 === 几何分布
 
 重复独立进行伯努利试验，直到 $upra$ 出现（其概率为 $p$）。试验次数 $X in NN_+ union {oo}$
@@ -701,6 +708,14 @@ $F_Y (y) = P{Y leq y} = P{g(X) leq y} = P{X in I_y} = integral_(I_y) f_X (x) dif
     于是 $Y tilde N(a mu + b, a sigma)$
 ]
 
+=== 生成随机数
+
+记 r.v. $X$ 的 d.f. $F_X (x): RR to [0, 1]$，考虑 r.v. $Y = F_X (x)$
+
+$ F_Y (y) &= P{F_X (x) leq y} = P{x leq F^(-1) (y)} = F_X ( F_X^(-1) (y) ) = y $
+
+于是 $Y tilde U(0, 1)$。对于任意分布 $F_X$，只需均匀分布 $[0, 1]$ 上的随机数 $y$，取 $x = F_X^(-1) (y)$ 即得。
+
 = 多元随机变量
 
 == 定义
@@ -878,7 +893,7 @@ $ &P{X leq x | Y = y}\
 = &(partial F(x, y))/(partial y) sp slash sp ((dif F_Y (y))/(dif y)) quad ("div" 2 epsilon "on both")\
 = &integral_(-oo)^x f(t, y)/(f_Y (y)) dif t $
 
-需额外限制 $f_Y (y) > 0$ 且在 $(x, y)$ 处连续。
+需额外限制 $f_Y (y) > 0$ 且 $f, f_Y$ 均在 $(x, y)$ 连续。（若不成立，则无法定义条件概率。特别地，$f_Y (y) = 0$ 处均不在 $f_(X | Y)$ 定义域内。*需要声明定义域*。）
 
 在 $Y = y$ 条件下 $X$ 的条件概率密度
 $ f_(X | Y)(x | y) = f(x, y)/(f_Y (y)) $
@@ -893,22 +908,76 @@ $ f_(X | Y)(x | y) = f(x, y)/(f_Y (y)) $
 
 == 函数分布
 
-$X: Omega to RR^n$, $g: RR^n to RR^m$, given $F_X$ and $Y = g(X)$, how to find out $F_Y$?
+$X: Omega to RR^n$, $g: RR^n to RR^m$, $g(X): Omega to RR^m$
 
 证明：$X_i tilde N(mu_i, sigma_i^2)$ 且相互独立，则 $X = sum X_i tilde N(sum mu_i, sum sigma_i^2)$；本质？
 
-- $Z = max{X_i}$
-- $Z = min{X_i}$
-- $Z = sum X_i$
+=== 例子
+
+- #[
+    $Z = X + Y$
+
+    $ F_Z (z) &= P{X + Y leq z} = integral_(-oo)^(oo) dif x integral_(-oo)^(z - x) f(x, y) dif y\
+    &= integral_(-oo)^z dif u integral_(-oo)^(+oo) f(x, u - x) dif x quad ("let" u = x + y)\
+    imply f_Z (z) &= (dif F_Z (z))/(dif z) = integral_(-oo)^(+oo) f(x, z - x) dif x $
+
+    若 $X, Y$ 相互独立，则 $f(x, z - x) = f_X (x) f_Y (z - x)$，于是
+    $ f_Z (z) = integral_(-oo)^(oo) f_X (x) f_Y (z - x) $
+    也即 $f_X$ 和 $f_Y$ 的卷积 $f_X ast f_Y$
+]
+
+- #[
+    $Z = max{X_n}$
+
+    $ F_Z (z) = P{max{X_n} leq z} = integral_(forall x_i leq z) f(x_1, dots.c, x_n) dif x_1 dots.c dif x_n $
+
+    若 ${X_n}$ 相互独立，则
+    $ F_Z (z) = P{max{X_n} leq z} = product P{X_i leq z} = product F_(X_i) (z) $
+]
+- #[
+    $Z = min{X_n}$
+
+    $ F_Z (z) &= P{min{X_n} leq z}\
+    1 - F_Z (z) &= P{min{X_n} > z} = integral_(forall x_i > z) f(x_1, dots.c, x_n) dif x_1 dots.c dif x_n $
+
+    若 ${X_n}$ 相互独立，则
+    $ F_Z (z) &= 1 - P{min{X_n} > z} = 1 - product P{X_i > z}\
+    &= 1 - product (1 - F_(X_i) (z)) $
+]
+
+=== 换元
+
+已知随机向量 $bold(X) = (X_1, dots.c, X_n)$ 的分布 $f_(bold(X)) (bold(x))$。又有可逆映射 $phi: RR^n to RR^n$，映 $bold(Y) = (Y_1 (X_1, dots.c, X_n), dots.c, Y_n (X_1, dots.c, X_n))$，希望求 $f_Y (bold(y))$
+
+具体地，要求 Jacobi 行列式 $J = (partial(x_1, dots.c, x_n))/(partial(y_1, dots.c, y_n))$ 处处不为零。其中 $x_i = x_i (y_1, dots.c, y_n)$ 为逆映射。于是有
+$ &integral_(Omega) f_(bold(X)) (bold(x)) dif bold(x) = 1\
+imply &integral_(phi^(-1)(Omega)) f_(bold(X)) (bold(x)(bold(y))) sp abs(J) sp dif bold(y) = 1 $
+
+而 $integral f_(bold(Y)) (bold(y)) dif bold(Y) = 1$，对比两式即得
+$ f_(bold(Y)) (bold(y)) = abs(J) f_(bold(X)) (bold(x)) quad "where" phi(bold(x)) = bold(y) $
+
+求 $J$ 不必显式求出逆映射，求全微分。
 
 = 数字特征
 
 == 期望
 
+=== 定义
+
+=== 性质
+
+- #[
+    线性性
+]
+
+- #[
+    若 $X,Y$ 相互独立，则 $E(X Y) = E(X) E(Y)$
+]
+
 === 离散型
 
 d.l. $P{X = x_i} = p_i$，若级数 $sum x_i p_i$ 绝对收敛，则定义
-$ E(X) := sum x_i p_i $ 
+$ E(X) := sum x_i p_i $
 
 - #[
     0-1 分布：$E(X) = p$
@@ -920,11 +989,15 @@ $ E(X) := sum x_i p_i $
     $X tilde pi(lambda)$：$E(X) = lambda$
 ]
 
+#example()[
+    若 $X geq 1$（严谨地，这是说 $P{X < 1} = 0$），则 $E(X) = sum_k P{X geq k}$
+
+    证明是平凡地交换求和符，绝对收敛保证交换律和结合律。
+]
+
 === 连续型
 
 $ E(X) := integral_(-oo)^(oo) x f(x) dif x $
-
-不存在 $E(X)$ 的随机变量？
 
 - #[
     $X tilde U(a, b)$：$E(X) = (a + b)/2$
@@ -934,4 +1007,97 @@ $ E(X) := integral_(-oo)^(oo) x f(x) dif x $
 ]
 - #[
     指数分布：$E(X) = 1/lambda$
+]
+
+#example()[
+    柯西分布 $E(X)$ 不存在
+
+    $ f(x) = 1/pi 1/(1 + x^2) $
+]
+
+== 方差
+
+=== 定义
+
+$ D(X) := E((X - E(X))^2) $
+
+Var$(X)$，$sigma(X) = sqrt(D(X))$
+
+=== 性质
+
+- #[
+    $D(X) = E(X^2) - [E(X)]^2$
+
+    $D(X) = E[(X - E X)^2] = E(X^2 - 2 X E(X) + (E(X))^2) = E(X^2) - 2 E(X) E(X) + (E(X))^2 = E(X^2) - [E(X)]^2$
+]
+
+#divider()
+
+- #[
+    $D(C) = 0$
+]
+
+- #[
+    $D(a X) = a^2 D(X)$
+
+    $D(a X) = E[(a X - E(a X))^2] = a^2 E[(X - E X)^2] = a^2 D(X)$
+]
+
+于是 $D(a X + b) = a^2 D(X)$
+
+#divider()
+
+$ D(a X + b Y) &= E[ (a X + b Y - E(a X + b Y))^2 ]\
+&= E[ (a(X - E X) + b(Y - E Y))^2 ]\
+&= a^2 D(x) + b^2 D(y) + 2 a b E(X - E X)(Y - E Y)\
+&= vec(a, b)^T mat(D(X), cov(X, Y); cov(X, Y), D(Y)) vec(a, b) $
+
+- #[
+    若 $X, Y$ 相互独立，则 $D(X plus.minus Y) = D(X) + D(Y)$
+
+    进一步，若 ${X_n}$ 相互独立，则 $D(sum X_i) = sum D(X_i)$
+]
+
+=== 例子
+
+- #[
+    $(0-1)$ 分布
+
+    $E(X^2) = E(X) = p sp imply sp D(X) = p - p^2 = p(1 - p)$
+]
+
+- #[
+    $b(n, p)$
+
+    $n$ 次独立的伯努利试验，由性质 $D(X) = n D(X_1) = n p (1 - p)$
+]
+- #[
+    $pi(lambda)$
+]
+
+#divider()
+
+- #[
+    $U(a, b)$
+]
+
+- #[
+    $N(mu, sigma)$
+]
+
+== 协方差
+
+令 $g(x, y) = (x - E X)(y - E Y)$，则 $cov(X, Y) = E(g(X, Y))$
+
+记全体一维随机变量构成空间 $V$，在 $V$ 上定义了加法 $X + Y$ 和标量乘法 $k X, k in RR$，进而启发把 $V$ 视为线性空间。
+
+Cov 是 $V$ 上的一个内积，继而相关系数是向量夹角。
+#proof()[
+    $cov(X, Y) := E[(X - E X)(Y - E Y)]$
+
+    - #[
+        $cov(X, X) = E[(X - E X)^2] = D(X) geq 0$
+
+        但 $cov(X, X) = 0$ 的 $X$ 不唯一，于是 $V$ 不是真正的线性空间，不过无影响。
+    ]
 ]
