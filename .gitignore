@@ -1,4 +1,8 @@
 # Created by https://gitignore.org
+
+# ignore test file
+Test.typ
+
 # TeX.gitignore
 
 ## Core latex/pdflatex auxiliary files:
