@@ -1,7 +1,7 @@
 # Created by https://gitignore.org
 
 # ignore test file
-Test.typ
+__Template/Typst-Template/Test.typ
 
 # TeX.gitignore
 
