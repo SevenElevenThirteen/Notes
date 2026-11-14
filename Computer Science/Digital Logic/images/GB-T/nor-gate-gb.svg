@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="80" viewBox="0 0 120 80" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+ <title>或非门（NOR，国标 GB/T 4728.12 矩形符号）</title>
+ <rect x="25" y="8" width="70" height="60"/>
+ <path d="M 0,28 H 25 M 0,48 H 25 M 103,38 H 120"/>
+ <circle cx="99" cy="38" r="4"/>
+ <text x="30" y="25" font-family="sans-serif" font-size="15" fill="#000000" stroke="none">≥1</text>
+</svg>

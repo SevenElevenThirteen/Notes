@@ -712,9 +712,15 @@ $F_Y (y) = P{Y leq y} = P{g(X) leq y} = P{X in I_y} = integral_(I_y) f_X (x) dif
 
 记 r.v. $X$ 的 d.f. $F_X (x): RR to [0, 1]$，考虑 r.v. $Y = F_X (x)$
 
-$ F_Y (y) &= P{F_X (x) leq y} = P{x leq F^(-1) (y)} = F_X ( F_X^(-1) (y) ) = y $
+定义 $F_X^(-1) (y) = inf{x: F_X (x) geq y}$
+- #[
+    $F_X$ 在 $y$ 处连续：$F_Y (y) &= P{F_X (x) leq y} = P{x leq F^(-1) (y)} = F_X ( F_X^(-1) (y) ) = y$
+]
+- #[
+    $F_X$ 在 $y$ 处间断：记 $x = F_X^(-1) (y)$，则 $P{X = x} = F_X (x) - F_X (x^-)$，也恰为 $Y tilde U(0, 1)$ 时落在 $(F_X (x^-), F_X (x)]$ 的概率。
+]
 
-于是 $Y tilde U(0, 1)$。对于任意分布 $F_X$，只需均匀分布 $[0, 1]$ 上的随机数 $y$，取 $x = F_X^(-1) (y)$ 即得。
+对于任意分布 $F_X$，只需均匀分布 $[0, 1]$ 上的随机数 $y$，取 $x = F_X^(-1) (y)$ 即得。
 
 = 多元随机变量
 
@@ -835,6 +841,22 @@ $ f_X (x) = & 1/(sigma_X sqrt(2 pi)) exp(-1/2 ((x - mu_X)/sigma_X)^2) times inte
 $ p(bold(x)) = 1/((2 pi)^(n/2) sqrt(det bold(Sigma))) exp(-1/2 (bold(x - mu))bold(Sigma)^(-1)(bold(x - mu))^T) $
 $n = 2$ 时 $bold(mu) = (mu_X, mu_Y)^T, sp bold(sigma) = mat(sigma_X^2, rho sigma_X sigma_Y; rho sigma_X sigma_Y, sigma_Y^2)$
 
+#divider()
+
+#example()[
+    正态分布 $X, Y$ 相互独立
+
+    $f(x, y) = f_X (x) f_Y (y) sp iff sp rho = 0$
+]
+
+#example()[
+    $X_i tilde N(mu_i, sigma_i^2)$ 且相互独立，则 $X = sum X_i tilde N(sum mu_i, sum sigma_i^2)$
+
+    由期望和方差的性质：\
+    $E(sum X_i) = sum E(X_i) = sum mu_i$\
+    $D(sum X_i) = sum D(X_i) = sum sigma_i^2$（因为独立）
+]
+
 == 独立性
 
 取 $upra = {x_1 < X leq x_2}$, $uprb = {y_1 < Y leq y_2}$。二者独立则 $P(upra uprb) = P(upra) P(uprb)$。特别地，取 $(-oo, x), (-oo, y)$，则 $P{X leq x, Y leq y} = P{X leq x} P{Y leq y}$，也即
@@ -865,16 +887,6 @@ $ &P{x_1 < X leq x_2, y_1 < Y leq y_2}\
     必要性：$f(x, y) = (partial^2 F)/(partial x partial y) = (partial^2 F_X F_Y)/(partial x partial y) = (dif f(x) F_Y)/(dif y) = f_X (x) f_Y (y)$
 
 ]
-
-#divider()
-
-#example()[
-    正态分布 $X, Y$ 相互独立
-
-    $f(x, y) = f_X (x) f_Y (y) sp iff sp rho = 0$
-]
-
-
 
 == 条件分布
 
@@ -909,8 +921,6 @@ $ f_(X | Y)(x | y) = f(x, y)/(f_Y (y)) $
 == 函数分布
 
 $X: Omega to RR^n$, $g: RR^n to RR^m$, $g(X): Omega to RR^m$
-
-证明：$X_i tilde N(mu_i, sigma_i^2)$ 且相互独立，则 $X = sum X_i tilde N(sum mu_i, sum sigma_i^2)$；本质？
 
 === 例子
 
@@ -1085,6 +1095,10 @@ $ D(a X + b Y) &= E[ (a X + b Y - E(a X + b Y))^2 ]\
     $N(mu, sigma)$
 ]
 
+=== 切比雪夫
+
+$ P{(X - mu) > epsilon} < D(X)/epsilon^2 $
+
 == 协方差
 
 令 $g(x, y) = (x - E X)(y - E Y)$，则 $cov(X, Y) = E(g(X, Y))$
@@ -1098,6 +1112,58 @@ Cov 是 $V$ 上的一个内积，继而相关系数是向量夹角。
     - #[
         $cov(X, X) = E[(X - E X)^2] = D(X) geq 0$
 
-        但 $cov(X, X) = 0$ 的 $X$ 不唯一，于是 $V$ 不是真正的线性空间，不过无影响。
     ]
+    - #[
+        $cov(X, Y) = E[(X - E X)(Y - E Y)] = cov(Y, X)$
+    ]
+    - #[
+        $cov(lambda X + mu Y, Z) = lambda cov(X, Z) + mu cov(Y, Z)$，用期望的线性性展开。
+    ]
+]
+但 $cov(X, X) = 0$ 的 $X$ 不唯一，于是 $V$ 不是真正的线性空间（需唯一零元），不过无影响。取商空间可构造。
+
+#divider()
+
+零元 $cov(X, X) = D(X) = 0$，说明 $X$ 以 1 的概率取常数 $C = mu$。
+
+- #[
+    $cov(X, c) = E[(X - E X)(c - E c)] = E[(X - E X)(c - c)] = E(0) = 0$
+
+    几何上，向量和 $bold(0)$ 的内积为零。
+]
+
+相关系数
+$ rho_(X Y) = cov(X, Y)/(sqrt(D(X)) sqrt(D(Y))) in [-1, 1] $
+
+$rho = 1 slash -1$ 表示 $X, Y$ 以 1 的概率正/负相关。$rho = 0$ 称不相关。
+
+相关系数只是对 $X, Y$ 线性程度的描述。
+
+- #[
+    $rho = 0$ 等价于 $X, Y$ 相互独立。
+
+    why?
+]
+
+#example()[
+    若 $a, c != 0$，考虑 $X = a xi + b, Y = c eta + d$，证明：\
+    i. $a, c$ 同号则 $cov(X, Y) = cov(xi, eta)$\
+    ii. $a, c$ 异号则 $cov(X, Y) = -cov(xi, eta)$
+
+    用内积的线性性展开，和 $D(X) = a^2 D(xi)$。几何上，$b, d$ 是零元，而 $a, c$ 是伸缩倍数，于是结论是显然的。
+]
+
+#divider()
+
+$ cov(X, Y) &= E[(X - E X)(Y - E Y)]\
+&= E[X Y - X E(Y) - Y E(X) + E(X)E(Y)]\
+&= E(X Y) - E(X)E(Y) - E(X)E(Y) + E(X)E(Y)\
+&= E(X Y) - E(X)E(Y) $
+
+#divider()
+
+#example()[
+    证 $(X, Y) tilde N(0, 0, 1, 1, rho)$ 时，$cov(X, Y) = rho$
+
+    在此基础上，证明 $(X, Y)$ 服从任意二维正态分布时，$cov(X, Y) = rho$。
 ]
