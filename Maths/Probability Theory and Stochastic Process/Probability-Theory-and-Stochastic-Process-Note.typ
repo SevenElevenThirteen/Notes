@@ -973,30 +973,53 @@ $ f_(bold(Y)) (bold(y)) = abs(J) f_(bold(X)) (bold(x)) quad "where" phi(bold(x))
 == 期望
 
 === 定义
+- #[
+    离散型
+
+    d.l. $P{X = x_i} = p_i$，若级数 $sum x_i p_i$ 绝对收敛 a.k.a. $sum |x_i| p_i$ 收敛，则定义
+    $ E(X) := sum x_i p_i $
+]
+- #[
+    连续型
+
+    同样要求 $integral x f(x) dif x$ 绝对收敛。
+    $ E(X) := integral_(-oo)^(oo) x f(x) dif x $
+]
+
+普适的定义：$E(X) = integral_(-oo)^(oo) x dif F(x)$
 
 === 性质
 
 - #[
     线性性
+    $ E(a X + b Y) = a E(X) + b E(Y) $
 ]
 
 - #[
     若 $X,Y$ 相互独立，则 $E(X Y) = E(X) E(Y)$
+
+    $E(X Y) = integral f(x, y) dif x dif y =^("independence") = integral f_X (x) f_Y (y) dif x dif y = integral f_X (x) dif x integral f_Y (y) dif y$
 ]
 
-=== 离散型
-
-d.l. $P{X = x_i} = p_i$，若级数 $sum x_i p_i$ 绝对收敛，则定义
-$ E(X) := sum x_i p_i $
+=== 例子
 
 - #[
     0-1 分布：$E(X) = p$
 ]
+
 - #[
     $X tilde b(n, p)$：$E(X) = n p$
 ]
 - #[
     $X tilde pi(lambda)$：$E(X) = lambda$
+
+    $E(X) = sum_(k = 0)^(oo) k (lambda^k)/(k!) exp(-lambda) = lambda exp(-lambda) sum_(k = 0)^(oo) (lambda^k)/(k!) = lambda exp(-lambda) exp(lambda) = lambda$\
+    另一方面，$lambda = n p$，和伯努利分布的期望是一致的。
+]
+- #[
+    几何分布：$E(X) = 1/p$
+
+    $E(X) = sum_(k = 1) k p q^(k - 1) = p sum_(k = 1) k q^(k - 1) = p dif(sum_(k = 1) q^k) = p dif (q/(1 - q)) = p 1/(1 - q)^2 = 1/p$
 ]
 
 #example()[
@@ -1005,24 +1028,27 @@ $ E(X) := sum x_i p_i $
     证明是平凡地交换求和符，绝对收敛保证交换律和结合律。
 ]
 
-=== 连续型
-
-$ E(X) := integral_(-oo)^(oo) x f(x) dif x $
+#divider()
 
 - #[
     $X tilde U(a, b)$：$E(X) = (a + b)/2$
 ]
+
 - #[
     $X tilde N(mu, sigma^2)$：$E(X) = mu$
 ]
 - #[
     指数分布：$E(X) = 1/lambda$
+
+    $ E(X) &= integral_(0)^(oo) x lambda exp(-lambda x) dif x = -integral_(0)^(oo) x dif exp(-lambda x) \
+    &= -x exp(-lambda x)|_(0)^(oo) + integral_(0)^(oo) exp(-lambda x) dif x = -1/lambda exp(-lambda x)|_(0)^(oo)
+    = 1/lambda $
 ]
 
 #example()[
     柯西分布 $E(X)$ 不存在
 
-    $ f(x) = 1/pi 1/(1 + x^2) $
+    $ f(x) = 1/pi 1/(1 + x^2) sp imply sp integral_(-oo)^(oo) |x| 1/pi 1/(1 + x^2) dif x = oo $
 ]
 
 == 方差
@@ -1031,14 +1057,15 @@ $ E(X) := integral_(-oo)^(oo) x f(x) dif x $
 
 $ D(X) := E((X - E(X))^2) $
 
-Var$(X)$，$sigma(X) = sqrt(D(X))$
+Var$(X)$，标准差 $sigma(X) = sqrt(D(X))$
 
 === 性质
 
 - #[
     $D(X) = E(X^2) - [E(X)]^2$
 
-    $D(X) = E[(X - E X)^2] = E(X^2 - 2 X E(X) + (E(X))^2) = E(X^2) - 2 E(X) E(X) + (E(X))^2 = E(X^2) - [E(X)]^2$
+    $ D(X) &= E[(X - E X)^2] = E(X^2 - 2 X E(X) + (E X)^2) \
+    &= E(X^2) - 2 E(X) E(X) + (E X)^2 = E(X^2) - [E(X)]^2 $
 ]
 
 #divider()
@@ -1055,11 +1082,22 @@ Var$(X)$，$sigma(X) = sqrt(D(X))$
 
 于是 $D(a X + b) = a^2 D(X)$
 
+- #[
+    $forall c != E X, sp D(X) < E (X - c)^2$
+
+    $ E(X - c)^2 &= E(X^2) - 2 c E(X) + c^2 \
+    &= D(X) + (E X)^2 - 2 c E(X) + c^2 = D(X) + (E X - c)^2 $
+    $c = E X$ 使 $E(X - c)^2$ 最小。
+]
+
+标准化 $X^ast := (X - mu)/sigma$，使得 $E X^ast = 0, sp D X^ast = 1$
+
 #divider()
 
 $ D(a X + b Y) &= E[ (a X + b Y - E(a X + b Y))^2 ]\
 &= E[ (a(X - E X) + b(Y - E Y))^2 ]\
-&= a^2 D(x) + b^2 D(y) + 2 a b E(X - E X)(Y - E Y)\
+&= a^2 D(X) + b^2 D(Y) + 2 a b E[(X - E X)(Y - E Y)]\
+&= a^2 D(X) + b^2 D(Y) + 2 a b cov(X, Y) \
 &= vec(a, b)^T mat(D(X), cov(X, Y); cov(X, Y), D(Y)) vec(a, b) $
 
 - #[
@@ -1082,30 +1120,44 @@ $ D(a X + b Y) &= E[ (a X + b Y - E(a X + b Y))^2 ]\
     $n$ 次独立的伯努利试验，由性质 $D(X) = n D(X_1) = n p (1 - p)$
 ]
 - #[
-    $pi(lambda)$
+    $pi(lambda)$：$D(X) = lambda$
+
+    和 $E(X)$ 同理，$E(X^2) = lambda^2 + lambda$。
 ]
 
 #divider()
 
 - #[
-    $U(a, b)$
+    $U(a, b)$：$D(X) = display((b - a)^2/12)$
 ]
 
 - #[
-    $N(mu, sigma)$
+    $N(mu, sigma^2)$：$D(X) = sigma^2$
 ]
 
-=== 切比雪夫
+=== Chebyshev Inequality
 
-$ P{(X - mu) > epsilon} < D(X)/epsilon^2 $
+$ P{abs(X - E X) > epsilon} &< D(X)/epsilon^2\
+P{abs(X - E X) < epsilon} &> 1 - D(X)/epsilon^2 $
+
+#proof()[
+    仅证一式，后者是平凡推论。
+    $ P{abs(X - E X) > epsilon} &= integral_(abs(x - E X) > epsilon) f(x) dif x < integral_(abs(x - E X) > epsilon) (x - E X)^2/epsilon^2 f(x) dif x\
+    &= 1/epsilon^2 integral_(abs(x - E X) > epsilon) (x - E X)^2 f(x) dif x\
+    &leq 1/epsilon^2 integral_(-oo)^(oo) (x - E X)^2 f(x) dif x = D(X)/epsilon^2 $
+]
+
+推论：$D(X) = 0$ 等价于 $P{X = mu} = 1$（$X$ 以1的概率取常值）。
 
 == 协方差
+
+=== 定义
 
 令 $g(x, y) = (x - E X)(y - E Y)$，则 $cov(X, Y) = E(g(X, Y))$
 
 记全体一维随机变量构成空间 $V$，在 $V$ 上定义了加法 $X + Y$ 和标量乘法 $k X, k in RR$，进而启发把 $V$ 视为线性空间。
 
-Cov 是 $V$ 上的一个内积，继而相关系数是向量夹角。
+Cov 是 $V$ 上的一个内积，而相关系数 $rho$ 是向量夹角余弦。
 #proof()[
     $cov(X, Y) := E[(X - E X)(Y - E Y)]$
 
@@ -1124,7 +1176,9 @@ Cov 是 $V$ 上的一个内积，继而相关系数是向量夹角。
 
 #divider()
 
-零元 $cov(X, X) = D(X) = 0$，说明 $X$ 以 1 的概率取常数 $C = mu$。
+- #[
+    零元 $cov(X, X) = D(X) = 0$，说明 $X$ 以 1 的概率取常数 $C = mu$。（切比雪夫不等式）
+]
 
 - #[
     $cov(X, c) = E[(X - E X)(c - E c)] = E[(X - E X)(c - c)] = E(0) = 0$
@@ -1132,18 +1186,43 @@ Cov 是 $V$ 上的一个内积，继而相关系数是向量夹角。
     几何上，向量和 $bold(0)$ 的内积为零。
 ]
 
-相关系数
-$ rho_(X Y) = cov(X, Y)/(sqrt(D(X)) sqrt(D(Y))) in [-1, 1] $
+#divider()
 
-$rho = 1 slash -1$ 表示 $X, Y$ 以 1 的概率正/负相关。$rho = 0$ 称不相关。
+- #[
+    $cov(X, Y) = E(X Y) - E(X) E(Y)$
+
+    基于定义，用期望的线性性化简。
+]
+
+=== 相关系数
+$ rho_(X Y) := cov(X, Y)/(sqrt(D(X)) sqrt(D(Y))) in [-1, 1] $
+
+$rho in [-1, 1]$ 由 Cauchy-Schwarz Inequality 得出。
+
+$rho = 1 slash -1$ 表示 $exists k, b sp "s.t." P{Y = k X + b} = 1$（几乎必然有线性关系）；\
+$rho > 0$ 称正相关；$rho < 0$ 称负相关；$rho = 0$ 称不相关。（另定义常数 $c$ 和 $X$ 的相关系数 $rho = 0$）。
 
 相关系数只是对 $X, Y$ 线性程度的描述。
 
 - #[
-    $rho = 0$ 等价于 $X, Y$ 相互独立。
+    这四条性质等价：
+    + $cov(X, Y) = 0$
+    + $X, Y$ 不相关
+    + $E(X Y) = E(X) E(Y)$
+    + $D(X + Y) = D(X) + D(Y)$
 
-    why?
+    1,2 显然；$cov(X, Y) = E(X Y) - E(X) E(Y) = 0$ 得 3；4 由 $D(X + Y) = D(X) + D(Y) + 2 cov(X, Y)$ 可得。
 ]
+
+- #[
+    若 $X, Y$ 相互独立，则 $rho = 0$ a.k.a. $X, Y$ 不相关。
+
+    $(x - E X)(y - E Y)f(x, y) dif x dif y = [(x - E X) f_X (x) dif x] dot [(y - E Y)f_Y (y) dif y]$
+]
+
+然而 $rho = 0$ 不能推出独立性，也不代表 $X, Y$ 之间无明确的函数关系。
+
+#divider()
 
 #example()[
     若 $a, c != 0$，考虑 $X = a xi + b, Y = c eta + d$，证明：\
@@ -1153,14 +1232,6 @@ $rho = 1 slash -1$ 表示 $X, Y$ 以 1 的概率正/负相关。$rho = 0$ 称不
     用内积的线性性展开，和 $D(X) = a^2 D(xi)$。几何上，$b, d$ 是零元，而 $a, c$ 是伸缩倍数，于是结论是显然的。
 ]
 
-#divider()
-
-$ cov(X, Y) &= E[(X - E X)(Y - E Y)]\
-&= E[X Y - X E(Y) - Y E(X) + E(X)E(Y)]\
-&= E(X Y) - E(X)E(Y) - E(X)E(Y) + E(X)E(Y)\
-&= E(X Y) - E(X)E(Y) $
-
-#divider()
 
 #example()[
     证 $(X, Y) tilde N(0, 0, 1, 1, rho)$ 时，$cov(X, Y) = rho$

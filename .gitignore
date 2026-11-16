@@ -1,5 +1,7 @@
 # Created by https://gitignore.org
 
+/___TempFiles/
+
 # ignore test file
 /__Template/Typst-Template/Test.typ
 
@@ -336,4 +338,3 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
-
