@@ -1134,6 +1134,9 @@ $ D(a X + b Y) &= E[ (a X + b Y - E(a X + b Y))^2 ]\
 - #[
     $N(mu, sigma^2)$：$D(X) = sigma^2$
 ]
+- #[
+    指数分布：$D(X) = display(1/lambda^2)$
+]
 
 === Chebyshev Inequality
 
@@ -1234,7 +1237,57 @@ $rho > 0$ 称正相关；$rho < 0$ 称负相关；$rho = 0$ 称不相关。（�
 
 
 #example()[
-    证 $(X, Y) tilde N(0, 0, 1, 1, rho)$ 时，$cov(X, Y) = rho$
+    证 $(X, Y) tilde N(0, 0, 1, 1, rho)$ 时，相关系数为 $rho$；继而证明 $(X, Y)$ 服从任意二维正态分布时，相关系数均为 $rho$。
 
-    在此基础上，证明 $(X, Y)$ 服从任意二维正态分布时，$cov(X, Y) = rho$。
+    后者是容易的。换元 $(X^ast, Y^ast) = ((X - mu_1)/sigma_1, (Y - mu_2)/sigma_2) tilde N(0, 0, 1, 1, rho)$，于是 $cov(X, Y) = sigma_1 sigma_2 cov(X^ast, Y^ast) = sigma_1 sigma_2 rho D(X^ast) D(Y^ast) = sigma_1 sigma_2 rho$，依定义 $rho_(X Y) = rho$
+
+    对于前者，希望求 $E(X Y)$。式子为关于 $x, y$ 的齐次对称式，考虑换元 $u = x + y, v = x - y$，于是 $x^2 + y^2 = (u^2 + v^2)/2, x y = (u^2 - v^2)/4$。$det partial(u, v)/partial(x, y) = -2$，从而 $2 dif x dif y = dif u dif v$。化简可得:
+    $ E(X Y) = 1/(4 pi sqrt(1 - rho^2)) integral.double_(RR^2) (u^2 - v^2)/4 exp(-u^2/(4(1 + rho)))exp(-v^2/(4(1 - rho))) dif u dif v $
+
+    可以积分。但若记 $U = X + Y$，$V = X - Y$，则式子为 $E((U^2 - V^2)/4)$。联合分布为
+    $ f(u, v) &= 1/(4 pi sqrt(1 - rho^2)) exp(-u^2/(4(1 + rho)))exp(-v^2/(4(1 - rho)))\
+    &= 1/(sqrt(2(1 + rho)) sqrt(2 pi)) exp[-1/2 (u/sqrt(2(1 + rho)))^2]\
+    &times 1/(sqrt(2(1 - rho)) sqrt(2 pi)) exp[-1/2 (u/sqrt(2(1 - rho)))^2] $
+
+    于是 $U tilde N(0, 2(1 + rho)), sp V tilde N(0, 2(1 - rho))$ 且 $U, V$ 独立。
+    $ E(X Y) &= 1/4 E(U^2 - V^2)\
+    &= 1/4 (D U - D V) quad ("because" E U = E V = 0)\
+    &= rho $
+    从而 $cov(X, Y) = E(X Y) - E X E Y = rho - 0 = rho$，于是 $rho_(X Y) = cov(X, Y)/(1 times 1) = rho$
 ]
+
+== 矩
+
+=== 定义
+
+矩 moment
+
+- #[
+    $k$ 阶原点矩 $E(X^k)$
+]
+- #[
+    $k$ 阶中心矩 $E((X - E X)^k)$
+]
+- #[
+    $k + l$ 阶混和矩 $E(X^k Y^l)$；$k + l$ 阶混和中心矩 $E((X - E X)^k (Y - E Y)^l)$
+]
+
+若 $k$ 阶原点/中心矩存在，则所有低阶原点/中心矩均存在。
+#proof()[
+    $forall x in RR$，$abs(x)^(k - 1) leq 1 + abs(x)^k$。对 $abs(x) leq 1$ 和 $abs(x) > 1$ 简单讨论即得。\
+    于是 $abs(x^(k - 1) f(x) dif x) leq abs(x)^(k - 1) f(x) dif x leq (abs(x)^k + 1) f(x) dif x$，从而积分绝对收敛。中心距同理。
+]
+
+$E X^k = E[(X - E X) + E X]^2, sp E (X - E X)^k$。展开得 $k$ 阶原点矩和 $k$ 阶中心矩同时存在，或同时不存在。
+
+#divider()
+
+期望是一阶原点矩；方差是二阶中心矩；协方差是二阶混和中心矩。
+
+= 大数定律与中心极限定理
+
+== 大数定律
+
+
+
+== 中心极限定理
