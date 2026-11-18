@@ -407,7 +407,7 @@ Can't use emptyset for {\heiti Cartesian Product}.
         \textbf{Thm}. Composition of relations satisfies the associative law.
         
     \section{Closures of Relations}
-    \subsection{Definations}
+    \subsection{definitions}
         For any property P, the "P closure" of $R$, if it exists, is defined as the "smallest" subset of $A \times A$ containing $R$ with P.
 
         \begin{itemize}
@@ -440,7 +440,316 @@ Can't use emptyset for {\heiti Cartesian Product}.
         \end{itemize}
 
     \section{Equivalence Relations}
+    \subsection{definitions}
+        \textbf{Equivalence Relation}: a relation $R$ on $A$ that is:\\
+        a. reflexive: $a = a$\\
+        b. symmetric: $a = b \land b = a$\\
+        c. transitive: $a = b \land b = c \implies a = c$
+
+        % Examples: congruence / similarity of triangles; $a \equiv b \pmod n$ on $\field{Z}$; people having the same birthday.
+
+        \textbf{Equivalence Class}: $[a] = R(a) = \{x \in A : a R x\}$. \\
+        Every $x \in [a]$ is a \textbf{representative} of the class, and $[a] = [b]$ whenever $b \in [a]$.
+
+        \textbf{Quotient Set}: $A/R = \{[a] : a \in A\}$, the set of all distinct equivalence classes.
+
+        \textbf{Lemma}. $a R b \iff R(a) = R(b)$.
+
+        \textbf{Theorem}. Let $R$ be an equivalence relation on $A$. Then $A/R$ is a partition of $A$, and $R$ is exactly the relation ``lying in the same block''. \\
+        Conversely, every partition $P$ of $A$ determines an equivalence relation by
+        $$ a R b \iff a \text{ and } b \text{ are in the same block of } P. $$
+        Hence equivalence relations on $A$ and partitions of $A$ are in one-to-one correspondence.（集合划分和等价关系一一对应）
+
+        \subsection{Congruence Classes}
+            $$ a \equiv b \pmod n \iff n \mid (a - b) $$
+            It is an equivalence relation on $\field{Z}$, and moreover a congruence relation on the semigroup $(\field{Z}, +)$.
+
+            The classes are $[0], [1], \cdots, [n-1]$. The quotient set is denoted $\field{Z}_n$ (also written $\field{Z}/n\field{Z}$), and
+            $$ [a] \oplus [b] = [a + b] $$
+
+        \subsection{Operations on Equivalence Relations}
+            Let $R$ and $S$ be equivalence relations on $A$.
+            \begin{itemize}
+                \item $R \cap S$ is an equivalence relation;
+                \item $R \cup S$ don't need to be transitive; the smallest equivalence relation containing both is the transitive closure $t(R \cup S)$;
+                \item $R^{-1} = R$ and $R \circ R = R$ (symmetry + transitivity).
+            \end{itemize}
 
     \section{Partial Orderings}
+    \subsection{definitions}
+        \textbf{Partial Order}: a relation $R$ on $A$ that is:\\
+        a. reflexive: $a \leqslant a$\\
+        b. antisymmetric: $a \leqslant b \land b \leqslant a \implies a = b$\\
+        c. transitive: $a \leqslant b \land b \leqslant c \implies a \leqslant c$
 
-    \end{document}
+        The pair $(A, R)$ is a \textbf{partially ordered set}, or \textbf{poset}; usually $R$ is written $\leqslant$.
+
+        % Examples: $(\mathcal{P}(S), \subseteq)$; $(\field{Z}^+, \mid)$ (divisibility); $(\field{R}, \le)$.
+
+        \textbf{Dual Poset}: $(A, \geqslant)$, where $a \geqslant b \iff b \leqslant a$. The dual of a poset is again a poset, and its Hasse diagram is the original one turned upside down.
+
+        \textbf{Comparable}: $a$ and $b$ are comparable if $a \leqslant b$ or $b \leqslant a$; otherwise they are \textbf{incomparable}. \\
+        \textbf{Chain}: a poset in which every two elements are comparable; the order is a \textbf{linear} (or \textbf{total}) order. 称为线序或全序。
+
+        \textbf{Product Order}: on $A \times B$,
+        $$ (a, b) \leqslant (a', b') \iff a \leqslant a' \text{ in } A \text{ and } b \leqslant b' \text{ in } B. $$
+        \textbf{Lexicographic Order}: $(a, b) \prec (a', b') \iff a < a'$, or $a = a'$ and $b \leqslant b'$. \\
+        On $S^n$ this is exactly the dictionary order on words of length $n$.
+
+        \textbf{Well-Ordered Set}: a poset in which every nonempty subset has a least element. \\
+        Every finite chain is well-ordered; $(\field{N}, \le)$ is well-ordered, but $(\field{Z}, \le)$ is not (because, for instance, $\field{Z}$ itself does not have a least element !).
+
+        \textbf{Quasi-Order}: $R$ is irreflexive and transitive. 拟序是小于号 $<$，补上 $I_A$ 并计算闭包成为偏序。
+
+        \subsection{Hasse Diagram}
+            The \textbf{Hasse diagram} is a simplified digraph of a finite poset:
+            \begin{itemize}
+                \item delete every self-loop (reflexivity);
+                \item delete every edge implied by transitivity: if $a < b < c$, delete the edge $a \to c$;
+                \item draw all remaining edges upward and omit the arrows;
+                \item replace the circles by dots.
+            \end{itemize}
+            Thus $a$ is drawn below $b$ and joined to it iff $a < b$ and no $c$ satisfies $a < c < b$; one says that $b$ \textbf{covers} $a$. (\textbf{Covering Relation})\\
+            A finite chain is a vertical path.
+
+            \begin{center}
+            \begin{tikzpicture}[scale=0.85]
+                \node (n12) at (0, 3) {$12$};
+                \node (n4)  at (-1.5, 1.6) {$4$};
+                \node (n3)  at (1.5, 1.6) {$3$};
+                \node (n2)  at (-1.5, 0) {$2$};
+                \node (n1)  at (0, 0) {$1$};
+                \draw (n1) -- (n2);
+                \draw (n1) -- (n3);
+                \draw (n2) -- (n4);
+                \draw (n3) -- (n12);
+                \draw (n4) -- (n12);
+            \end{tikzpicture}
+            \end{center}
+            e.g. the Hasse diagram of $(\{1, 2, 3, 4, 12\}, \mid)$.
+
+        \subsection{Topological Sorting}
+            A \textbf{topological sorting} of a finite poset $(A, \le)$ is a linear order $\prec$ on $A$ extending $\le$:
+            $$ a \leqslant b \implies a \prec b $$
+            Algorithm: Each time choose a minimal element of $A$, append it to the list and delete it from $A$.
+            The result depends on the choices, but every finite poset has at least one topological sorting.
+
+        \subsection{Extremal Elements}
+            Let $(A, \le)$ be a poset and $B \subseteq A$.
+            \begin{itemize}
+                \item \textbf{maximal} / \textbf{minimal} 极大元/极小元
+                \item \textbf{greatest} / \textbf{least} 最大元(unit element, $1$) / 最小元 (zero element, $0$)\\
+                    仅对 $A$ 有定义。
+                \item \textbf{upper bound} / \textbf{lower bound} 上/下界
+                \item \textbf{LUB} / \textbf{GLB}: least upper bound (join) / greatest lower bound (meet) \\
+                    $\text{lub} B \sim \sup B$; $\text{glb} B \sim \inf B$
+            \end{itemize}
+
+            Notes:
+            \begin{itemize}
+                \item greatest / least elements are unique when they exist; \\
+                    If $x, y$ are both g/l, then by antisymmetric $x = y$. \\
+                    $\field{Z}$ has neither of them.
+                \item every finite nonempty poset has \textbf{at least one} maximal and one minimal element, but they need not be unique; \\
+                    Maintain a chain of elements. If $a_1/a_n$ is not the $\min/\max$, then we can add elements to the front/tail. However, there are only finite elements, thus the process will end in finite steps.
+                \item a maximal/minimal element need not be an upper/lower bound of the whole poset;
+                \item $B$ may have many ub/lb but \textbf{at most one} LUB/GLB, and the LUB/GLB need not belong to $B$;\\
+                    also by antisymmetric.
+                \item in a Hasse diagram, the LUB of $B$ is the first vertex reachable from every $b \in B$ by upward paths; the GLB is found by downward paths.
+            \end{itemize}
+
+        \subsection{Lattices}
+            A \textbf{lattice} is a poset $(L, \le)$ in which every pair $\{a, b\}$ has a LUB and a GLB:
+            $$ a \vee b := \operatorname{LUB}\{a, b\} \quad (\text{join}), \qquad
+               a \wedge b := \operatorname{GLB}\{a, b\} \quad (\text{meet}). $$
+            Thus a lattice is an algebraic structure with two binary operations.
+
+            Examples: $(\mathcal{P}(S), \subseteq)$ with $\vee = \cup$, $\wedge = \cap$; \\
+            $(\field{Z}^+, \mid)$ with $\vee = \operatorname{lcm}$, $\wedge = \gcd$; \\
+            $(D_n, \mid)$, where $D_n$ is the set of positive divisors of $n$;\\
+            every chain.
+
+            \textbf{Sublattice}: a nonempty $S \subseteq L$ closed under $\vee$ and $\wedge$.
+
+            \textbf{Properties}. For all $a, b, c \in L$:
+            \begin{itemize}
+                \item $a \vee b = b \iff a \leqslant b \iff a \wedge b = a$;
+                \item idempotent: $a \vee a = a = a \wedge a$;
+                \item commutative: $a \vee b = b \vee a$, \ $a \wedge b = b \wedge a$;
+                \item associative: $a \vee (b \vee c) = (a \vee b) \vee c$, and dually;
+                \item absorption: $a \vee (a \wedge b) = a$, \ $a \wedge (a \vee b) = a$;
+                \item order-preserving: $a \leqslant b \implies a \vee c \leqslant b \vee c$ and $a \wedge c \leqslant b \wedge c$.
+            \end{itemize}
+
+            To prove: use definition (e.g. $a \leqslant (a \vee b)$), and reflexivity ($a \leqslant a$). prove by contradiction.
+
+            Special lattices:
+            \begin{itemize}
+                \item \textbf{bounded}: has a least element $0$ and a greatest element $1$;
+                \item \textbf{distributive}: $a \wedge (b \vee c) = (a \wedge b) \vee (a \wedge c)$, and the dual law;
+                \item \textbf{complemented}: bounded, and every $a$ has a complement $a'$ with $a \vee a' = 1$, $a \wedge a' = 0$.
+            \end{itemize}
+
+        \subsection{Finite Boolean Algebras}
+            $B_n$ is the lattice of all $n$-tuples of $0$'s and $1$'s under the componentwise order; equivalently $B_n \cong (\mathcal{P}(S), \subseteq)$ with $|S| = n$, so $|B_n| = 2^n$.
+            $$ x \leqslant y \iff x_k \leqslant y_k \; \forall k, \qquad
+               x \wedge y = \min, \qquad x \vee y = \max, \qquad x' = 1 - x. $$
+
+            A finite lattice is a \textbf{Boolean algebra} if it is isomorphic to $B_n$ for some $n$. \\
+            $D_n$ is a Boolean algebra $\iff$ $n$ is a product of distinct primes (no prime square divides $n$).\\
+            ($D_n$ is the set of positive divisors of $n$)
+
+            A Boolean algebra satisfies the usual set identities with $\wedge, \vee, {}'$ in place of $\cap, \cup, \overline{\phantom{A}}$: De Morgan's laws, involution $(x')' = x$, distributivity, $x \vee 0 = x$, $x \wedge 1 = x$, etc.
+
+\chapter{Semigroups and Groups}
+
+    \section{Binary Operations}
+        A \textbf{binary operation} on a nonempty set $A$ is an everywhere-defined function $*: A \times A \to A$; one writes $a * b$ instead of $*(a, b)$. \\
+        A unary operation is a function $A \to A$; an $n$-ary operation is a function $A^n \to A$.
+        
+        For a finite set $A = \{a_1, \cdots, a_n\}$ an operation is given by its \textbf{operation table}; \\
+        There are $|A|^{|A|^2}$ binary operations on a set $A$.
+        
+        Laws of binary operations:
+        \begin{itemize}
+            \item \textbf{commutative}: $a * b = b * a$; \\
+                iff the table is symmetric about the main diagonal.
+            \item \textbf{associative}: $(a * b) * c = a * (b * c)$;
+            \item \textbf{idempotent}: $a * a = a$; \\
+                主对角线上的每一个元素都与它所在行（列）的表头元素相同。
+            \item \textbf{distributive} over $+$: $a * (b + c) = (a * b) + (a * c)$ (and dually on the right); \\
+                左分配（第一分配律），右分配（第二分配律）
+            \item \textbf{cancellation}: $a * b = a * c \implies b = c$; $b * a = c * a \implies b = c$ \\
+                左消去律，右消去律
+            \item \textbf{absorption}: $a * (a + b) = a$.
+        \end{itemize}
+
+        \textbf{Identity} $e$: $e * a = a * e = a$ for all $a$. \\
+        It is unique. $e_1 = e_1 * e_2 = e_2$
+
+        \textbf{Zero} $z$: $z * a = a * z = z$ for all $a$
+
+        \textbf{Idempotent Element}: $a * a = a$
+
+        \textbf{Inverse} of $a$: an element $a'$ with $a * a' = a' * a = e$. \\
+        It is unique, if associativity is satisfied. $(x * e) * y = e * y = y, x * (e * y) = x * e = x$, thus $x = y$.
+
+    \section{Semigroups and Monoids}
+        A \textbf{semigroup} 半群 $(S, *)$ is a nonempty set together with an associative binary operation; it is \textbf{commutative} if $*$ is commutative. \\
+        Examples: $(\field{Z}, +)$, $(\field{Z}^+, \cdot)$, $(\mathcal{P}(S), \cup)$, $(S^S, \circ)$, and the free semigroup $(A^*, \cdot)$ of words over an alphabet $A$ under catenation.
+
+        Because of associativity, all products $a_1 * a_2 * \cdots * a_n$ are equal regardless of parentheses.
+
+        \textbf{Monoid} 幺半群: a semigroup with an identity $e$. \\
+        Examples: $(\field{N}, +)$ with $e = 0$; $(\field{Z}, \cdot)$ with $e = 1$; $(\mathcal{P}(S), \cup)$ with $e = \emptyset$; $(A^*, \cdot)$ with $e = \varepsilon$ (the empty word).
+
+        \textbf{Subsemigroup}: a nonempty $T \subseteq S$ closed under $*$. \\
+        \textbf{Submonoid}: a subsemigroup $T$ that also contains $e$.
+
+        Powers: $a^1 = a$, $a^n = a^{n-1} * a$; in a monoid $a^0 = e$, and $a^m * a^n = a^{m+n}$. \\
+        The set $\langle a \rangle = \{a^i : i \geqslant 0\}$ is the submonoid generated by $a$.
+
+        \textbf{Isomorphism / Homomorphism}: 同构 / 同态\\
+        for semigroups $(S, *)$ and $(T, *')$, a map $f: S \to T$ is a homomorphism if
+        $$ f(a * b) = f(a) *' f(b) \quad \forall a, b \in S; $$
+        it is an isomorphism if it is also bijective. Then $S \cong T$.
+        An isomorphism preserves the identity (if it exists), commutativity, and subsemigroups. \\
+        An onto homomorphism also preserves monoids, commutativity, and subsemigroups; it need not be injective.
+
+    \section{Groups}
+        A \textbf{group} $(G, *)$ is a monoid in which every element has an inverse:
+        \begin{enumerate}
+            \item $(a * b) * c = a * (b * c)$;
+            \item there is $e \in G$ with $a * e = e * a = a$ for all $a$;
+            \item for every $a \in G$ there is $a^{-1} \in G$ with $a * a^{-1} = a^{-1} * a = e$.
+        \end{enumerate}
+        $G$ is \textbf{Abelian} if $a * b = b * a$ for all $a, b$. We usually write $ab$ for $a * b$.
+
+        Examples: $(\field{Z}, +)$, $(\field{Q} \setminus \{0\}, \cdot)$, $(\field{R} \setminus \{0\}, \cdot)$, $(\field{Z}_n, \oplus)$; \\
+        the symmetric group $(S_n, \circ)$ of all permutations of $n$ letters (order $n!$); \\
+        the dihedral group $(D_n, \circ)$ of symmetries of a regular $n$-gon; \\
+        the Klein four-group $V$, and the cyclic group $\field{Z}_4$.
+
+        \textbf{Elementary properties}:
+        \begin{itemize}
+            \item the inverse is unique, $(a^{-1})^{-1} = a$, and $(ab)^{-1} = b^{-1} a^{-1}$;
+            \item cancellation: $ab = ac \implies b = c$ and $ba = ca \implies b = c$;
+            \item $ax = b$ has the unique solution $x = a^{-1}b$; $ya = b$ has the unique solution $y = ba^{-1}$;
+            \item in the multiplication table of a finite group, every element appears exactly once in each row and each column.
+        \end{itemize}
+
+        \textbf{Order}: $|G|$ is the number of elements of $G$. \\
+        The \textbf{order of $a \in G$} is the least $n \geqslant 1$ with $a^n = e$ (if no such $n$ exists, the order is infinite). In a finite group every element has finite order.
+
+        Up to isomorphism there is exactly one group of each order $1, 2, 3$, two of order $4$ (namely $V$ and $\field{Z}_4$), and two of order $6$ (namely $\field{Z}_6$ and $S_3$).
+
+    \section{Subgroups and Cosets}
+        A \textbf{subgroup} of $G$ is a subset $H \subseteq G$ such that
+        \begin{enumerate}
+            \item $e \in H$;
+            \item $a, b \in H \implies ab \in H$;
+            \item $a \in H \implies a^{-1} \in H$.
+        \end{enumerate}
+        Equivalently, $H \neq \emptyset$ and $a, b \in H \implies ab^{-1} \in H$; then $(H, *)$ is itself a group. Write $H \leqslant G$.
+
+        Examples: $G$ and $\{e\}$ (the \textbf{trivial subgroups}); $n\field{Z} \leqslant \field{Z}$; $A_n \leqslant S_n$ (alternating group); the cyclic subgroup $\langle a \rangle = \{a^i : i \in \field{Z}\}$.
+
+        \textbf{Coset}: for $H \leqslant G$ and $a \in G$,
+        $$ aH = \{ah : h \in H\} \quad (\text{left coset}), \qquad
+           Ha = \{ha : h \in H\} \quad (\text{right coset}). $$
+        The left cosets of $H$ form a partition of $G$, and $|aH| = |H|$ for every $a$.
+
+        \textbf{Lagrange's Theorem}. If $G$ is finite and $H \leqslant G$, then $|H|$ divides $|G|$, and the number of distinct left cosets, the \textbf{index} $[G : H]$, equals $|G| / |H|$. \\
+        Corollaries: the order of every element divides $|G|$; a group of prime order is cyclic.
+
+        \textbf{Normal subgroup}: $H \trianglelefteq G$ if $aH = Ha$ for all $a \in G$, equivalently $a^{-1}Ha = H$. Every subgroup of an Abelian group is normal.
+
+        \textbf{Quotient group}: if $N \trianglelefteq G$, then
+        $$ G/N = \{aN : a \in G\}, \qquad (aN)(bN) = abN $$
+        is a group, with identity $N$ and inverse $(aN)^{-1} = a^{-1}N$.
+
+    \section{Homomorphisms and Quotient Groups}
+        For groups $(G, *)$ and $(H, \circ)$, a map $f: G \to H$ is a \textbf{homomorphism} if
+        $$ f(a * b) = f(a) \circ f(b) \quad \forall a, b \in G. $$
+        A bijective homomorphism is an \textbf{isomorphism}, written $G \cong H$.
+
+        Basic facts: $f(e_G) = e_H$, $f(a^{-1}) = f(a)^{-1}$, $f(G) \leqslant H$, and $f$ is injective $\iff \ker f = \{e_G\}$.
+
+        \textbf{Kernel}: $\ker f = \{a \in G : f(a) = e_H\}$; it is a normal subgroup of $G$.
+
+        \textbf{Fundamental Homomorphism Theorem}. If $f: G \to H$ is onto, then
+        $$ G / \ker f \cong H, \qquad a \ker f \mapsto f(a). $$
+        The map $a \mapsto aN$ is the \textbf{natural homomorphism} $G \to G/N$.
+
+        More generally, for a semigroup $S$ and a \textbf{congruence relation} $R$ on $S$ (an equivalence relation compatible with $*$: $a R a'$ and $b R b'$ imply $ab R a'b'$), the quotient $S/R$ is a semigroup under $[a] * [b] = [ab]$, and $a \mapsto [a]$ is an onto homomorphism. \\
+        For groups, congruence relations are exactly the relations
+        $$ a R b \iff a^{-1}b \in N $$
+        for some normal subgroup $N$.
+
+        \textbf{Products}: $G_1 \times G_2$ with componentwise operation is a group; $G_1 \times G_2 \cong G_2 \times G_1$, and
+        $$ \field{Z}_m \times \field{Z}_n \cong \field{Z}_{mn} \iff \gcd(m, n) = 1. $$
+
+    \section{Rings and Fields}
+        A \textbf{ring} $(R, +, \cdot)$ is a set with two binary operations such that $(R, +)$ is an Abelian group, $\cdot$ is associative, and $\cdot$ distributes over $+$. \\
+        It is \textbf{commutative} if $\cdot$ is commutative, and a \textbf{ring with identity} if $(R, \cdot)$ is a monoid.
+
+        Examples: $(\field{Z}, +, \cdot)$ (commutative, with identity); $(\field{Z}_n, +, \cdot)$; \\
+        $(M_n(\field{R}), +, \cdot)$ (not commutative); $(\field{Q}, +, \cdot)$.
+
+        \textbf{Field}: a commutative ring with identity in which every nonzero element has a multiplicative inverse. \\
+        Examples: $\field{Q}$, $\field{R}$, $\field{C}$; $\field{Z}_p$ is a field $\iff$ $p$ is prime.
+
+        \begin{longtable}[h]{l l}
+            \toprule
+            Structure & Axioms \\
+            \midrule
+            Semigroup & associative binary operation \\
+            Monoid & semigroup + identity \\
+            Group & monoid + inverses \\
+            Abelian group & group + commutative operation \\
+            Ring & Abelian group under $+$, associative $\cdot$, distributive \\
+            Field & commutative ring with identity, nonzero elements invertible \\
+            \bottomrule
+        \end{longtable}
+
+\end{document}
